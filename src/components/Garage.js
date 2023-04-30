@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Dropdown from "react-bootstrap/Dropdown";
-import gclass from "../images/g-class.png"
+import gclass from "../images/g-class.png";
 
 export default function GarageList() {
   let garages = [
@@ -66,7 +66,7 @@ function GarageDropdown({ garages, currentGarage, setCurrentGarage }) {
   );
 }
 
-function GarageWidget({garage}) {
+function GarageWidget({ garage }) {
   return (
     <>
       <div className="bg-primary rounded">
