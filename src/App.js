@@ -1,25 +1,32 @@
-import logo from "./logo.svg";
-import "./App.css";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import React from "react";
+import ImageUploader from "react-images-upload";
+
+class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { pictures: [] };
+    this.onDrop = this.onDrop.bind(this);
+  }
+
+  onDrop(pictureFiles, pictureDataURLs) {
+    //// Here we can add to the images to the server or maybe possibly store them on the application but I dont know how:(
+    this.setState({
+      pictures: this.state.pictures.concat(pictureFiles)
+    });
+  }
+
+  render() {
+    return (
+      <ImageUploader style={{ maxWidth: '10000px', margin: "20px auto" }}
+       withPreview={true} />
+    );
+  }
 }
 
-export default App;
+ export default App;
+
+
+
+
+
