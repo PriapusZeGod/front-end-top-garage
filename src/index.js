@@ -9,6 +9,10 @@ import Home from "./Home";
 
 const router = createHashRouter([
   {
+    path: "/App",
+    element: <App />,  
+  },
+  {
     path: "/",
     element: <Home />,
   },
