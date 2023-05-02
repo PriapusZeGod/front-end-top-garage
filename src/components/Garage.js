@@ -18,20 +18,10 @@ export default function GarageList() {
     },
   ];
 
-  const [garage, setGarage] = useState(garages[0]);
 
   return (
     <>
       <div className="container">
-        <div className="row">
-          <h1>{garage.name}</h1>
-          <GarageDropdown
-            garages={garages}
-            currentGarage={garage}
-            setCurrentGarage={setGarage}
-          />
-        </div>
-
         <div className="row mt-5">
           <div className="col-sm-4 mt-3">
             <GarageWidget garage={garages[0]} />
@@ -71,10 +61,10 @@ function GarageWidget({ garage }) {
     <>
       <div className="bg-primary rounded">
         <div className="row">
-          <h1 className="text-center text-light mt-2">{garage.name}</h1>
-          <div className="col m-2">
+          <h1 className="text-center text-light mt-2 ">{garage.name}</h1>
+          <div className="col m-2 border border-0">
             <div className="row">
-              <div className="text-center text-light fw-bold mt-2">
+              <div className="text-center text-light fw-bold mt-2 ">
                 Free Spots:
               </div>
             </div>
@@ -82,7 +72,7 @@ function GarageWidget({ garage }) {
               <div className="text-center text-light fw-bolder fs-2">10/10</div>
             </div>
           </div>
-          <div className="col text-start">
+          <div className="col text-start border border-0">
             <ul className="text-light m-2">
               <li>Lamborghini</li>
               <li>Toyota</li>

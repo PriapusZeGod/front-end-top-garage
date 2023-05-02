@@ -9,6 +9,9 @@ import reportWebVitals from './reportWebVitals';
 import { RouterProvider, createHashRouter } from "react-router-dom"
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Home from "./Home";
+import ProfilePage from './ProfilePage';
+import Navbar_Main from "./components/Navbar";
+
 
 const router = createHashRouter([
   {
@@ -25,8 +28,7 @@ const router = createHashRouter([
   },
   {
     path: "/profile",
-
-    element: <Profile/>,
+    element: <ProfilePage Nav={Navbar_Main} Profile={Profile}/>,
 },
 ])
 

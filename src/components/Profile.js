@@ -1,10 +1,11 @@
 import React, { useEffect } from "react";
 import profileImg from "../images/profile.webp";
 import { useState } from "react";
+import GarageList from "./Garage";
 
 const url = "http://localhost:5158";
 
-function Profile() {
+export default function Profile() {
   const [profiles, setProfiles] = useState([{
     id: 0,
     name: "Unknown",
@@ -65,6 +66,8 @@ function Profile() {
           </div>
         </div>
       </div>
+      <GarageList />
+
     </>
   );
 }
@@ -90,21 +93,21 @@ async function getProfiles() {
 }
 
 
-export default function App() {
-  const [responseText, setResponseText] = useState('');
+// export default function App() {
+//   const [responseText, setResponseText] = useState('');
 
-  useEffect(() => {
-    async function fetchData() {
-      const response = await fetch('https://jsonplaceholder.typicode.com/todos/1');
-      const data = await response.text();
-      setResponseText(data);
-    }
-    fetchData();
-  }, []);
+//   useEffect(() => {
+//     async function fetchData() {
+//       const response = await fetch('https://jsonplaceholder.typicode.com/todos/1');
+//       const data = await response.text();
+//       setResponseText(data);
+//     }
+//     fetchData();
+//   }, []);
 
-  return (
-    <div>
-      <p>{responseText}</p>
-    </div>
-  );
-}
+//   return (
+//     <div>
+//       <p>{responseText}</p>
+//     </div>
+//   );
+// }

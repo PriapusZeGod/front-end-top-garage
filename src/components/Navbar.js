@@ -43,7 +43,7 @@ function Navbar_Main() {
               <Button variant="outline-dark">Search</Button>
             </Form>
             <Nav.Item className="me-5 sm-12">
-              <Nav.Link href="/home">
+              <Nav.Link href="/#/profile">
                 <Image src={require("../images/user.png")} rounded />
               </Nav.Link>
             </Nav.Item>
