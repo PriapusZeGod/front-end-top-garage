@@ -11,6 +11,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Home from "./Home";
 import ProfilePage from './ProfilePage';
 import Navbar_Main from "./components/Navbar";
+import Addcar from './components/Addcar';
 
 
 const router = createHashRouter([
@@ -29,6 +30,10 @@ const router = createHashRouter([
   {
     path: "/profile",
     element: <ProfilePage Nav={Navbar_Main} Profile={Profile}/>,
+},
+{
+  path: "/Addcar",
+  element: <Addcar/>,
 },
 ])
 
