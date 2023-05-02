@@ -16,6 +16,8 @@ import AppPage from './pages/AppPage';
 import AboutPage from './pages/AboutPage';
 import About from './About';
 import HomePage from './pages/HomePage';
+import AddCarPage from './pages/AddCarPage';
+import Addcar from './components/Addcar';
 
 
 const router = createHashRouter([
@@ -37,7 +39,7 @@ const router = createHashRouter([
 },
 {
   path: "/Addcar",
-  element: <Addcar/>,
+  element: <AddCarPage Nav={Navbar_Main} AddCar={Addcar}/>,
 },
 ])
 
