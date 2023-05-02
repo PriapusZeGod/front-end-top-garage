@@ -1,10 +1,13 @@
-import React, { useState } from "react";
-import ReactDOM from "react-dom/client";
-import "./index.css";
-import App from "./App";
-import GarageList from "./components/Garage";
-import { RouterProvider, createHashRouter } from "react-router-dom";
-import "bootstrap/dist/css/bootstrap.min.css";
+
+import React, { useState } from 'react';
+import ReactDOM from 'react-dom/client';
+import './index.css';
+import App from './App';
+import GarageList from './components/Garage';
+import Profile from './components/Profile';
+import reportWebVitals from './reportWebVitals';
+import { RouterProvider, createHashRouter } from "react-router-dom"
+import 'bootstrap/dist/css/bootstrap.min.css';
 import Home from "./Home";
 
 const router = createHashRouter([
@@ -18,9 +21,10 @@ const router = createHashRouter([
   },
   {
     path: "/profile",
-    element: <GarageList />,
-  },
-]);
+
+    element: <Profile/>,
+},
+])
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(<RouterProvider router={router} />);
