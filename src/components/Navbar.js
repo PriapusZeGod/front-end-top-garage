@@ -71,6 +71,8 @@ function Navbar_Main() {
                     </div>
                     <div className="ms-1 row">
                       <Button variant="light" className="col">
+                      <Nav.Link href="/#/App">
+                      </Nav.Link>
                         add car
                       </Button>
                       <Button variant="light" className="col">
