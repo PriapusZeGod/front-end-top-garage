@@ -11,6 +11,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Home from "./Home";
 import ProfilePage from './pages/ProfilePage';
 import Navbar_Main from "./components/Navbar";
+
 import AppPage from './pages/AppPage';
 import AboutPage from './pages/AboutPage';
 import About from './About';
@@ -33,6 +34,10 @@ const router = createHashRouter([
   {
     path: "/profile",
     element: <ProfilePage Nav={Navbar_Main} Profile={Profile}/>,
+},
+{
+  path: "/Addcar",
+  element: <Addcar/>,
 },
 ])
 

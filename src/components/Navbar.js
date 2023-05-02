@@ -9,6 +9,7 @@ import Offcanvas from "react-bootstrap/Offcanvas";
 import Image from "react-bootstrap/Image";
 import "./Navbar.css";
 import { Icon } from "@iconify/react";
+import Addcar from "./Addcar";
 
 function Navbar_Main() {
   return (
@@ -43,7 +44,7 @@ function Navbar_Main() {
               <Button variant="outline-dark">Search</Button>
             </Form>
             <Nav.Item className="me-5 sm-12">
-              <Nav.Link href="/#/profile">
+              <Nav.Link href="/home">
                 <Image src={require("../images/user.png")} rounded />
               </Nav.Link>
             </Nav.Item>
@@ -70,6 +71,7 @@ function Navbar_Main() {
                       </div>
                     </div>
                     <div className="ms-1 row">
+
                       <Button variant="light" className="col">
                       <Nav.Link href="/#/App">
                       </Nav.Link>
