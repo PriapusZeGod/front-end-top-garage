@@ -9,22 +9,26 @@ import reportWebVitals from './reportWebVitals';
 import { RouterProvider, createHashRouter } from "react-router-dom"
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Home from "./Home";
-import ProfilePage from './ProfilePage';
+import ProfilePage from './pages/ProfilePage';
 import Navbar_Main from "./components/Navbar";
+import AppPage from './pages/AppPage';
+import AboutPage from './pages/AboutPage';
+import About from './About';
+import HomePage from './pages/HomePage';
 
 
 const router = createHashRouter([
   {
     path: "/App",
-    element: <App />,  
+    element: <AppPage Nav={Navbar_Main} App={App} />,  
   },
   {
     path: "/",
-    element: <Home />,
+    element: <HomePage Nav={Navbar_Main} Home={Home} />,
   },
   {
     path: "/about",
-    element: <h1>About</h1>,
+    element: <AboutPage Nav={Navbar_Main} About={About} />
   },
   {
     path: "/profile",
