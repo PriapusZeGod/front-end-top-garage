@@ -46,7 +46,7 @@ export default function GarageList({userId}) {
     <>
       <div className="container">
         <div className="row mt-5">
-          {/* {garages.map((g) => <div key={g.id} className="col-sm-4 mt-3"><GarageWidget garage={g} /></div>)} */}
+          {garages.map((g) => <div key={g.id} className="col-sm-4 mt-3"><GarageWidget garage={g} /></div>)}
         </div>
       </div>
     </>

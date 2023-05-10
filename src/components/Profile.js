@@ -67,8 +67,6 @@ export default function Profile({ userId }) {
           </div>
         </div>
       </div>
-
-
       <GarageList userId={id} />
 
     </>
