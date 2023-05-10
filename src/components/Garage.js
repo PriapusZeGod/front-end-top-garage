@@ -1,47 +1,53 @@
 import { useState } from "react";
 import Dropdown from "react-bootstrap/Dropdown";
 import gclass from "../images/g-class.png";
+import { useEffect } from "react";
+import { getGaragesByUserID } from "../services/GarageService";
+import { getCarsByGarageID } from "../services/CarService";
 
-export default function GarageList() {
-  let garages = [
+export default function GarageList({userId}) {
+
+  const [garages, setGarages] = useState([
     {
-      id: 1,
-      name: "garage1",
-    },
-    {
-      id: 2,
-      name: "garage2",
-    },
-    {
-      id: 3,
-      name: "garage3",
-    },
-  ];
+      "id": 1,
+      "name": "Unknown",
+      "capacity": 5,
+      "availableSlots": 3,
+      "location": {
+        "id": 1,
+        "latitude": 55.862656,
+        "longitude": 9.837616
+      },
+      "user": {
+        "id": 1
+      },
+      "cars": [
+        {
+          "id": 1
+        },
+        {
+          "id": 2
+        }
+      ]
+    }
+  ]);
+
+  useEffect(() => {
+    fetchGarages();
+  }, []);
+
+  async function fetchGarages()
+  {
+    setGarages(await getGaragesByUserID(userId));
+  }
 
   const [garage, setGarage] = useState(garages[0]);
 
   return (
     <>
       <div className="container">
-        <div className="row">
-          <h1>{garage.name}</h1>
-          <GarageDropdown
-            garages={garages}
-            currentGarage={garage}
-            setCurrentGarage={setGarage}
-          />
-        </div>
-
         <div className="row mt-5">
-          <div className="col-sm-4 mt-3">
-            <GarageWidget garage={garages[0]} />
-          </div>
-          <div className="col-sm-4 mt-3">
-            <GarageWidget garage={garages[1]} />
-          </div>
-          <div className="col-sm-4 mt-3">
-            <GarageWidget garage={garages[2]} />
-          </div>
+          {/* {garages.map((g) => <div key={g.id} className="col-sm-4 mt-3"><GarageWidget garage={g} /></div>)} */}
         </div>
       </div>
     </>
@@ -67,6 +73,19 @@ function GarageDropdown({ garages, currentGarage, setCurrentGarage }) {
 }
 
 function GarageWidget({ garage }) {
+
+  const [cars, setCars] = useState([]);
+
+  
+  useEffect(() => {
+    fetchCars();
+  }, []);
+  async function fetchCars()
+  {
+    setCars(await getCarsByGarageID(garage.id));
+  }
+
+
   return (
     <>
       <div className="bg-primary rounded">
@@ -79,14 +98,12 @@ function GarageWidget({ garage }) {
               </div>
             </div>
             <div className="row">
-              <div className="text-center text-light fw-bolder fs-2">10/10</div>
+              <div className="text-center text-light fw-bolder fs-2">{garage.availableSlots}/{garage.capacity}</div>
             </div>
           </div>
           <div className="col text-start">
             <ul className="text-light m-2">
-              <li>Lamborghini</li>
-              <li>Toyota</li>
-              <li>BMW</li>
+              {cars.map((c) => <li key={c.id}>{c.name}</li>)}
             </ul>
           </div>
         </div>
