@@ -41,7 +41,6 @@ export default function GarageList({userId}) {
     setGarages(await getGaragesByUserID(userId));
   }
 
-  const [garage, setGarage] = useState(garages[0]);
 
   return (
     <>
@@ -90,10 +89,10 @@ function GarageWidget({ garage }) {
     <>
       <div className="bg-primary rounded">
         <div className="row">
-          <h1 className="text-center text-light mt-2">{garage.name}</h1>
-          <div className="col m-2">
+          <h1 className="text-center text-light mt-2 ">{garage.name}</h1>
+          <div className="col m-2 border border-0">
             <div className="row">
-              <div className="text-center text-light fw-bold mt-2">
+              <div className="text-center text-light fw-bold mt-2 ">
                 Free Spots:
               </div>
             </div>
@@ -101,7 +100,7 @@ function GarageWidget({ garage }) {
               <div className="text-center text-light fw-bolder fs-2">{garage.availableSlots}/{garage.capacity}</div>
             </div>
           </div>
-          <div className="col text-start">
+          <div className="col text-start border border-0">
             <ul className="text-light m-2">
               {cars.map((c) => <li key={c.id}>{c.name}</li>)}
             </ul>

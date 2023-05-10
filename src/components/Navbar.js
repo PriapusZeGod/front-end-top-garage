@@ -9,6 +9,7 @@ import Offcanvas from "react-bootstrap/Offcanvas";
 import Image from "react-bootstrap/Image";
 import "./Navbar.css";
 import { Icon } from "@iconify/react";
+import Addcar from "./Addcar";
 
 function Navbar_Main() {
   return (
@@ -70,7 +71,10 @@ function Navbar_Main() {
                       </div>
                     </div>
                     <div className="ms-1 row">
+
                       <Button variant="light" className="col">
+                      <Nav.Link href="/#/App">
+                      </Nav.Link>
                         add car
                       </Button>
                       <Button variant="light" className="col">
