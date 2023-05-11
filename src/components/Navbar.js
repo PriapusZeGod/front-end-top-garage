@@ -10,8 +10,34 @@ import Image from "react-bootstrap/Image";
 import "./Navbar.css";
 import { Icon } from "@iconify/react";
 import Addcar from "./Addcar";
+import useFetch from "../hooks/useFetch";
+import { useState, useEffect } from "react";
 
 function Navbar_Main() {
+  const { data, isLoading, error } = useFetch("http://localhost:5055/Garages");
+  const [currentGarageName, setCurrentGarageName] = useState("Select Garage");
+  const [currentGarrage, setCurrentGarrage] = useState(data?.[0]);
+
+  useEffect(() => {
+    const element = document.getElementById("collapsable-nav-dropdown");
+    if (element) {
+      element.innerText = currentGarageName;
+    }
+  }, [currentGarageName]);
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Error: {error.message}</div>;
+  }
+
+  const handleGarageSelect = (garageName, garage) => {
+    setCurrentGarageName(garageName);
+    setCurrentGarrage(garage);
+  };
+
   return (
     <>
       {[false].map((expand) => (
@@ -26,13 +52,19 @@ function Navbar_Main() {
           <Container fluid>
             <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-${expand}`} />
             <NavDropdown
-              title="Garage Title"
-              id="collasible-nav-dropdown"
+              title={currentGarageName || data[0].name}
+              id="collapsable-nav-dropdown"
               responsive="sm"
             >
-              <NavDropdown.Item href="#action/3.1">Car 1</NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.1">Car 2</NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.1">Car 3</NavDropdown.Item>
+              {data.map((garage) => (
+                <NavDropdown.Item
+                  href=""
+                  onClick={() => handleGarageSelect(garage.name, garage)}
+                  key={garage.id}
+                >
+                  {garage.name}
+                </NavDropdown.Item>
+              ))}
             </NavDropdown>
             <Form className="d-flex mt-2" responsive="sm">
               <Form.Control
@@ -60,10 +92,10 @@ function Navbar_Main() {
               </Offcanvas.Header>
               <Offcanvas.Body>
                 <Nav className="justify-content-end flex-grow-1 pe-3">
-                  <Nav.Link href="#action1">Car 1</Nav.Link>
-                  <Nav.Link href="#action2">Car 2</Nav.Link>
-                  <Nav.Link href="#action2">Car 3</Nav.Link>
-                  <Nav.Link href="#action2">Car 4</Nav.Link>
+                  {currentGarrage?.cars?.map((car) => (
+                    <Nav.Link href="#action1">{car.id}</Nav.Link>
+                  ))}
+
                   <div className="mt-3 d-flex">
                     <div>
                       <div className="mt-4 rounded-circle">
@@ -71,10 +103,8 @@ function Navbar_Main() {
                       </div>
                     </div>
                     <div className="ms-1 row">
-
                       <Button variant="light" className="col">
-                      <Nav.Link href="/#/App">
-                      </Nav.Link>
+                        <Nav.Link href="/#/App"></Nav.Link>
                         add car
                       </Button>
                       <Button variant="light" className="col">
