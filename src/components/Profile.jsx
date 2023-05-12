@@ -18,7 +18,7 @@ export default function Profile({ userId }) {
   const { data, status } = useQuery(["profile", id], () => getProfileById(id) );
 
   if (status === "loading") {
-    return <div>Loading...</div>;
+    return <div>Loading...</div>
   }
   if (status === "error") {
     return <div>Error fetching data</div>;

@@ -10,7 +10,13 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import Home from "./Home";
 import ProfilePage from "./pages/ProfilePage";
 import Navbar_Main from "./components/Navbar";
-
+import {
+  useQuery,
+  useMutation,
+  useQueryClient,
+  QueryClient,
+  QueryClientProvider,
+} from "react-query";
 import AppPage from "./pages/AppPage";
 import AboutPage from "./pages/AboutPage";
 import About from "./About";
@@ -18,6 +24,7 @@ import HomePage from "./pages/HomePage";
 import AddCarPage from "./pages/AddCarPage";
 import Addcar from "./components/Addcar";
 
+const queryClient = new QueryClient();
 const router = createHashRouter([
   // {
   //   path: "/App",
@@ -33,7 +40,13 @@ const router = createHashRouter([
   },
   {
     path: "/profile",
-    element: <ProfilePage Nav={Navbar_Main} Profile={Profile} />,
+    element: (
+      <>
+        <QueryClientProvider client={queryClient}>
+          <ProfilePage Nav={Navbar_Main} Profile={Profile} />
+        </QueryClientProvider>
+      </>
+    ),
   },
   {
     path: "/Addcar",

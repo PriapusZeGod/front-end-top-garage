@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Dropdown from "react-bootstrap/Dropdown";
 import gclass from "../images/g-class.png";
+import React from "react";
 import { useEffect } from "react";
 import { getGaragesByUserID } from "../services/GarageService";
 import { getCarsByGarageID } from "../services/CarService";
@@ -12,7 +13,7 @@ export default function GarageList({ userId }) {
   const { data, status } = useQuery(["garages", userId], () => getGaragesByUserID(userId));
 
   if (status === "loading") {
-    return <div>Loading...</div>;
+    return <div>Loading...</div>
   }
   if (status === "error") {
     return <div>Error fetching data</div>;
