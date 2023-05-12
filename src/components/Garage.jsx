@@ -5,48 +5,49 @@ import { useEffect } from "react";
 import { getGaragesByUserID } from "../services/GarageService";
 import { getCarsByGarageID } from "../services/CarService";
 
-export default function GarageList({userId}) {
-
+export default function GarageList({ userId }) {
   const [garages, setGarages] = useState([
     {
-      "id": 1,
-      "name": "Unknown",
-      "capacity": 5,
-      "availableSlots": 3,
-      "location": {
-        "id": 1,
-        "latitude": 55.862656,
-        "longitude": 9.837616
+      id: 1,
+      name: "Unknown",
+      capacity: 5,
+      availableSlots: 3,
+      location: {
+        id: 1,
+        latitude: 55.862656,
+        longitude: 9.837616,
       },
-      "user": {
-        "id": 1
+      user: {
+        id: 1,
       },
-      "cars": [
+      cars: [
         {
-          "id": 1
+          id: 1,
         },
         {
-          "id": 2
-        }
-      ]
-    }
+          id: 2,
+        },
+      ],
+    },
   ]);
 
   useEffect(() => {
     fetchGarages();
   }, []);
 
-  async function fetchGarages()
-  {
+  async function fetchGarages() {
     setGarages(await getGaragesByUserID(userId));
   }
-
 
   return (
     <>
       <div className="container">
         <div className="row mt-5">
-          {garages.map((g) => <div key={g.id} className="col-sm-4 mt-3"><GarageWidget garage={g} /></div>)}
+          {garages.map((g) => (
+            <div key={g.id} className="col-sm-4 mt-3">
+              <GarageWidget garage={g} />
+            </div>
+          ))}
         </div>
       </div>
     </>
@@ -72,18 +73,14 @@ function GarageDropdown({ garages, currentGarage, setCurrentGarage }) {
 }
 
 function GarageWidget({ garage }) {
-
   const [cars, setCars] = useState([]);
 
-  
   useEffect(() => {
     fetchCars();
   }, []);
-  async function fetchCars()
-  {
+  async function fetchCars() {
     setCars(await getCarsByGarageID(garage.id));
   }
-
 
   return (
     <>
@@ -97,12 +94,16 @@ function GarageWidget({ garage }) {
               </div>
             </div>
             <div className="row">
-              <div className="text-center text-light fw-bolder fs-2">{garage.availableSlots}/{garage.capacity}</div>
+              <div className="text-center text-light fw-bolder fs-2">
+                {garage.availableSlots}/{garage.capacity}
+              </div>
             </div>
           </div>
           <div className="col text-start border border-0">
             <ul className="text-light m-2">
-              {cars.map((c) => <li key={c.id}>{c.name}</li>)}
+              {cars.map((c) => (
+                <li key={c.id}>{c.name}</li>
+              ))}
             </ul>
           </div>
         </div>

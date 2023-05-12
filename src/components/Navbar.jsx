@@ -12,11 +12,17 @@ import { Icon } from "@iconify/react";
 import Addcar from "./Addcar";
 import useFetch from "../hooks/useFetch";
 import { useState, useEffect } from "react";
+import React from "react";
+import logo from "../images/user.png";
 
 function Navbar_Main() {
   const { data, isLoading, error } = useFetch("http://localhost:5055/Garages");
+  const { CarsData, CarsIsLoading, CarsError } = useFetch(
+    "http://localhost:5027/Cars"
+  );
   const [currentGarageName, setCurrentGarageName] = useState("Select Garage");
   const [currentGarrage, setCurrentGarrage] = useState(data?.[0]);
+  const [currentCars, setCurrentCars] = useState(CarsData?.[0]);
 
   useEffect(() => {
     const element = document.getElementById("collapsable-nav-dropdown");
@@ -25,7 +31,11 @@ function Navbar_Main() {
     }
   }, [currentGarageName]);
 
-  if (isLoading) {
+  useEffect(() => {
+    console.log(CarsData);
+  }, [CarsData]);
+
+  if (isLoading || CarsIsLoading) {
     return <div>Loading...</div>;
   }
 
@@ -37,9 +47,10 @@ function Navbar_Main() {
     setCurrentGarageName(garageName);
     setCurrentGarrage(garage);
   };
-
   return (
     <>
+      {console.log(data)}
+      {console.log(CarsData)}
       {[false].map((expand) => (
         <Navbar
           key={expand}
@@ -77,7 +88,7 @@ function Navbar_Main() {
             </Form>
             <Nav.Item className="me-5 sm-12">
               <Nav.Link href="/home">
-                <Image src={require("../images/user.png")} rounded />
+                <Image src={logo} rounded />
               </Nav.Link>
             </Nav.Item>
             <Navbar.Offcanvas
@@ -92,9 +103,15 @@ function Navbar_Main() {
               </Offcanvas.Header>
               <Offcanvas.Body>
                 <Nav className="justify-content-end flex-grow-1 pe-3">
-                  {currentGarrage?.cars?.map((car) => (
-                    <Nav.Link href="#action1">{car.id}</Nav.Link>
-                  ))}
+                  {/* {CarsData?.map((car) =>
+                    currentGarrage?.cars?.forEach((element) => {
+                      if (car.id == element.id) {
+                        <Nav.Link href="#action1" key={car.id}>
+                          car.name
+                        </Nav.Link>;
+                      }
+                    })
+                  )} */}
 
                   <div className="mt-3 d-flex">
                     <div>

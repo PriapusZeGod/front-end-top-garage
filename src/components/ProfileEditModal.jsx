@@ -2,24 +2,20 @@ import { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
-import FormControl from "react-bootstrap/FormControl";
 import { updateProfile } from "../services/profileService";
-import Alert from 'react-bootstrap/Alert';
+import Alert from "react-bootstrap/Alert";
 
-export default function ProdileEditModal({ profile , setProfile}) {
+export default function ProdileEditModal({ profile, setProfile }) {
   const [show, setShow] = useState(false);
   const user = profile;
 
   const [alert, setAlert] = useState();
 
- 
-  const handleClose = () => 
-  {
+  const handleClose = () => {
     setShow(false);
     setAlert(null);
-  }
+  };
   const handleShow = () => setShow(true);
-
 
   async function updateUser() {
     setAlert(null);
@@ -31,8 +27,9 @@ export default function ProdileEditModal({ profile , setProfile}) {
       } else {
         console.log("User to be set: " + JSON.stringify(user));
         setProfile(user);
-        setAlert(<Alert variant="success">Profile updated successfully!</Alert>);
-        
+        setAlert(
+          <Alert variant="success">Profile updated successfully!</Alert>
+        );
       }
     } catch (error) {
       console.error("Error:", error);
@@ -58,7 +55,10 @@ export default function ProdileEditModal({ profile , setProfile}) {
                 type="email"
                 autoFocus
                 defaultValue={user.email}
-                onChange={(e) => {user.email = e.target.value; console.log("Email: " +user.email);}}
+                onChange={(e) => {
+                  user.email = e.target.value;
+                  console.log("Email: " + user.email);
+                }}
               />
             </Form.Group>
             <Form.Group className="mb-3" controlId="ControlInput2">
@@ -67,7 +67,10 @@ export default function ProdileEditModal({ profile , setProfile}) {
                 type="name"
                 autoFocus
                 defaultValue={user.name}
-                onChange={(e) => {user.name = e.target.value; console.log("Name: " +user.name);}}
+                onChange={(e) => {
+                  user.name = e.target.value;
+                  console.log("Name: " + user.name);
+                }}
               />
             </Form.Group>
             <Form.Group className="mb-3" controlId="ControlInput3">
@@ -76,7 +79,10 @@ export default function ProdileEditModal({ profile , setProfile}) {
                 type="password"
                 autoFocus
                 placeholder="Enter new password"
-                onChange={(e) => {user.password = e.target.value; console.log("Password: " +user.password);}}
+                onChange={(e) => {
+                  user.password = e.target.value;
+                  console.log("Password: " + user.password);
+                }}
                 required
               />
             </Form.Group>
@@ -86,7 +92,10 @@ export default function ProdileEditModal({ profile , setProfile}) {
                 type="name"
                 autoFocus
                 defaultValue={user.age}
-                onChange={(e) => {user.age = e.target.value; console.log("Age: " +user.age);}}
+                onChange={(e) => {
+                  user.age = e.target.value;
+                  console.log("Age: " + user.age);
+                }}
               />
             </Form.Group>
             <Form.Group className="mb-3" controlId="ControlInput5">
@@ -95,7 +104,10 @@ export default function ProdileEditModal({ profile , setProfile}) {
                 type="mobile"
                 autoFocus
                 defaultValue={user.phone}
-                onChange={(e) => {user.phone = e.target.value; console.log("Phone: " +user.phone);}}
+                onChange={(e) => {
+                  user.phone = e.target.value;
+                  console.log("Phone: " + user.phone);
+                }}
               />
             </Form.Group>
           </Form>

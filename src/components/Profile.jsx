@@ -63,12 +63,14 @@ export default function Profile({ userId }) {
         </div>
         <div className="row">
           <div className="col-md-12 text-center">
-            <ProfileEditModal profile={profile} setProfile={updateObjectState} />
+            <ProfileEditModal
+              profile={profile}
+              setProfile={updateObjectState}
+            />
           </div>
         </div>
       </div>
       <GarageList userId={id} />
-
     </>
   );
 }
