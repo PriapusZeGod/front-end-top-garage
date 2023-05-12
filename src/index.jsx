@@ -23,6 +23,7 @@ import About from "./About";
 import HomePage from "./pages/HomePage";
 import AddCarPage from "./pages/AddCarPage";
 import Addcar from "./components/Addcar";
+import Login from "./components/Login";
 
 const queryClient = new QueryClient();
 const router = createHashRouter([
@@ -52,6 +53,10 @@ const router = createHashRouter([
     path: "/Addcar",
     element: <AddCarPage Nav={Navbar_Main} AddCar={Addcar} />,
   },
+  {
+    path: "/login",
+    element: <Login/>,
+  }
 ]);
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
