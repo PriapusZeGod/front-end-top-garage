@@ -4,6 +4,7 @@ import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
 import { updateProfile } from "../services/profileService";
 import Alert from "react-bootstrap/Alert";
+import React from "react";
 
 export default function ProdileEditModal({ profile, setProfile }) {
   const [show, setShow] = useState(false);
@@ -26,7 +27,7 @@ export default function ProdileEditModal({ profile, setProfile }) {
         setAlert(<Alert variant="danger">Error: {error.text}</Alert>);
       } else {
         console.log("User to be set: " + JSON.stringify(user));
-        setProfile(user);
+        // setProfile(user);
         setAlert(
           <Alert variant="success">Profile updated successfully!</Alert>
         );

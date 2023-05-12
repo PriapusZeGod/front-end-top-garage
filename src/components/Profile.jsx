@@ -3,7 +3,9 @@ import profileImg from "../images/profile.webp";
 import { useState } from "react";
 import GarageList from "./Garage";
 import { useQuery, useQueryClient } from "react-query";
-import { getProfileById } from "../services/profileService";
+import { useMutation } from 'react-query';
+
+import { getProfileById, updateProfile } from "../services/profileService";
 import ProfileEditModal from "./ProfileEditModal";
 
 // const url = "http://localhost:5158/";
@@ -16,6 +18,7 @@ export default function Profile({ userId }) {
 
   const queryClient = useQueryClient();
   const { data, status } = useQuery(["profile", id], () => getProfileById(id) );
+
 
   if (status === "loading") {
     return <div>Loading...</div>
@@ -55,7 +58,7 @@ export default function Profile({ userId }) {
         </div>
         <div className="row">
           <div className="col-md-12 text-center">
-            {/* <ProfileEditModal profile={profile} setProfile={updateObjectState} /> */}
+            <ProfileEditModal profile={profile} />
           </div>
         </div>
       </div>
