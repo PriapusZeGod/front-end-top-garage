@@ -3,8 +3,8 @@ const url = "http://localhost:5158/Users";
 export async function getProfileById(id) {
   const response = await fetch(url);
   const data = await response.json();
-  const user = await data.find((user) => user.id === id);
-  return user;
+  const profile = data.filter((profile) => profile.id === id);
+  return profile;
 }
 
 export async function updateProfile(user) {

@@ -4,40 +4,21 @@ import gclass from "../images/g-class.png";
 import { useEffect } from "react";
 import { getGaragesByUserID } from "../services/GarageService";
 import { getCarsByGarageID } from "../services/CarService";
+import { useQuery, useQueryClient } from "react-query";
 
 export default function GarageList({ userId }) {
-  const [garages, setGarages] = useState([
-    {
-      id: 1,
-      name: "Unknown",
-      capacity: 5,
-      availableSlots: 3,
-      location: {
-        id: 1,
-        latitude: 55.862656,
-        longitude: 9.837616,
-      },
-      user: {
-        id: 1,
-      },
-      cars: [
-        {
-          id: 1,
-        },
-        {
-          id: 2,
-        },
-      ],
-    },
-  ]);
 
-  useEffect(() => {
-    fetchGarages();
-  }, []);
+  const queryClient = useQueryClient();
+  const { data, status } = useQuery(["garages", userId], () => getGaragesByUserID(userId));
 
-  async function fetchGarages() {
-    setGarages(await getGaragesByUserID(userId));
+  if (status === "loading") {
+    return <div>Loading...</div>;
   }
+  if (status === "error") {
+    return <div>Error fetching data</div>;
+  }
+
+  const garages = data;
 
   return (
     <>
@@ -73,14 +54,17 @@ function GarageDropdown({ garages, currentGarage, setCurrentGarage }) {
 }
 
 function GarageWidget({ garage }) {
-  const [cars, setCars] = useState([]);
+  const queryClient = useQueryClient();
+  const { data, status } = useQuery(["cars", garage.id], () => getCarsByGarageID(garage.id));
 
-  useEffect(() => {
-    fetchCars();
-  }, []);
-  async function fetchCars() {
-    setCars(await getCarsByGarageID(garage.id));
+  if (status === "loading") {
+    return <div>Loading...</div>;
   }
+  if (status === "error") {
+    return <div>Error fetching data</div>;
+  }
+
+  const cars = data;
 
   return (
     <>
