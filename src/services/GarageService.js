@@ -3,7 +3,9 @@ const url = "http://localhost:5055/Garages";
 export async function getGaragesByUserID(userId) {
   try {
     const response = await fetch(`${url}?UserId=${userId}`);
+
     const data = await response.json();
+    console.log(data);
     return data;
   } catch (error) {
     console.error("Error:", error);
@@ -16,7 +18,7 @@ export async function getAvailableSlots() {
     const response = await fetch(url);
     if (response.ok) {
       const data = await response.json();
-      return data; 
+      return data;
     } else {
       throw new Error(`Request failed with status ${response.status}`);
     }
@@ -24,7 +26,6 @@ export async function getAvailableSlots() {
     console.error("Error:", error);
     throw error;
   }
-
 }
 
 export async function getCapacity(garageId) {
@@ -41,10 +42,3 @@ export async function getCapacity(garageId) {
     throw error;
   }
 }
-
-
-
-
-
-
-

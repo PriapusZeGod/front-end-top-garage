@@ -1,19 +1,19 @@
 import React from "react";
 import GarageList from "./Garage";
-import { useQuery } from "react-query";
-import { getAvailableSlots } from "../services/GarageService";
+import { useQuery, useQueryClient } from "react-query";
+import { getGaragesByUserID } from "../services/GarageService";
 import "./Navbar.css";
 
 const App = ({ userId }) => {
   const id = userId ?? 1;
 
-  const { data: garagesData, status } = useQuery("availableSlots", getAvailableSlots);
+  const queryClient = useQueryClient();
+  const { data, status } = useQuery(["garages", id], () => getGaragesByUserID(id));
 
   if (status === "loading") {
-    return <div className="loading-spinner">Fetching available slots...</div>;
+    return <div>Loading...</div>
   }
-
-  if (status === "error" || !garagesData) {
+  if (status === "error") {
     return (
       <div className="error-container">
         <p className="error-text">Oops! Failed to fetch data.</p>
@@ -24,8 +24,16 @@ const App = ({ userId }) => {
     );
   }
 
-  const availableSlots = garagesData.reduce((total, garage) => total + garage.availableSlots, 0);
-  const totalCapacity = garagesData.reduce((total, garage) => total + garage.capacity, 0);
+  if(!data){
+    return <div>No garages found</div>
+  }
+
+  
+
+
+
+  const availableSlots = data.reduce((total, garage) => total + garage.availableSlots, 0);
+  const totalCapacity = data.reduce((total, garage) => total + garage.capacity, 0);
 
   const lineStyle = {
     width: `${(availableSlots / totalCapacity) * 100}%`,
@@ -39,7 +47,7 @@ const App = ({ userId }) => {
     <div>
       <h1>Welcome to the Garage</h1>
       <div className="slots-line" style={lineStyle}></div>
-      <div class="paragraph-container">
+      <div className="paragraph-container">
   <p className="capacity-text">Total Capacity: {totalCapacity}</p>
   <p className="slots-text">Available Slots: {availableSlots}</p>
       </div>
