@@ -14,6 +14,8 @@ import useFetch from "../hooks/useFetch";
 import { useState, useEffect } from "react";
 import React from "react";
 import logo from "../images/user.png";
+import { useQuery, useQueryClient } from "react-query";
+import { getCarsByGarageID } from "../services/CarService";
 
 function Navbar_Main() {
   const { data, isLoading, error } = useFetch("http://localhost:5055/Garages");
@@ -99,6 +101,7 @@ function Navbar_Main() {
               <Offcanvas.Header closeButton>
                 <Offcanvas.Title id={`offcanvasNavbarLabel-expand-${expand}`}>
                   All Cars "Garage Title"
+                  {currentGarrage && <CarList garage={currentGarrage} />} {/* Conditional rendering of CarList */}
                 </Offcanvas.Title>
               </Offcanvas.Header>
               <Offcanvas.Body>
@@ -137,6 +140,36 @@ function Navbar_Main() {
       ))}
       {console.log("works")}
     </>
+  );
+}
+
+function CarList({garage}) {
+  const queryClient = useQueryClient();
+  if(!garage) return null;
+  const { data, status } = useQuery(["cars", garage.id], () =>
+    getCarsByGarageID(garage.id)
+  );
+
+  if (status === "loading") {
+    return <div>Loading...</div>;
+  }
+  if (status === "error") {
+    return <div>Error fetching data</div>;
+  }
+
+  const cars = data;
+
+  if(!garage)
+  {
+    return("no garage")
+  }
+
+  return (
+    <ul>
+      {cars.map((car) => (
+        <li key={car.id}>{car.name}</li>
+      ))}
+    </ul>
   );
 }
 

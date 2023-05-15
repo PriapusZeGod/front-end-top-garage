@@ -32,7 +32,11 @@ const router = createHashRouter([
   // },
   {
     path: "/",
-    element: <HomePage Nav={Navbar_Main} Home={Home} />,
+    element: (
+      <QueryClientProvider client={queryClient}>
+        <HomePage Nav={Navbar_Main} Home={Home} />
+      </QueryClientProvider>
+    ),
   },
   {
     path: "/about",
