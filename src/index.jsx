@@ -23,7 +23,9 @@ import About from "./About";
 import HomePage from "./pages/HomePage";
 import AddCarPage from "./pages/AddCarPage";
 import Addcar from "./components/Addcar";
-
+import MapPage from "./pages/MapPage";
+import MapView from "./components/MapView";
+import MapViewComponent from "./components/MapView";
 const queryClient = new QueryClient();
 const router = createHashRouter([
   // {
@@ -56,6 +58,17 @@ const router = createHashRouter([
     path: "/Addcar",
     element: <AddCarPage Nav={Navbar_Main} AddCar={Addcar} />,
   },
+  {
+    path: "/Map",
+    element: (
+      <>
+        <QueryClientProvider client={queryClient}>
+          <MapPage Nav={Navbar_Main} MapViewComponent={MapViewComponent} />
+        </QueryClientProvider>
+      </>
+    ),
+  },
+
 ]);
 
 const root = ReactDOM.createRoot(document.getElementById("root"));

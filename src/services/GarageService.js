@@ -5,3 +5,12 @@ export async function getGaragesByUserID(userId) {
   const data = await response.json();
   return data;
 }
+
+export async function getGarages() {
+  const response = await fetch(url);
+  const data = await response.json();
+  return data;
+}
+
+
+
