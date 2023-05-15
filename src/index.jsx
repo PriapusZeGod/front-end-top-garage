@@ -23,13 +23,18 @@ import About from "./About";
 import HomePage from "./pages/HomePage";
 import AddCarPage from "./pages/AddCarPage";
 import Addcar from "./components/Addcar";
+import App from "./components/App";
 
 const queryClient = new QueryClient();
 const router = createHashRouter([
-  // {
-  //   path: "/App",
-  //   element: <AppPage Nav={Navbar_Main} App={App} />,
-  // },
+   {
+    path: "/App",
+    element: (
+      <QueryClientProvider client={queryClient}>
+        <AppPage Nav={Navbar_Main} App={App} />
+      </QueryClientProvider>
+    ),
+   },
   {
     path: "/",
     element: (
