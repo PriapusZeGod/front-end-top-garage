@@ -2,27 +2,31 @@ import React from "react";
 import { GoogleMap, useLoadScript, Marker } from "@react-google-maps/api";
 import { useQuery } from "react-query";
 import "./Map.css";
+import { getGaragesByUserID } from "../services/GarageService";
 
 const MAPS_API_KEY = "AIzaSyDfmL5P3N4WBD4YTpVfzvn1Wkg43L4NeHk"; 
-const url = "http://localhost:5055/Garages";
 
-export default function MapViewComponent() {
+export default function MapViewComponent({ userId }) {
+  if (userId == null) {
+    userId = 1;
+  }
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: MAPS_API_KEY,
   });
+  const { data, status } = useQuery(["garages", userId], () => getGaragesByUserID(userId));
 
-  const { data: garages, isLoading, isError } = useQuery("garages", fetchGarages);
-
-  async function fetchGarages() {
-    const response = await fetch(url);
-    const data = await response.json();
-    return data;
+  if (status === "loading") {
+    return <div>Loading...</div>
+  }
+  if (status === "error") {
+    return <div>Error fetching data</div>;
   }
 
+  const garages = data;
   if (!isLoaded) return <div>Loading...</div>;
 
   return (
-    <Map garages={garages} isLoading={isLoading} isError={isError} />
+    <Map garages={garages} />
   );
 }
 
