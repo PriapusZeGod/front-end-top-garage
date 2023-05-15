@@ -6,11 +6,6 @@ export async function getGaragesByUserID(userId) {
   return data;
 }
 
-export async function getGarages() {
-  const response = await fetch(url);
-  const data = await response.json();
-  return data;
-}
 
 
 
