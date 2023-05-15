@@ -1,21 +1,62 @@
-
 import React from "react";
+import { useMutation, useQuery, useQueryClient } from "react-query";
+import { login } from "../services/profileService";
+import { useState } from "react";
 
+export default function Login() {
+  const queryClient = useQueryClient();
 
+  const [loginData, setLoginData] = useState({ email: "", password: "" });
+  const { isLoading, isError, error, data, mutate } = useMutation("login", () =>
+    login(loginData)
+  );
+  const [token, setToken] = useState("");
 
-export default function Login()
-{
-    return(
-        <div>
-            <h1>Login</h1>
-            <form>
-                <label>Username</label>
-                <input type="text" name="username" placeholder="Username"/>
-                <label>Password</label>
-                <input type="password" name="password" placeholder="Password"/>
-                <button type="submit">Login</button>
-            </form>
-        </div>
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    mutate();
+    setToken(await data);
+    console.log("Token: " + await token);
+  };
 
-    )
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (isError) {
+    return <div>Error: {error.message}</div>;
+  }
+
+  return (
+    <div>
+      <h1>Login</h1>
+      <form onSubmit={handleSubmit}>
+        <label>Email</label>
+        <input
+          type="text"
+          name="email"
+          placeholder="Email"
+          value={loginData.email}
+          onChange={(e) =>
+            setLoginData({ ...loginData, email: e.target.value })
+          }
+        />
+        <label>Password</label>
+        <input
+          type="text"
+          name="password"
+          placeholder="Password"
+          value={loginData.password}
+          onChange={(e) =>
+            setLoginData({ ...loginData, password: e.target.value })
+          }
+        />
+        <button type="submit">Login</button>
+      </form>
+    </div>
+    // display token if there is one
+
+   
+    
+  );
 }

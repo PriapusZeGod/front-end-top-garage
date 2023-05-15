@@ -55,8 +55,12 @@ const router = createHashRouter([
   },
   {
     path: "/login",
-    element: <Login/>,
-  }
+    element: (
+      <QueryClientProvider client={queryClient}>
+        <Login />
+      </QueryClientProvider>
+    ),
+  },
 ]);
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
