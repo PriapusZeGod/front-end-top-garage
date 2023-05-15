@@ -1,33 +1,17 @@
-import jwt from 'jsonwebtoken';
+import jwt_decode from "jwt-decode";
 
 const url = "http://localhost:5158/Users";
 const authUrl = "http://localhost:5158/Auth";
 
-const decodeJWT = (token) => {
+function decodeJWT(token) {
   try {
-    const decoded = 0 //jwt.decode(token);
-    console.log('Decoded JWT:', decoded);
+    const decoded = jwt_decode(token);
     return decoded;
   } catch (error) {
-    console.error('Error decoding JWT:', error);
+    console.error("Error decoding JWT:", error);
     return null;
   }
-};
-
-// // Example usage
-// const jwtToken = 'your_jwt_token_here';
-// const decodedToken = decodeJWT(jwtToken);
-
-// if (decodedToken) {
-//   console.log(decodedToken);
-//   // Access user information
-//   const userId = decodedToken.sub;
-//   const email = decodedToken['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress'];
-//   // ... access other claims as needed
-// } else {
-//   console.log('Invalid JWT');
-// }
-
+}
 
 export async function getProfileById(id) {
   const response = await fetch(url);
@@ -62,8 +46,8 @@ export async function updateProfile(user) {
   return null;
 }
 
-export async function login({email, password}) {
-  console.log("User: " + JSON.stringify({email, password}));
+export async function login({ email, password }) {
+  console.log("User: " + JSON.stringify({ email, password }));
   const response = await fetch(authUrl, {
     method: "POST",
     headers: {
@@ -71,8 +55,26 @@ export async function login({email, password}) {
     },
     body: JSON.stringify({ email, password }),
   });
+  const status = response.status;
+  console.log("Status: " + status);
+  if (status != 200) {
+    throw new Error("Error: " + response.statusText);
+  }
   const data = await response.text();
   const decodedToken = decodeJWT(data);
-  console.log("Decoded: " + decodedToken);
-  return data;
+  // console.log(decodedToken);
+
+  if (decodedToken) {
+    console.log(decodedToken);
+    // Access user information
+    const name = decodedToken["DisplayName"];
+    const email =decodedToken["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress"];
+    // ... access other claims as needed
+    console.log("Name: " + name);
+    console.log("Email: " + email);
+    return { name, email};
+  } else {
+    console.log("Invalid JWT");
+  }
+  return decodedToken;
 }

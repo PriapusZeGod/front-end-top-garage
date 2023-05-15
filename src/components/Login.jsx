@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { login } from "../services/profileService";
 import { useState } from "react";
@@ -10,14 +10,16 @@ export default function Login() {
   const { isLoading, isError, error, data, mutate } = useMutation("login", () =>
     login(loginData)
   );
-  const [token, setToken] = useState("");
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     mutate();
-    setToken(await data);
-    console.log("Token: " + await token);
   };
+
+  useEffect(() => {
+    if (data) {
+      console.log("Data changed: " + JSON.stringify(data));    
+    }}, [data]);
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -54,8 +56,6 @@ export default function Login() {
         <button type="submit">Login</button>
       </form>
     </div>
-    // display token if there is one
-
    
     
   );
