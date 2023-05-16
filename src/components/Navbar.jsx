@@ -89,7 +89,7 @@ function Navbar_Main() {
               <Button variant="outline-dark">Search</Button>
             </Form>
             <Nav.Item className="me-5 sm-12">
-              <Nav.Link href="/home">
+              <Nav.Link href="/#/profile">
                 <Image src={logo} rounded />
               </Nav.Link>
             </Nav.Item>
@@ -101,7 +101,8 @@ function Navbar_Main() {
               <Offcanvas.Header closeButton>
                 <Offcanvas.Title id={`offcanvasNavbarLabel-expand-${expand}`}>
                   All Cars "Garage Title"
-                  {currentGarrage && <CarList garage={currentGarrage} />} {/* Conditional rendering of CarList */}
+                  {currentGarrage && <CarList garage={currentGarrage} />}{" "}
+                  {/* Conditional rendering of CarList */}
                 </Offcanvas.Title>
               </Offcanvas.Header>
               <Offcanvas.Body>
@@ -143,9 +144,9 @@ function Navbar_Main() {
   );
 }
 
-function CarList({garage}) {
+function CarList({ garage }) {
   const queryClient = useQueryClient();
-  if(!garage) return null;
+  if (!garage) return null;
   const { data, status } = useQuery(["cars", garage.id], () =>
     getCarsByGarageID(garage.id)
   );
@@ -159,9 +160,8 @@ function CarList({garage}) {
 
   const cars = data;
 
-  if(!garage)
-  {
-    return("no garage")
+  if (!garage) {
+    return "no garage";
   }
 
   return (
