@@ -76,7 +76,7 @@ export default function Navbar_Main() {
     setCurrentGarrage(garage);
   };
   return (
-    <Flex as="nav" p="10px" mb="40px" alignItems="center">
+    <Flex as="nav" p="10px" mb="40px" alignItems="center" bg="purple.400">
       <Offcanvas
         currentGarageName={currentGarageName}
         currentGarrage={currentGarrage}
@@ -99,7 +99,10 @@ export default function Navbar_Main() {
               fontSize="1em"
               children={<SearchIcon />}
             />
-            <Input placeholder="Enter amount" />
+            <Input
+              placeholder="Enter car name"
+              _placeholder={{ color: "white" }}
+            />
           </InputGroup>
           <Nav.Link href="/#/profile">
             <Image borderRadius="full" src={userImage} alt="user" />
@@ -107,21 +110,6 @@ export default function Navbar_Main() {
         </Hide>
       </HStack>
     </Flex>
-
-    // <Flex bg="gray.200" justify="space-between" wrap="wrap" gap="2">
-    //   <Box w="150px" h="50px" bg="red">
-    //     1
-    //   </Box>
-    //   <Box w="150px" h="50px" bg="blue">
-    //     2
-    //   </Box>
-    //   <Box w="150px" h="50px" bg="green" flexGrow="1">
-    //     3
-    //   </Box>
-    //   <Box w="150px" h="50px" bg="yellow" flexGrow="2">
-    //     4
-    //   </Box>
-    // </Flex>
   );
 }
 
@@ -183,12 +171,12 @@ function Offcanvas({ currentGarageName, currentGarrage }) {
 
   return (
     <>
-      <Button colorScheme="gray" onClick={handleOpen}>
+      <Button colorScheme="purple" onClick={handleOpen}>
         <HamburgerIcon boxSize={6} />
       </Button>
       <Drawer placement="left" onClose={onClose} isOpen={isOpen}>
         <DrawerOverlay />
-        <DrawerContent>
+        <DrawerContent bg="purple.200">
           <DrawerHeader borderBottomWidth="1px">Basic Drawer</DrawerHeader>
           <DrawerBody>
             <Show below="md">
