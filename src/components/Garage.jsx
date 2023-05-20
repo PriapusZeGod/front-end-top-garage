@@ -18,6 +18,7 @@ export default function GarageList({ userId }) {
   if (status === "error") {
     return <div>Error fetching data</div>;
   }
+  if(data.status === 404){return <div>No garages found</div>}
 
   const garages = data;
 

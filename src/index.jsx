@@ -52,7 +52,9 @@ const router = createHashRouter([
     element: (
       <>
         <QueryClientProvider client={queryClient}>
-          <ProfilePage Nav={Navbar_Main} Profile={Profile} />
+          <Authorization>
+            <ProfilePage Nav={Navbar_Main} Profile={Profile} />
+          </Authorization>
         </QueryClientProvider>
       </>
     ),

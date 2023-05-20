@@ -39,6 +39,7 @@ export default function Authorization({ children }) {
   const handleLogout = () => {
     setUser(null);
     removeUserFromStorage(); // Clear user from storage on logout
+    setShow(true);
   };
 
   return (
@@ -57,6 +58,7 @@ export default function Authorization({ children }) {
           show={show}
         />
         {children}
+        <Button onClick={handleLogout}>Log Out</Button>
       </UserContext.Provider>
     </>
   );
