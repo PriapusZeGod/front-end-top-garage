@@ -21,7 +21,6 @@ export default function Authorization({ children }) {
   const [registerShow, setRegisterShow] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
   const [successMessage, setSuccessMessage] = useState(null);
-  const [registrationData, setRegistrationData] = useState(null )
 
 
   const { isLoading, isError, error, data, mutate } = useMutation("login", () =>
