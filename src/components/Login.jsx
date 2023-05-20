@@ -20,6 +20,8 @@ export default function Authorization({ children }) {
   const [show, setShow] = useState(!user); // Show the modal if user is not present
   const [registerShow, setRegisterShow] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
+  const [successMessage, setSuccessMessage] = useState(null);
+  const [registrationData, setRegistrationData] = useState(null )
 
 
   const { isLoading, isError, error, data, mutate } = useMutation("login", () =>
@@ -64,6 +66,7 @@ useEffect(() => {
   };
 
   const handleRegisterShow = () => {
+    setSuccessMessage(null);
     setErrorMessage(null);
     setShow(false);
     setRegisterShow(true);
@@ -78,8 +81,21 @@ useEffect(() => {
   const handleRegisterSubmit = async (event) => {
     setErrorMessage(null);
     event.preventDefault();
-    registerMutate(registerData);
+    await registerMutate(registerData, {
+      onSuccess: () => {
+        setSuccessMessage("Registration successful!"); // Set the success message
+        setRegisterData({  // Clear the registration form
+          name: "",
+          email: "",
+          password: "",
+          age: "",
+          phone: "",
+        });
+      },
+    });
   };
+  
+  
 
   return (
     <>
@@ -105,6 +121,7 @@ useEffect(() => {
           show={registerShow}
           handleLoginShow={handleLoginShow}
           error={errorMessage}
+          success={successMessage}
         />
         {children}
         <Button onClick={handleLogout}>Log Out</Button>
@@ -194,7 +211,8 @@ function RegisterForm({
   registerData,
   show,
   handleLoginShow,
-  error
+  error,
+  success,
 }) {
   return (
     <>
@@ -203,7 +221,8 @@ function RegisterForm({
           <Modal.Title>Please Register</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Form>
+          {success && <Alert variant="success">{success}</Alert>}
+          {!success && <Form>
             <Form.Group className="mb-3" controlId="formBasicName">
               <Form.Label>Name</Form.Label>
               <Form.Control
@@ -262,7 +281,7 @@ function RegisterForm({
                 }
               />
             </Form.Group>
-          </Form>
+          </Form>}
           {error && <Alert variant="danger">{error}</Alert>}
         </Modal.Body>
         <Modal.Footer>
