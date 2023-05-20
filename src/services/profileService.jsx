@@ -58,7 +58,9 @@ export async function login({ email, password }) {
   const status = response.status;
   console.log("Status: " + status);
   if (status != 200) {
-    throw new Error("Error: " + response.statusText);
+    let data = await response.text();
+    // console.log("Error: " + data);
+    throw new Error(data);
   }
   const data = await response.text();
   const decodedToken = decodeJWT(data);
@@ -81,6 +83,27 @@ export async function login({ email, password }) {
   }
   
 }
+
+export async function register({ name, email, password, age, phone }) {
+  console.log("User: " + JSON.stringify({ name, email, password, age, phone }));
+  const response = await fetch(url, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ name, email, password, age, phone }),
+  });
+  const status = response.status;
+  console.log("Status: " + status);
+  if (status != 201) {
+    let data = await response.text();
+    // console.log("Error: " + data);
+    throw new Error(data);
+  }
+  const data = await response.json();
+  return data;
+}
+
 
 async function getProfileByEmail(email) {
   const response = await fetch(url + "/" + email);
