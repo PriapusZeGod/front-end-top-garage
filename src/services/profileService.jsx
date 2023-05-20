@@ -67,14 +67,23 @@ export async function login({ email, password }) {
   if (decodedToken) {
     console.log(decodedToken);
     // Access user information
-    const name = decodedToken["DisplayName"];
-    const email =decodedToken["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress"];
+    // const name = decodedToken["DisplayName"];
+    const email =
+      decodedToken[
+        "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress"
+      ];
     // ... access other claims as needed
-    console.log("Name: " + name);
+    // console.log("Name: " + name);
     console.log("Email: " + email);
-    return { name, email};
+    return getProfileByEmail(email);
   } else {
     console.log("Invalid JWT");
   }
-  return decodedToken;
+  
+}
+
+async function getProfileByEmail(email) {
+  const response = await fetch(url + "/" + email);
+  const data = await response.json();
+  return data;
 }

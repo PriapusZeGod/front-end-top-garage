@@ -23,7 +23,7 @@ import About from "./About";
 import HomePage from "./pages/HomePage";
 import AddCarPage from "./pages/AddCarPage";
 import Addcar from "./components/Addcar";
-import Login from "./components/Login";
+import Authorization from "./components/Login";
 
 const queryClient = new QueryClient();
 const router = createHashRouter([
@@ -33,7 +33,15 @@ const router = createHashRouter([
   // },
   {
     path: "/",
-    element: <HomePage Nav={Navbar_Main} Home={Home} />,
+    element: (
+      <>
+        <QueryClientProvider client={queryClient}>
+          <Authorization>
+            <HomePage Nav={Navbar_Main} Home={Home} />
+          </Authorization>
+        </QueryClientProvider>
+      </>
+    ),
   },
   {
     path: "/about",
@@ -57,7 +65,7 @@ const router = createHashRouter([
     path: "/login",
     element: (
       <QueryClientProvider client={queryClient}>
-        <Login />
+        <Authorization />
       </QueryClientProvider>
     ),
   },

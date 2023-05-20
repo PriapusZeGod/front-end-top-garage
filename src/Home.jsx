@@ -1,8 +1,12 @@
-import React, { useState } from "react";
+import React, { useState , useContext } from "react";
 import useFetch from "./hooks/useFetch";
+import UserContext from "./components/UserContext";
+
 
 function Home() {
   const { data, isLoading, error } = useFetch("http://localhost:5055/Garages");
+  const { user } = useContext(UserContext);
+
   console.log("data:" + data);
   if (isLoading) {
     return <div>Loading...</div>;
@@ -13,6 +17,16 @@ function Home() {
   }
   return (
     <div>
+      <div>
+      <h1>Welcome to the Home Page</h1>
+      {user && (
+        <div>
+          <p>User ID: {user.id}</p>
+          <p>Name: {user.name}</p>
+          <p>Email: {user.email}</p>
+        </div>
+      )}
+    </div>
       <h1>About Us</h1>
       <p>
         We are a company that specializes in providing high-quality products and
