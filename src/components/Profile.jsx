@@ -33,8 +33,6 @@ import { useMutation } from "react-query";
 import { getProfileById, updateProfile } from "../services/profileService";
 import ProfileEditModal from "./ProfileEditModal";
 
-// const url = "http://localhost:5158/";
-
 export default function Profile({ userId }) {
   let id = userId;
   if (userId == null) {
@@ -72,8 +70,8 @@ export default function Profile({ userId }) {
 }
 
 function ProfileData({ profile }) {
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const cancelRef = React.useRef();
+  const logoutDisclosure = useDisclosure();
+  const editModalDisclosure = useDisclosure();
 
   const imgStyle = {
     borderRadius: "50%",
@@ -114,38 +112,48 @@ function ProfileData({ profile }) {
         </CardBody>
         <CardFooter>
           <HStack>
-            <Button colorScheme="red" onClick={onOpen}>
+            <Button colorScheme="red" onClick={logoutDisclosure.onOpen}>
               <ArrowUpIcon boxSize={6} p="4px" />
               Log Out
             </Button>
-            <AlertDialog
-              isOpen={isOpen}
-              leastDestructiveRef={cancelRef}
-              onClose={onClose}
-            >
-              <AlertDialogOverlay>
-                <AlertDialogContent>
-                  <AlertDialogHeader fontSize="lg" fontWeight="bold">
-                    Log Out
-                  </AlertDialogHeader>
-                  <AlertDialogBody>
-                    Are you sure you want to Log Out?
-                  </AlertDialogBody>
-                  <AlertDialogFooter>
-                    <Button ref={cancelRef} onClick={onClose}>
-                      Cancel
-                    </Button>
-                    <Button colorScheme="red" onClick={onClose} ml={3}>
-                      Log Out
-                    </Button>
-                  </AlertDialogFooter>
-                </AlertDialogContent>
-              </AlertDialogOverlay>
-            </AlertDialog>
-            <ProfileEditModal profile={profile} />
+            <ProfileEditModal
+              isOpen={editModalDisclosure.isOpen}
+              onClose={editModalDisclosure.onClose}
+              profile={profile}
+            />
           </HStack>
         </CardFooter>
       </Card>
+
+      <AlertDialog
+        isOpen={logoutDisclosure.isOpen}
+        leastDestructiveRef={logoutDisclosure.cancelRef}
+        onClose={logoutDisclosure.onClose}
+      >
+        <AlertDialogOverlay>
+          <AlertDialogContent>
+            <AlertDialogHeader fontSize="lg" fontWeight="bold">
+              Log Out
+            </AlertDialogHeader>
+            <AlertDialogBody>Are you sure you want to Log Out?</AlertDialogBody>
+            <AlertDialogFooter>
+              <Button
+                ref={logoutDisclosure.cancelRef}
+                onClick={logoutDisclosure.onClose}
+              >
+                Cancel
+              </Button>
+              <Button
+                colorScheme="red"
+                onClick={logoutDisclosure.onClose}
+                ml={3}
+              >
+                Log Out
+              </Button>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialogOverlay>
+      </AlertDialog>
     </SimpleGrid>
   );
 }
