@@ -69,7 +69,7 @@ export async function getCarsByGarageID(garageId)
   }
   export async function getCarImage(id) {
     try {
-      const response = await fetch(`${url}/${carId}`);
+      const response = await fetch(`${url}/${id}`);
 
       if (response.ok) {
         const blob = await response.blob();

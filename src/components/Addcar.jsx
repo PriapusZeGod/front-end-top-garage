@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { getGaragesByUserID } from "../services/GarageService";
-import {}
+import {createCar} from "../services/CarService";
 import * as garage from "react-bootstrap/ElementChildren";
 import * as garages from "react-bootstrap/ElementChildren";
 import './Addcar.css';
