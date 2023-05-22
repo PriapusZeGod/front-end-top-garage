@@ -24,6 +24,7 @@ import HomePage from "./pages/HomePage";
 import AddCarPage from "./pages/AddCarPage";
 import Addcar from "./components/Addcar";
 import App from "./components/App";
+import AddGarage from "./components/AddGarage";
 
 const queryClient = new QueryClient();
 const router = createHashRouter([
@@ -59,8 +60,21 @@ const router = createHashRouter([
   },
   {
     path: "/Addcar",
-    element: <AddCarPage Nav={Navbar_Main} AddCar={Addcar} />,
-  },
+
+    element: (
+      <QueryClientProvider client={queryClient}>
+        <AddCarPage Nav={Navbar_Main} AddCar={Addcar} />
+      </QueryClientProvider>
+    ),
+   },
+   {
+    path: "/AddGarage",
+    element: (
+      <QueryClientProvider client={queryClient}>
+        <AddGaragePage Nav={Navbar_Main} AddGarage={AddGarage} />
+      </QueryClientProvider>
+    ),
+   },
 ]);
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
