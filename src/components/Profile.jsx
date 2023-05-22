@@ -8,6 +8,7 @@ import { useMutation } from 'react-query';
 import { getProfileById, updateProfile } from "../services/profileService";
 import ProfileEditModal from "./ProfileEditModal";
 
+
 // const url = "http://localhost:5158/";
 
 export default function Profile({ userId }) {

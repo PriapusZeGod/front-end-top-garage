@@ -24,6 +24,8 @@ import HomePage from "./pages/HomePage";
 import AddCarPage from "./pages/AddCarPage";
 import Addcar from "./components/Addcar";
 import App from "./components/App";
+import ImagePage from "./pages/ImagePage";
+import AddImage from "./components/AddImage";
 
 const queryClient = new QueryClient();
 const router = createHashRouter([
@@ -60,6 +62,16 @@ const router = createHashRouter([
   {
     path: "/Addcar",
     element: <AddCarPage Nav={Navbar_Main} AddCar={Addcar} />,
+  },
+  {
+    path: "/image",
+    element: (
+      <>
+        <QueryClientProvider client={queryClient}>
+          <ImagePage Nav={Navbar_Main} AddImage={AddImage} />
+        </QueryClientProvider>
+      </>
+    ),
   },
 ]);
 
