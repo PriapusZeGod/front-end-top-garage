@@ -5,12 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1aba6eb0-05fd-4be7-8c50-e76c2a9d8037" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/components/AddGarage.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/pages/AddGaragePage.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/Addcar.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/AddGarage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/AddGarage.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/Addcar.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Addcar.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/services/CarService.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/CarService.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/services/GarageService.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/GarageService.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/AddGaragePage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/AddGaragePage.jsx" afterDir="false" />
+
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -21,6 +23,7 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="JavaScript File" />
+        <option value="CSS File" />
       </list>
     </option>
   </component>
@@ -40,6 +43,7 @@
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -57,7 +61,8 @@
       <option name="presentableId" value="Default" />
       <updated>1682208372808</updated>
       <workItem from="1682208377743" duration="485000" />
-      <workItem from="1684774242797" duration="295000" />
+      <workItem from="1684781801250" duration="385000" />
+
     </task>
     <servers />
   </component>
