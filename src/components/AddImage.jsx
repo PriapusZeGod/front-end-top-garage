@@ -1,104 +1,101 @@
-import 'react-dropzone-uploader/dist/styles.css';
-import Dropzone from 'react-dropzone-uploader';
-import { useQueryClient, useQuery } from 'react-query';
-import React from 'react';
+import React, { useState } from 'react';
+import { useQuery, QueryClient, QueryClientProvider } from 'react-query';
+import { ChakraProvider, Box, Button, Heading } from '@chakra-ui/react';
 
-const baseUrl = "http://localhost:5027/Cars"; // Base URL for API
+const API_ENDPOINT = 'http://localhost:5027/Cars/1/image';
 
-export default function AddImage({ userId }) {
-  const garageId = userId != null ? userId : 1;
-  const queryClient = useQueryClient();
-  const { data, status } = useQuery(["cImage", garageId], () => getCarsByGarageID(garageId));
+const queryClient = new QueryClient();
 
-  const handleUploadImage = async (garageId, image) => {
-    await uploadImage(garageId, image);
-    queryClient.invalidateQueries(["cImage", garageId]);
-  };
+const uploadFile = async (file) => {
+  const formData = new FormData();
+  formData.append('image', file, file.name);
 
-  if (status === "loading") {
-    return <div>Loading...</div>;
-  }
-  if (status === "error") {
-    return <div>Error fetching data</div>;
+  const response = await fetch(API_ENDPOINT, {
+    method: 'POST',
+    body: formData,
+  });
+
+  if (!response.ok) {
+    throw new Error('File upload failed');
   }
 
-  const cImage = data;
+  const data = await response.blob();
 
-  const getUploadParams = ({ meta, file }) => {
-    return {
-      url: `${baseUrl}/${garageId}/image`,
-    };
+  const imageUrl = URL.createObjectURL(data);
+
+  return imageUrl;
+};
+
+const FileUploadComponent = () => {
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [imageUrl, setImageUrl] = useState(null);
+
+  const handleFileChange = (event) => {
+    setSelectedFile(event.target.files[0]);
   };
 
-  const handleChangeStatus = ({ meta, file }, status) => {
-    console.log(status, meta, file);
-  };
-
-  const handleSubmit = (files) => {
-    const uploadedFile = files[0];
-    if (uploadedFile) {
-      const image = uploadedFile.file;
-
-      // Upload the image
-      handleUploadImage(garageId, image);
+  const handleUpload = () => {
+    if (selectedFile) {
+      queryClient.invalidateQueries('fileUpload');
     }
   };
 
-  return (
-    <>
-      {/* Render image data */}
-      {cImage && (
-        <div>
-          <h2>{cImage.name}</h2>
-          {/* Render other image information */}
-          {/* ... */}
-        </div>
-      )}
+  const { isLoading, isError, error, data } = useQuery('fileUpload', () => uploadFile(selectedFile), {
+    enabled: !!selectedFile,
+  });
 
-      {/* Render Dropzone */}
-      <Dropzone
-        getUploadParams={getUploadParams}
-        onChangeStatus={handleChangeStatus}
-        onSubmit={handleSubmit}
-        accept=".jpg, .jpeg, .png, .gif, .jfif"
-      />
-    </>
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (isError) {
+    return <div>Error: {error.message}</div>;
+  }
+
+  if (data && !imageUrl) {
+    setImageUrl(data);
+  }
+
+  return (
+    <Box display='flex' flexDirection='column'>
+      <Box
+        display='flex'
+        alignItems='center'
+        justifyContent='center'
+        width='100%'
+        py={12}
+        bg='rgba(0, 0, 0, 0.7)'
+        mb={2}
+      >
+        <Box color='white'>
+          <Heading as='h1'>File Upload App</Heading>
+        </Box>
+      </Box>
+      <Box display='flex' alignItems='center' justifyContent='center' mb={4}>
+        <input type='file' onChange={handleFileChange} />
+      </Box>
+      <Box display='flex' alignItems='center' justifyContent='center' mb={4}>
+        <Button colorScheme='purple' onClick={handleUpload}>
+          Upload
+        </Button>
+      </Box>
+      {imageUrl && (
+        <Box display='flex' alignItems='center' justifyContent='center'>
+          <img src={imageUrl} alt='Uploaded' />
+        </Box>
+      )}
+    </Box>
+  );
+};
+
+function App() {
+  return (
+    <ChakraProvider>
+      <QueryClientProvider client={queryClient}>
+        <FileUploadComponent />
+      </QueryClientProvider>
+    </ChakraProvider>
   );
 }
 
-// Fetches cars by garage ID
-export async function getCarsByGarageID(garageId) {
-  try {
-    const response = await fetch(`${baseUrl}?GarageId=${garageId}`);
-    if (!response.ok) {
-      throw new Error("Failed to fetch cars data");
-    }
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    console.error("Error:", error);
-    throw error;
-  }
-}
-
-// Uploads image to Cars/{id}/image
-export async function uploadImage(garageId, image) {
-  try {
-    const formData = new FormData();
-    formData.append("image", image);
-
-    const response = await fetch(`${baseUrl}/${garageId}/image`, {
-      method: "POST",
-      body: formData,
-    });
-
-    if (!response.ok) {
-      throw new Error("Failed to upload image");
-    }
-
-    console.log("Image uploaded successfully");
-  } catch (error) {
-    console.error("Error:", error);
-    throw error;
-  }
-}
+export default App;
