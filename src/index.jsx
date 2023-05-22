@@ -10,6 +10,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import Home from "./Home";
 import ProfilePage from "./pages/ProfilePage";
 import Navbar_Main from "./components/Navbar";
+import AddGaragePage from "./pages/AddGaragePage";
 import {
   useQuery,
   useMutation,
@@ -60,8 +61,20 @@ const router = createHashRouter([
   },
   {
     path: "/Addcar",
-    element: <AddCarPage Nav={Navbar_Main} AddCar={Addcar} />,
-  },
+    element: (
+      <QueryClientProvider client={queryClient}>
+        <AddCarPage Nav={Navbar_Main} AddCar={Addcar} />
+      </QueryClientProvider>
+    ),
+   },
+   {
+    path: "/AddGarage",
+    element: (
+      <QueryClientProvider client={queryClient}>
+        <AddGaragePage Nav={Navbar_Main} AddGarage={AddGaragePage} />
+      </QueryClientProvider>
+    ),
+   },
 ]);
 
 const root = ReactDOM.createRoot(document.getElementById("root"));

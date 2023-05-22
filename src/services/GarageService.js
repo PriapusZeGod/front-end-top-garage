@@ -27,6 +27,27 @@ export async function getAvailableSlots() {
     throw error;
   }
 }
+export async function createGarage(garageId) {
+  try {
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(garageId),
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+      return data;
+    } else {
+      throw new Error(`Request failed with status ${response.status}`);
+    }
+  } catch (error) {
+    console.error("Error:", error);
+    throw error;
+  }
+}
 
 export async function getCapacity(garageId) {
   try {
