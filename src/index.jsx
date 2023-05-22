@@ -10,6 +10,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import Home from "./Home";
 import ProfilePage from "./pages/ProfilePage";
 import Navbar_Main from "./components/Navbar";
+import AddGaragePage from "./pages/AddGaragePage";
 import {
   useQuery,
   useMutation,
@@ -17,6 +18,7 @@ import {
   QueryClient,
   QueryClientProvider,
 } from "react-query";
+import { ChakraProvider } from "@chakra-ui/react";
 import AppPage from "./pages/AppPage";
 import AboutPage from "./pages/AboutPage";
 import About from "./About";
@@ -28,14 +30,14 @@ import AddGarage from "./components/AddGarage";
 
 const queryClient = new QueryClient();
 const router = createHashRouter([
-   {
+  {
     path: "/App",
     element: (
       <QueryClientProvider client={queryClient}>
         <AppPage Nav={Navbar_Main} App={App} />
       </QueryClientProvider>
     ),
-   },
+  },
   {
     path: "/",
     element: (
@@ -60,7 +62,6 @@ const router = createHashRouter([
   },
   {
     path: "/Addcar",
-
     element: (
       <QueryClientProvider client={queryClient}>
         <AddCarPage Nav={Navbar_Main} AddCar={Addcar} />
@@ -72,13 +73,20 @@ const router = createHashRouter([
     element: (
       <QueryClientProvider client={queryClient}>
         <AddGaragePage Nav={Navbar_Main} AddGarage={AddGarage} />
+
       </QueryClientProvider>
     ),
    },
 ]);
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
-root.render(<RouterProvider router={router} />);
+root.render(
+  <React.StrictMode>
+    <ChakraProvider>
+      <RouterProvider router={router} />
+    </ChakraProvider>
+  </React.StrictMode>
+);
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))

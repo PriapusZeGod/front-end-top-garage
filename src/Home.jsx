@@ -1,39 +1,26 @@
-import React, { useState } from "react";
-import useFetch from "./hooks/useFetch";
+import React from "react";
+import { Box, Center, Flex, Image, Text } from "@chakra-ui/react";
+import carImage from "./images/car-home-page.png";
 
 function Home() {
-  const { data, isLoading, error } = useFetch("http://localhost:5055/Garages");
-  console.log("data:" + data);
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
-
-  if (error) {
-    return <div>Error: {error.message}</div>;
-  }
   return (
-    <div>
-      <h1>About Us</h1>
-      <p>
-        We are a company that specializes in providing high-quality products and
-        services to our customers.
-      </p>
-      <p>
-        Our mission is to exceed our customers' expectations and provide them
-        with the best possible experience.
-      </p>
-      <p>Thank you for choosing us as your trusted partner.</p>
-      <div>
-        {data.map((garage) => (
-          <Box key={garage.id} garage={garage} />
-        ))}
-      </div>
-    </div>
+    <Box
+      height="80%"
+      width="100%"
+      mt="200px"
+      alignItems="center"
+      justifyContent="center"
+    >
+      <Flex height="100%" alignItems="center" justifyContent="center">
+        <Center>
+          <Image src={carImage} alt="user" />
+        </Center>
+      </Flex>
+      <Text as="h5" alignSelf="center" textAlign="center">
+        Choose a garage and car to start
+      </Text>
+    </Box>
   );
-}
-
-function Box({ garage }) {
-  return <div>{garage.name}</div>;
 }
 
 export default Home;
