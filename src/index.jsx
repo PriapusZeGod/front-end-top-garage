@@ -31,6 +31,9 @@ import Authorization from "./components/Login";
 import MapPage from "./pages/MapPage";
 import MapView from "./components/MapView";
 import MapViewComponent from "./components/MapView";
+import ImagePage from "./pages/ImagePage";
+import AddImage from "./components/AddImage";
+
 const queryClient = new QueryClient();
 const router = createHashRouter([
   {
@@ -99,6 +102,16 @@ const router = createHashRouter([
           <Authorization>
             <MapPage Nav={Navbar_Main} MapViewComponent={MapViewComponent} />
           </Authorization>
+        </QueryClientProvider>
+      </>
+    ),
+  },
+  {
+    path: "/image",
+    element: (
+      <>
+        <QueryClientProvider client={queryClient}>
+          <ImagePage Nav={Navbar_Main} AddImage={AddImage} />
         </QueryClientProvider>
       </>
     ),
