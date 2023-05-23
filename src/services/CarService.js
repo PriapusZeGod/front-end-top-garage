@@ -9,15 +9,10 @@ async function Addcar(id){
 
 export async function getCarsByGarageID(garageId) {
     const response = await fetch(`${url}?GarageId=${garageId}`);
-    const data = await response.json(); // Parse the response body as JSON
-    return data; // Return the parsed response data
+    const data = await response.json(); 
+    return data; 
   }
   
-  
-  
-  
-
-
   export async function createCar(car) {
     try {
       const response = await fetch(url, {
@@ -56,7 +51,7 @@ export async function getCarsByGarageID(garageId) {
   }
   export async function deleteCar(carId) {
     try {
-      const response = await fetch(url, {
+      const response = await fetch(`${url}/${carId}`, {
         method: 'DELETE',
       });
   
@@ -67,17 +62,18 @@ export async function getCarsByGarageID(garageId) {
         throw new Error(`Request failed with status ${response.status}`);
       }
     } catch (error) {
-      console.error("Error:", error);
+      console.error('Error:', error);
       throw error;
     }
   }
+  
   export async function getCarImage(id) {
     try {
       const response = await fetch(`${url}/${id}`);
-
+  
       if (response.ok) {
-        const blob = await response.blob();
-        return blob;
+        const buffer = await response.arrayBuffer();
+        return buffer;
       } else {
         throw new Error(`Request failed with status ${response.status}`);
       }
@@ -85,7 +81,9 @@ export async function getCarsByGarageID(garageId) {
       console.error("Error:", error);
       throw error;
     }
-  } 
+  }
+  
+  
   export async function createCarImage(carImage) {
     try {
       const response = await fetch(url, {
@@ -137,17 +135,23 @@ export async function getCarsByGarageID(garageId) {
           Accept: "*/*",
         },
       });
+  
       if (response.status === 200) {
         const imageURL = URL.createObjectURL(await response.blob());
         console.log("Image URL:", imageURL);
         return imageURL;
       } else {
         console.error("Failed to fetch image");
+        return null; 
       }
     } catch (error) {
       console.error("Error:", error);
+      return null;
     }
-    return null;
   }
+  
+
+
+  
   
 
