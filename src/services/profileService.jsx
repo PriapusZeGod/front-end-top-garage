@@ -58,9 +58,17 @@ export async function login({ email, password }) {
   const status = response.status;
   console.log("Status: " + status);
   if (status != 200) {
-    let data = await response.text();
+    let data = await response.json();
+    let text = "";
+    if(data.errors.Email != null)
+    {
+      text = data.errors.Email;
+    } else if(data.errors.Password != null)
+    {
+      text = data.errors.Password;
+    }
     // console.log("Error: " + data);
-    throw new Error(data);
+    throw new Error(text);
   }
   const data = await response.text();
   const decodedToken = decodeJWT(data);

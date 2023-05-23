@@ -42,6 +42,8 @@ import Nav from "react-bootstrap/Nav";
 import useFetch from "../hooks/useFetch";
 import { useQuery, useQueryClient } from "react-query";
 import { getCarsByGarageID } from "../services/CarService";
+import { useContext } from "react";
+import UserContext from "./UserContext";
 
 export default function Navbar_Main() {
   const { data, isLoading, error } = useFetch("http://localhost:5055/Garages");

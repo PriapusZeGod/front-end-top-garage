@@ -77,6 +77,11 @@ useEffect(() => {
     setRegisterShow(false);
   };
 
+
+  const changeUser = (user) => {
+    setUser(user);
+  };
+
   const handleRegisterSubmit = async (event) => {
     setErrorMessage(null);
     event.preventDefault();
@@ -103,6 +108,7 @@ useEffect(() => {
           user,
           handleLoginOrRegister,
           handleLogout,
+          changeUser,
         }}
       >
         <LoginForm
@@ -123,7 +129,7 @@ useEffect(() => {
           success={successMessage}
         />
         {children}
-        <Button onClick={handleLogout}>Log Out</Button>
+        {/* <Button onClick={handleLogout}>Log Out</Button> */}
       </UserContext.Provider>
     </>
   );

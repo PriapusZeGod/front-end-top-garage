@@ -24,18 +24,22 @@ import { updateProfile } from "../services/profileService";
 import { useState } from "react";
 import Form from "react-bootstrap/Form";
 import { EmailIcon, PhoneIcon } from "@chakra-ui/icons";
+import { useQuery, useQueryClient } from "react-query";
+import { useContext } from "react";
+import UserContext from "./UserContext";
 
 export default function ProfileEditModal({
   isOpenProp,
   onCloseProp,
   profile,
-  setProfile,
 }) {
+  const { handleLogout } = useContext(UserContext);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [show, setShow] = useState(false);
   const user = profile;
 
   const [alert, setAlert] = useState();
+  const [success, setSuccess] = useState(false);
 
   const handleClose = () => {
     setShow(false);
@@ -49,18 +53,31 @@ export default function ProfileEditModal({
       const error = await updateProfile(user);
       console.log("Error: " + error);
       if (error != null) {
-        setAlert(<Alert variant="danger">Error: {error.text}</Alert>);
+        if (error.errors.Email != null) {
+          setAlert(<Alert variant="danger">Error: {error.errors.Email}</Alert>);
+        } else if (error.errors.Password != null) {
+          setAlert(
+            <Alert variant="danger">Error: {error.errors.Password}</Alert>
+          );
+        }
       } else {
         console.log("User to be set: " + JSON.stringify(user));
-        // setProfile(user);
+        
         setAlert(
           <Alert variant="success">Profile updated successfully!</Alert>
         );
+        setSuccess(true);
       }
     } catch (error) {
       console.error("Error:", error);
       setAlert(<Alert variant="danger">Error: {error.message}</Alert>);
     }
+  }
+
+  function handleCloseAndLogout()
+  {
+    handleClose();
+    handleLogout(); 
   }
 
   return (
@@ -77,81 +94,97 @@ export default function ProfileEditModal({
           </ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            <FormControl>
-              {/*EMAIL*/}
-              <FormLabel>Email address</FormLabel>
-              <InputGroup>
-                <InputLeftElement pointerEvents="none">
-                  <EmailIcon color="gray.300" />
-                </InputLeftElement>
+            {!success && (
+              <FormControl>
+                {/*EMAIL*/}
+                <FormLabel>Email address</FormLabel>
+                <InputGroup>
+                  <InputLeftElement pointerEvents="none">
+                    <EmailIcon color="gray.300" />
+                  </InputLeftElement>
+                  <Input
+                    type="email"
+                    placeholder={user.email}
+                    onChange={(e) => {
+                      user.email = e.target.value;
+                      console.log("Email: " + user.email);
+                    }}
+                  />
+                </InputGroup>
+                {/*NAME*/}
+                <FormLabel>Name</FormLabel>
                 <Input
-                  type="email"
-                  placeholder={user.email}
+                  placeholder={user.name}
                   onChange={(e) => {
-                    user.email = e.target.value;
-                    console.log("Email: " + user.email);
+                    user.name = e.target.value;
+                    console.log("Name: " + user.name);
                   }}
                 />
-              </InputGroup>
-              {/*NAME*/}
-              <FormLabel>Name</FormLabel>
-              <Input
-                placeholder={user.name}
-                onChange={(e) => {
-                  user.name = e.target.value;
-                  console.log("Name: " + user.name);
-                }}
-              />
-              {/*PASSWORD*/}
-              <FormLabel>Password</FormLabel>
-              <Input
-                type="password"
-                placeholder="Enter new password"
-                onChange={(e) => {
-                  user.password = e.target.value;
-                  console.log("Password: " + user.password);
-                }}
-              />
-              {/*AGE*/}
-              <FormLabel>Age</FormLabel>
-              <Input
-                type="age"
-                placeholder={user.age}
-                onChange={(e) => {
-                  user.age = e.target.value;
-                  console.log("Age: " + user.age);
-                }}
-              />
-              {/*PHONE NUMBER*/}
-              <FormLabel>Phone Number</FormLabel>
-              <InputGroup>
-                <InputLeftElement pointerEvents="none">
-                  <PhoneIcon color="gray.300" />
-                </InputLeftElement>
+                {/*PASSWORD*/}
+                <FormLabel>Password</FormLabel>
                 <Input
-                  type="tel"
-                  placeholder={user.phone}
+                  type="password"
+                  placeholder="Enter new password"
                   onChange={(e) => {
-                    user.phone = e.target.value;
-                    console.log("Phone: " + user.phone);
+                    user.password = e.target.value;
+                    console.log("Password: " + user.password);
                   }}
                 />
-              </InputGroup>
-            </FormControl>
+                {/*AGE*/}
+                <FormLabel>Age</FormLabel>
+                <Input
+                  type="age"
+                  placeholder={user.age}
+                  onChange={(e) => {
+                    user.age = e.target.value;
+                    console.log("Age: " + user.age);
+                  }}
+                />
+                {/*PHONE NUMBER*/}
+                <FormLabel>Phone Number</FormLabel>
+                <InputGroup>
+                  <InputLeftElement pointerEvents="none">
+                    <PhoneIcon color="gray.300" />
+                  </InputLeftElement>
+                  <Input
+                    type="tel"
+                    placeholder={user.phone}
+                    onChange={(e) => {
+                      user.phone = e.target.value;
+                      console.log("Phone: " + user.phone);
+                    }}
+                  />
+                </InputGroup>
+              </FormControl>
+            )}
+            {alert}
           </ModalBody>
 
           <ModalFooter>
-            <Button
-              variant="ghost"
-              colorScheme="blue"
-              mr={3}
-              onClick={onClose || onCloseProp}
-            >
-              Close
-            </Button>
-            <Button variant="ghost" onClick={updateUser}>
-              Update User
-            </Button>
+            {!success && (
+              <>
+                <Button
+                  variant="ghost"
+                  colorScheme="blue"
+                  mr={3}
+                  onClick={onClose || onCloseProp}
+                >
+                  Close
+                </Button>
+                <Button variant="ghost" onClick={updateUser}>
+                  Update User
+                </Button>
+              </>
+            )}
+
+            {success &&  <Button
+                  variant="ghost"
+                  colorScheme="blue"
+                  mr={3}
+                  onClick={handleCloseAndLogout}
+                >
+                  Close
+                </Button>}
           </ModalFooter>
         </ModalContent>
       </Modal>

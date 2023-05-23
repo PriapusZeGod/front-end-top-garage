@@ -35,7 +35,9 @@ const router = createHashRouter([
     path: "/App",
     element: (
       <QueryClientProvider client={queryClient}>
+        <Authorization>
         <AppPage Nav={Navbar_Main} App={App} />
+        </Authorization>
       </QueryClientProvider>
     ),
   },
@@ -71,7 +73,9 @@ const router = createHashRouter([
     path: "/Addcar",
     element: (
       <QueryClientProvider client={queryClient}>
+        <Authorization>
         <AddCarPage Nav={Navbar_Main} AddCar={Addcar} />
+        </Authorization>
       </QueryClientProvider>
     ),
    },
@@ -79,8 +83,9 @@ const router = createHashRouter([
     path: "/AddGarage",
     element: (
       <QueryClientProvider client={queryClient}>
+        <Authorization>
         <AddGaragePage Nav={Navbar_Main} AddGarage={AddGarage} />
-
+        </Authorization>
       </QueryClientProvider>
     ),
    },

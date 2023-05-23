@@ -38,6 +38,8 @@ import ProfileEditModal from "./ProfileEditModal";
 
 export default function Profile() {
   const { user } = useContext(UserContext);
+  const { changeUser } = useContext(UserContext);
+
 
 
   // const queryClient = useQueryClient();
@@ -61,7 +63,7 @@ export default function Profile() {
 
       <TabPanels>
         <TabPanel>
-          {user && <ProfileData profile={profile} />}
+          {user && <ProfileData profile={profile} changeUser={changeUser}/>}
         </TabPanel>
         <TabPanel>
           {user && <GarageList userId={profile.id} />}
@@ -71,14 +73,22 @@ export default function Profile() {
   );
 }
 
-function ProfileData({ profile }) {
+function ProfileData({ profile , changeUser}) {
   const logoutDisclosure = useDisclosure();
   const editModalDisclosure = useDisclosure();
+  const { handleLogout } = useContext(UserContext);
+
 
   const imgStyle = {
     borderRadius: "50%",
     border: "2px solid black",
   };
+
+  function handleLogOutClose()
+  {
+    handleLogout();
+    logoutDisclosure.onClose();
+  }
 
   return (
     <SimpleGrid spacing={2} minChildWidth="300px">
@@ -147,7 +157,7 @@ function ProfileData({ profile }) {
               </Button>
               <Button
                 colorScheme="red"
-                onClick={logoutDisclosure.onClose}
+                onClick={handleLogOutClose}
                 ml={3}
               >
                 Log Out
