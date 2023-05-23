@@ -47,7 +47,7 @@ import UserContext from "./UserContext";
 import { getProfileById } from "../services/profileService";
 import { getGaragesByUserID } from "../services/GarageService";
 
-export default function Navbar_Main() {
+export default function Navbar_Main({currentCar, setCurrentCar}) {
   const { user } = useContext(UserContext);
   const [currentGarageName, setCurrentGarageName] = useState("Select Garage");
   const [currentGarrage, setCurrentGarrage] = useState({});
@@ -68,6 +68,7 @@ export default function Navbar_Main() {
       {user && (
         <Flex as="nav" p="10px" mb="40px" alignItems="center" bg="purple.400">
           <Offcanvas
+            setCurrentCar={setCurrentCar}
             currentGarageName={currentGarageName}
             currentGarrage={currentGarrage}
           />
@@ -155,7 +156,7 @@ function GarageMenu({ handleGarageSelect, currentGarageName, userId }) {
   );
 }
 
-function Offcanvas({ currentGarageName, currentGarrage }) {
+function Offcanvas({ currentGarageName, currentGarrage, setCurrentCar }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [garageSelected, setGarageSelected] = useState(false);
   const toast = useToast();
@@ -210,7 +211,7 @@ function Offcanvas({ currentGarageName, currentGarrage }) {
                 </ListItem>
               </List>
             </Show>
-            {currentGarrage && <CarList garage={currentGarrage} />}
+            {currentGarrage && <CarList garage={currentGarrage} setCurrentCar={setCurrentCar} />}
           </DrawerBody>
         </DrawerContent>
       </Drawer>
@@ -218,7 +219,7 @@ function Offcanvas({ currentGarageName, currentGarrage }) {
   );
 }
 
-function CarList({ garage }) {
+function CarList({ garage, setCurrentCar }) {
   const queryClient = useQueryClient();
   if (!garage) return null;
 
@@ -239,7 +240,7 @@ function CarList({ garage }) {
     <List>
       {cars.map((car) => (
         <Nav.Link href="#" key={car.id}>
-          <ListItem>{car.name}</ListItem>
+          <ListItem onClick={() => setCurrentCar(car)}>{car.name}</ListItem>
         </Nav.Link>
       ))}
     </List>
