@@ -30,27 +30,43 @@ export async function getAvailableSlots() {
     throw error;
   }
 }
-export async function createGarage(garageId) {
-  try {
-    const response = await fetch(url, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(garageId),
-    });
+export async function createGarages(user, id, name, capacity, location) {
+  const url = 'http://localhost:5055/Garages';
 
-    if (response.ok) {
-      const data = await response.json();
-      return data;
-    } else {
-      throw new Error(`Request failed with status ${response.status}`);
+  const payload = {
+    name: name,
+    capacity: capacity,
+    location: {
+      latitude: location.latitude,
+      longitude: location.longitude
+    },
+    user: {
+      id: user.id
     }
-  } catch (error) {
-    console.error("Error:", error);
-    throw error;
+  };
+
+  console.log("Payload: " + JSON.stringify(payload));
+
+  const response = await fetch(url, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(payload),
+  });
+
+  const status = response.status;
+  console.log("Status: " + status);
+
+  if (status !== 201) {
+    let data = await response.text();
+    throw new Error(data);
   }
+
+  const data = await response.json();
+  return data;
 }
+
 
 export async function getCapacity(garageId) {
   try {
