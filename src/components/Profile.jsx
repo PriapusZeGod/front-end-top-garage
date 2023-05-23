@@ -30,26 +30,26 @@ import GarageList from "./Garage";
 import { useQuery, useQueryClient } from "react-query";
 import { useMutation } from "react-query";
 
+
 import { getProfileById, updateProfile } from "../services/profileService";
 import ProfileEditModal from "./ProfileEditModal";
 
-export default function Profile({ userId }) {
-  let id = userId;
-  if (userId == null) {
-    id = 1;
-  }
+export default function Profile() {
+  const { user } = useContext(UserContext);
 
-  const queryClient = useQueryClient();
-  const { data, status } = useQuery(["profile", id], () => getProfileById(id));
 
-  if (status === "loading") {
-    return <div>Loading...</div>;
-  }
-  if (status === "error") {
-    return <div>Error fetching data</div>;
-  }
+  // const queryClient = useQueryClient();
+  // const { data, status } = useQuery(["profile", id], () => getProfileById(id) );
 
-  const profile = data[0];
+  // if (status === "loading") {
+  //   return <div>Loading...</div>
+  // }
+  // if (status === "error") {
+  //   return <div>Error fetching data</div>;
+  // }
+
+  // const profile = data[0];
+  const profile = user;
   return (
     <Tabs p="4px" colorScheme="purple" variant="enclosed">
       <TabList>

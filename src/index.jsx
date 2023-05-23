@@ -27,6 +27,7 @@ import AddCarPage from "./pages/AddCarPage";
 import Addcar from "./components/Addcar";
 import App from "./components/App";
 import AddGarage from "./components/AddGarage";
+import Authorization from "./components/Login";
 
 const queryClient = new QueryClient();
 const router = createHashRouter([
@@ -41,9 +42,13 @@ const router = createHashRouter([
   {
     path: "/",
     element: (
-      <QueryClientProvider client={queryClient}>
-        <HomePage Nav={Navbar_Main} Home={Home} />
-      </QueryClientProvider>
+      <>
+        <QueryClientProvider client={queryClient}>
+          <Authorization>
+            <HomePage Nav={Navbar_Main} Home={Home} />
+          </Authorization>
+        </QueryClientProvider>
+      </>
     ),
   },
   {
@@ -55,7 +60,9 @@ const router = createHashRouter([
     element: (
       <>
         <QueryClientProvider client={queryClient}>
-          <ProfilePage Nav={Navbar_Main} Profile={Profile} />
+          <Authorization>
+            <ProfilePage Nav={Navbar_Main} Profile={Profile} />
+          </Authorization>
         </QueryClientProvider>
       </>
     ),
@@ -77,6 +84,7 @@ const router = createHashRouter([
       </QueryClientProvider>
     ),
    },
+
 ]);
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
