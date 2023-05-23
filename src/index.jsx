@@ -28,7 +28,9 @@ import Addcar from "./components/Addcar";
 import App from "./components/App";
 import AddGarage from "./components/AddGarage";
 import Authorization from "./components/Login";
-
+import MapPage from "./pages/MapPage";
+import MapView from "./components/MapView";
+import MapViewComponent from "./components/MapView";
 const queryClient = new QueryClient();
 const router = createHashRouter([
   {
@@ -36,7 +38,7 @@ const router = createHashRouter([
     element: (
       <QueryClientProvider client={queryClient}>
         <Authorization>
-        <AppPage Nav={Navbar_Main} App={App} />
+          <AppPage Nav={Navbar_Main} App={App} />
         </Authorization>
       </QueryClientProvider>
     ),
@@ -74,22 +76,33 @@ const router = createHashRouter([
     element: (
       <QueryClientProvider client={queryClient}>
         <Authorization>
-        <AddCarPage Nav={Navbar_Main} AddCar={Addcar} />
+          <AddCarPage Nav={Navbar_Main} AddCar={Addcar} />
         </Authorization>
       </QueryClientProvider>
     ),
-   },
-   {
+  },
+  {
     path: "/AddGarage",
     element: (
       <QueryClientProvider client={queryClient}>
         <Authorization>
-        <AddGaragePage Nav={Navbar_Main} AddGarage={AddGarage} />
+          <AddGaragePage Nav={Navbar_Main} AddGarage={AddGarage} />
         </Authorization>
       </QueryClientProvider>
     ),
-   },
-
+  },
+  {
+    path: "/Map",
+    element: (
+      <>
+        <QueryClientProvider client={queryClient}>
+          <Authorization>
+            <MapPage Nav={Navbar_Main} MapViewComponent={MapViewComponent} />
+          </Authorization>
+        </QueryClientProvider>
+      </>
+    ),
+  },
 ]);
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
