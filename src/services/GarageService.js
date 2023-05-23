@@ -6,6 +6,9 @@ export async function getGaragesByUserID(userId) {
 
     const data = await response.json();
     console.log(data);
+    if(data.status === 404 && data.title === "Not Found"){
+      return [];
+    }
     return data;
   } catch (error) {
     console.error("Error:", error);

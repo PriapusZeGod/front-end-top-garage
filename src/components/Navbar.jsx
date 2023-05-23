@@ -44,15 +44,13 @@ import { useQuery, useQueryClient } from "react-query";
 import { getCarsByGarageID } from "../services/CarService";
 import { useContext } from "react";
 import UserContext from "./UserContext";
+import { getProfileById } from "../services/profileService";
+import { getGaragesByUserID } from "../services/GarageService";
 
 export default function Navbar_Main() {
-  const { data, isLoading, error } = useFetch("http://localhost:5055/Garages");
-  const { CarsData, CarsIsLoading, CarsError } = useFetch(
-    "http://localhost:5027/Cars"
-  );
+  const { user } = useContext(UserContext);
   const [currentGarageName, setCurrentGarageName] = useState("Select Garage");
-  const [currentGarrage, setCurrentGarrage] = useState(data?.[0]);
-  const [currentCars, setCurrentCars] = useState(CarsData?.[0]);
+  const [currentGarrage, setCurrentGarrage] = useState({});
 
   useEffect(() => {
     const element = document.getElementById("collapsable-nav-dropdown");
@@ -61,63 +59,66 @@ export default function Navbar_Main() {
     }
   }, [currentGarageName]);
 
-  useEffect(() => {
-    console.log(CarsData);
-  }, [CarsData]);
-
-  if (isLoading || CarsIsLoading) {
-    return <div>Loading...</div>;
-  }
-
-  if (error) {
-    return <div>Error: {error.message}</div>;
-  }
-
   const handleGarageSelect = (garageName, garage) => {
     setCurrentGarageName(garageName);
     setCurrentGarrage(garage);
   };
   return (
-    <Flex as="nav" p="10px" mb="40px" alignItems="center" bg="purple.400">
-      <Offcanvas
-        currentGarageName={currentGarageName}
-        currentGarrage={currentGarrage}
-      />
+    <>
+      {user && (
+        <Flex as="nav" p="10px" mb="40px" alignItems="center" bg="purple.400">
+          <Offcanvas
+            currentGarageName={currentGarageName}
+            currentGarrage={currentGarrage}
+          />
 
-      <Spacer />
-      <GarageMenu
-        data={data}
-        handleGarageSelect={handleGarageSelect}
-        currentGarageName={currentGarageName}
-      />
-      <Spacer />
+          <Spacer />
+          {user && (
+            <GarageMenu
+              userId={user.id}
+              handleGarageSelect={handleGarageSelect}
+              currentGarageName={currentGarageName}
+            />
+          )}
+          
+          <Spacer />
 
-      <HStack spacing="20px">
-        <Hide below="md">
-          <InputGroup>
-            <InputLeftElement
-              pointerEvents="none"
-              color="gray.300"
-              fontSize="1em"
-              children={<SearchIcon />}
-            />
-            <Input
-              placeholder="Enter car name"
-              _placeholder={{ color: "white" }}
-            />
-          </InputGroup>
-          <Nav.Link href="/#/profile">
-            <Image borderRadius="full" src={userImage} alt="user" />
-          </Nav.Link>
-        </Hide>
-      </HStack>
-    </Flex>
+          <HStack spacing="20px">
+            <Hide below="md">
+              <InputGroup>
+                <InputLeftElement
+                  pointerEvents="none"
+                  color="gray.300"
+                  fontSize="1em"
+                  children={<SearchIcon />}
+                />
+                <Input
+                  placeholder="Enter car name"
+                  _placeholder={{ color: "white" }}
+                />
+              </InputGroup>
+              <Nav.Link href="/#/profile">
+                <Image borderRadius="full" src={userImage} alt="user" />
+              </Nav.Link>
+            </Hide>
+          </HStack>
+        </Flex>
+      )}
+    </>
   );
 }
 
-function GarageMenu({ data, handleGarageSelect, currentGarageName }) {
+function GarageMenu({ handleGarageSelect, currentGarageName, userId }) {
+  const { data, status } = useQuery(["garages", userId], () =>
+    getGaragesByUserID(userId)
+  );
+
+  useEffect(() => {
+    console.log(data);
+  }, [data]);
   return (
     <>
+    {data && data.length > 0 && (
       <Menu>
         {({ isOpen }) => (
           <>
@@ -129,20 +130,27 @@ function GarageMenu({ data, handleGarageSelect, currentGarageName }) {
             >
               {currentGarageName || data[0].name}
             </MenuButton>
-            <MenuList>
-              {data.map((garage) => (
-                <MenuItem
-                  href=""
-                  onClick={() => handleGarageSelect(garage.name, garage)}
-                  key={garage.id}
-                >
-                  {garage.name}
-                </MenuItem>
-              ))}
-            </MenuList>
+            {data && (
+              <MenuList>
+                {data.map((garage) => (
+                  <MenuItem
+                    href=""
+                    onClick={() => handleGarageSelect(garage.name, garage)}
+                    key={garage.id}
+                  >
+                    {garage.name}
+                  </MenuItem>
+                ))}
+              </MenuList>
+            )}
+            
           </>
         )}
-      </Menu>
+      </Menu>)}
+      {data && !data.length > 0 && (
+
+        <Button variant="ghost" >Create Garage</Button>
+      )}
     </>
   );
 }

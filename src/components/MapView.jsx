@@ -1,17 +1,17 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { GoogleMap, useLoadScript, Marker } from "@react-google-maps/api";
 import { useQuery } from "react-query";
 import "./Map.css";
 import { getGaragesByUserID } from "../services/GarageService";
 import { Box, Flex, Text, useColorModeValue } from "@chakra-ui/react";
+import { useContext } from "react";
+import UserContext from "./UserContext";
 
 const MAPS_API_KEY = "AIzaSyDfmL5P3N4WBD4YTpVfzvn1Wkg43L4NeHk";
 
-export default function MapViewComponent({ userId }) {
-  if (userId == null) {
-    userId = 1;
-  }
-
+export default function MapViewComponent() {
+  const { user } = useContext(UserContext);
+  const userId = user.id;
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: MAPS_API_KEY,
   });
@@ -71,22 +71,31 @@ function Map({ garages }) {
           borderRadius: "20px",
         }}
       >
-        {garages.length > 0 ? (
-          garages.map((garage) => (
-            <Marker
-              key={garage.id}
-              position={{
-                lat: garage.location.latitude,
-                lng: garage.location.longitude,
-              }}
-            />
-          ))
-        ) : (
-          <Text>No garages found</Text>
-        )}
+        {/* {garages.map((garage) => ( */}
+        {/* <Marker
+          key={garage.id}
+          position={{
+            lat: garage.location.latitude,
+            lng: garage.location.longitude,
+          }}
+        /> */}
+       {/* ))} */}
+
+       <Marker
+          key={1}
+          position={{
+            lat: 55.862656,
+            lng: 9.837616,
+          }}
+        />
       </GoogleMap>
       {!isExpanded && (
-        <Text fontWeight="600" color={mainText} textAlign="center" fontSize="xl">
+        <Text
+          fontWeight="600"
+          color={mainText}
+          textAlign="center"
+          fontSize="xl"
+        >
           Click to expand
         </Text>
       )}
