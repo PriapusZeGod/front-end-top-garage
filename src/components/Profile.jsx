@@ -29,6 +29,8 @@ import userpng from "../images/profile.webp";
 import GarageList from "./Garage";
 import { useQuery, useQueryClient } from "react-query";
 import { useMutation } from "react-query";
+import { useContext } from "react";
+import UserContext from "./UserContext";
 
 
 import { getProfileById, updateProfile } from "../services/profileService";
@@ -59,10 +61,10 @@ export default function Profile() {
 
       <TabPanels>
         <TabPanel>
-          <ProfileData profile={profile} />
+          {user && <ProfileData profile={profile} />}
         </TabPanel>
         <TabPanel>
-          <GarageList userId={id} />
+          {user && <GarageList userId={profile.id} />}
         </TabPanel>
       </TabPanels>
     </Tabs>
