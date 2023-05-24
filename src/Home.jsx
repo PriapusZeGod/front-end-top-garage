@@ -22,11 +22,10 @@ export default function Home({ currentCar }) {
 
   return (
     <>
-      <Flex direction={["column", "row"]}>
+      <Flex direction={["column", "row"]} justifyContent="flex-start">
         <Box
           height="80%"
           width="100%"
-          mt={["0", "200px"]}
           alignItems="center"
           justifyContent="center"
         >
@@ -47,21 +46,19 @@ export default function Home({ currentCar }) {
             )}
           </AnimatePresence>
           <AnimatePresence>
-            {isBoxVisible && (
-              <motion.div
-                initial={{ opacity: 0, y: 50 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: 50 }}
-                transition={{ duration: 0.5 }}
-              >
-                <Text as="h5" alignSelf="center" textAlign="center">
-                  {text}
-                </Text>
-              </motion.div>
-            )}
+            <motion.div
+              initial={{ opacity: 0, y: 50 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 50 }}
+              transition={{ duration: 0.5 }}
+            >
+              <Text as="h5" alignSelf="center" textAlign="center">
+                {text}
+              </Text>
+            </motion.div>
           </AnimatePresence>
         </Box>
-        <Box flex="1" ml={["0", "10px"]}>
+        <Box ml={["0", "10px"]}>
           <CarInfo currentCar={currentCar} />
         </Box>
       </Flex>
@@ -78,7 +75,6 @@ function CarInfo({ currentCar }) {
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          h="400px"
           w={{ base: "100%", md: "400px" }}
           bg="purple.100"
           mr={{ base: "0", md: "10px" }}
