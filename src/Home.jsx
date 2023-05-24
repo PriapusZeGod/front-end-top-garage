@@ -6,7 +6,7 @@ import ChartWidget from "./components/ChartWidget";
 function Home({ currentCar }) {
   return (
     <>
-      {currentCar && <Text>{currentCar.name}</Text>}
+      {currentCar.id && <Text>{currentCar.name}</Text>}
       <Box
         height="80%"
         width="100%"
@@ -23,7 +23,8 @@ function Home({ currentCar }) {
           Choose a garage and car to start
         </Text>
       </Box>
-      {Object.keys(currentCar).length !== 0 && (
+      {currentCar.id  && (
+        console.log(currentCar.garage.id),
         <Flex spacing={4}>
           <ChartWidget garageId={currentCar.garage.id} />
         </Flex>

@@ -6,6 +6,9 @@ const urlEnvLimit = "http://localhost:5211/IndoorEnvironments";
 export async function getStatsByGarageID(id)
 {
     const response = await fetch(`${url}?GarageId=${id}`);
+    if (response.status === 404) {
+        return [];
+    }
     return response.json();
 }
 
