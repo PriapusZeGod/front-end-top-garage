@@ -253,21 +253,17 @@ describe('deleteCar', () => {
   const imageURL = 'http://example.com/image.jpg';
 
   it('should return the image URL if the request is successful', async () => {
-    // Mock the fetch function
     global.fetch = jest.fn().mockImplementation(async () => {
       return {
         status: 200,
-        blob: jest.fn().mockResolvedValue({}), // Mock the response.blob() method
+        blob: jest.fn().mockResolvedValue({}), 
       };
     });
 
-    // Mock the URL.createObjectURL function
     global.URL.createObjectURL = jest.fn().mockReturnValue(imageURL);
 
-    // Call the function
     const result = await getImage(userId);
 
-    // Assert the fetch function was called with the correct arguments
     const expectedURL = `http://localhost:5027/Cars/${userId}/image`;
     const expectedOptions = {
       method: 'GET',
@@ -277,27 +273,21 @@ describe('deleteCar', () => {
     };
     expect(global.fetch).toHaveBeenCalledWith(expectedURL, expectedOptions);
 
-    // Assert the URL.createObjectURL function was called with the correct arguments
     expect(global.URL.createObjectURL).toHaveBeenCalled();
 
-    // Assert the result is the expected image URL
     expect(result).toBe(imageURL);
   });
   it('should handle the error if the request fails', async () => {
-    // Mock the fetch function
     global.fetch = jest.fn().mockImplementation(async () => {
       return {
         status: 500,
       };
     });
   
-    // Mock the console.error function
     console.error = jest.fn();
   
-    // Call the function
     const result = await getImage(userId);
   
-    // Assert the fetch function was called with the correct arguments
     const expectedURL = `http://localhost:5027/Cars/${userId}/image`;
     const expectedOptions = {
       method: 'GET',
@@ -307,11 +297,9 @@ describe('deleteCar', () => {
     };
     expect(global.fetch).toHaveBeenCalledWith(expectedURL, expectedOptions);
   
-    // Assert that console.error was called with the expected error message
     const expectedErrorMessage = 'Failed to fetch image';
     expect(console.error).toHaveBeenCalledWith(expect.stringContaining(expectedErrorMessage));
   
-    // Assert the result is null
     expect(result).toBeNull();
   });  
   });
