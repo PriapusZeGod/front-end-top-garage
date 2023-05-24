@@ -12,34 +12,28 @@ export async function getCarsByGarageID(garageId) {
     const data = await response.json(); 
     return data; 
   }
-  
-  
-  
 
 
-  export async function createCar(name, description, manufacturer, model, year, seats, garage, engine) {
-    const url = 'http://localhost:5027/Cars';
 
-    const payload = {
-      name: name,
-      description: description,
-      manufacturer: manufacturer,
-      model: model,
-      year: year,
-      seats: seats,
-      garage: {
-        id: garage.id,
-      },
-      engine: {
-        size: engine.size,
-        fuelType: engine.fuelType,
-        powerHP: engine.powerHP,
-        torqueNM: engine.torqueNM
-      }
-    };
+export async function createCar(name, description, manufacturer, model, year, seats, garageId, engine) {
+  const url = 'http://localhost:5027/Cars';
 
-    console.log("Payload: " + JSON.stringify(payload));
+  const payload = {
+    Name: name,
+    Description: description,
+    Manufacturer: manufacturer,
+    Model: model,
+    Year: year,
+    Seats: seats,
+    Garage: {
+      Id: garageId
+    },
+    Engine: engine
+  };
 
+  console.log("Payload: " + JSON.stringify(payload));
+
+  try {
     const response = await fetch(url, {
       method: "POST",
       headers: {
@@ -58,22 +52,31 @@ export async function getCarsByGarageID(garageId) {
 
     const data = await response.json();
     return data;
+  } catch (error) {
+    console.error("Error:", error);
+    throw error;
   }
-  export async function getAllCars() {
-    try {
-      const response = await fetch(url);
-  
-      if (response.ok) {
-        const data = await response.json();
-        return data;
-      } else {
-        throw new Error(`Request failed with status ${response.status}`);
-      }
-    } catch (error) {
-      console.error("Error:", error);
-      throw error;
+}
+
+export async function getAllCars() {
+  const url = 'http://localhost:5027/Cars';
+
+  try {
+    const response = await fetch(url);
+
+    if (response.ok) {
+      const data = await response.json();
+      return data;
+    } else {
+      throw new Error(`Request failed with status ${response.status}`);
     }
+  } catch (error) {
+    console.error("Error:", error);
+    throw error;
   }
+}
+
+
   export async function deleteCar(carId) {
     try {
       const response = await fetch(`${url}/${carId}`, {
