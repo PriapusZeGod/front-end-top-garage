@@ -6,9 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="1aba6eb0-05fd-4be7-8c50-e76c2a9d8037" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/AddGarage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/AddGarage.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/services/CarService.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/CarService.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/services/GarageService.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/GarageService.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Addcar.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Addcar.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/services/CarService.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/CarService.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -44,6 +43,7 @@
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
+    "ts.external.directory.path": "C:\\Program Files\\JetBrains\\WebStorm 2022.3.2\\plugins\\javascript-impl\\jsLanguageServicesImpl\\external",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -57,6 +57,7 @@
       <updated>1682208372808</updated>
       <workItem from="1682208377743" duration="485000" />
       <workItem from="1684781801250" duration="385000" />
+      <workItem from="1684939392570" duration="7886000" />
     </task>
     <servers />
   </component>

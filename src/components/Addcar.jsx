@@ -1,12 +1,13 @@
+import React, { useState, useEffect, useContext } from 'react';
+import { getGaragesByUserID } from '../services/GarageService';
+import { createCar } from '../services/CarService';
+import { Box, Button, FormControl, FormErrorMessage, FormLabel, Input, Select, Textarea } from '@chakra-ui/react';
+import UserContext from './UserContext';
 
-import React, { useState, useEffect } from 'react';
-import { getGaragesByUserID } from "../services/GarageService";
-import {createCar} from "../services/CarService";
-import * as garage from "react-bootstrap/ElementChildren";
-import * as garages from "react-bootstrap/ElementChildren";
-import './Addcar.css';
+const STORAGE_KEY = 'userAuth';
 
-const Addcar = () => {
+const AddCar = () => {
+    const userContext = useContext(UserContext);
     const [car, setCar] = useState({
         name: '',
         description: '',
@@ -14,31 +15,59 @@ const Addcar = () => {
         model: '',
         year: '',
         seats: '',
-        engine: '',
-        garage: ''
+        engine: {
+            size: '',
+            fuelType: '',
+            powerHP: '',
+            torqueNM: '',
+        },
+        garage: '',
     });
-
     const [formErrors, setFormErrors] = useState({});
+    const [garages, setGarages] = useState([]);
+
+    function getUserFromStorage() {
+        const userJSON = localStorage.getItem(STORAGE_KEY);
+        return userJSON ? JSON.parse(userJSON) : null;
+    }
 
     useEffect(() => {
-        getGaragesByUserID()
-            .then((response) => {
-                console.log('Garages fetched successfully:', response);
-                setCar((prevData) => ({
-                    ...prevData,
-                    garage: response[0]//.id
-                }));
-            })
-            .catch((error) => {
-                console.error('Error fetching garages:', error);
-            });
-    }, []);
+        const userID = userContext.userID; // Get the userID from userContext
+        if (userID) {
+            // Check if userID is not null or undefined
+            getGaragesByUserID(userID)
+                .then((response) => {
+                    console.log('Garages fetched successfully:', response);
+                    setGarages(response);
+                    if (response.length > 0) {
+                        setCar((prevData) => ({
+                            ...prevData,
+                            garage: response[0].id,
+                        }));
+                    }
+                })
+                .catch((error) => {
+                    console.error('Error fetching garages:', error);
+                });
+        }
+    }, [userContext.userID]);
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setCar((prevData) => ({
             ...prevData,
-            [name]: value
+            [name]: value,
+        }));
+    };
+
+    const handleEngineInputChange = (e) => {
+        const { name, value } = e.target;
+        setCar((prevData) => ({
+            ...prevData,
+            engine: {
+                ...prevData.engine,
+                [name]: value,
+            },
         }));
     };
 
@@ -46,7 +75,7 @@ const Addcar = () => {
         const selectedGarage = e.target.value;
         setCar((prevData) => ({
             ...prevData,
-            garage: selectedGarage
+            garage: selectedGarage,
         }));
     };
 
@@ -72,10 +101,7 @@ const Addcar = () => {
         if (car.seats.trim() === '') {
             errors.seats = 'Seats is required';
         }
-        if (car.engine.trim() === '') {
-            errors.engine = 'Engine is required';
-        }
-        if (car.garage) {//.trim() === '') {
+        if (!car.garage) {
             errors.garage = 'Garage is required';
         }
 
@@ -84,7 +110,16 @@ const Addcar = () => {
             return;
         }
 
-        createCar(car)
+        createCar(
+            car.name,
+            car.description,
+            car.manufacturer,
+            car.model,
+            car.year,
+            car.seats,
+            car.garage,
+            car.engine
+        )
             .then((response) => {
                 console.log('Car added successfully:', response);
             })
@@ -94,56 +129,106 @@ const Addcar = () => {
     };
 
     return (
-        <form onSubmit={handleSubmit} style={{ maxWidth: '400px', margin: '0 auto' }}>
-            <h2>Add Car</h2>
-            <div>
-                <label htmlFor="name">Name:</label>
-                <input type="text" id="name" name="name" value={car.name} onChange={handleInputChange} />
-                {formErrors.name && <span className="error">{formErrors.name}</span>}
-            </div>
-            <div>
-                <label htmlFor="description">Description:</label>
-                <textarea id="description" name="description" value={car.description} onChange={handleInputChange}></textarea>
-                {formErrors.description && <span className="error">{formErrors.description}</span>}
-            </div>
-            <div>
-                <label htmlFor="manufacturer">Manufacturer:</label>
-                <input type="text" id="manufacturer" name="manufacturer" value={car.manufacturer} onChange={handleInputChange} />
-                {formErrors.manufacturer && <span className="error">{formErrors.manufacturer}</span>}
-            </div>
-            <div>
-                <label htmlFor="model">Model:</label>
-                <input type="text" id="model" name="model" value={car.model} onChange={handleInputChange} />
-                {formErrors.model && <span className="error">{formErrors.model}</span>}
-            </div>
-            <div>
-                <label htmlFor="year">Year:</label>
-                <input type="text" id="year" name="year" value={car.year} onChange={handleInputChange} />
-                {formErrors.year && <span className="error">{formErrors.year}</span>}
-            </div>
-            <div>
-                <label htmlFor="seats">Seats:</label>
-                <input type="text" id="seats" name="seats" value={car.seats} onChange={handleInputChange} />
-                {formErrors.seats && <span className="error">{formErrors.seats}</span>}
-            </div>
-            <div>
-                <label htmlFor="engine">Engine:</label>
-                <input type="text" id="engine" name="engine" value={car.engine} onChange={handleInputChange} />
-                {formErrors.engine && <span className="error">{formErrors.engine}</span>}
-            </div>
-            <div>
-                <label htmlFor="garage">Garage:</label>
-                <select id="garage" name="garage" value={car.garage} onChange={handleGarageSelect}>
-                    <option value="">Select a Garage</option>
-                    {garages.map((garage) => (
-                        <option key={garage.id} value={garage.id}>{garage.name}</option>
-                    ))}
-                </select>
-                {formErrors.garage && <span className="error">{formErrors.garage}</span>}
-            </div>
-            <button type="submit">Add Car</button>
-        </form>
+        <Box maxWidth="400px" margin="0 auto">
+            <form onSubmit={handleSubmit}>
+                <h2>Add Car</h2>
+                <FormControl isInvalid={formErrors.name}>
+                    <FormLabel htmlFor="name">Name:</FormLabel>
+                    <Input type="text" id="name" name="name" value={car.name} onChange={handleInputChange} />
+                    <FormErrorMessage>{formErrors.name}</FormErrorMessage>
+                </FormControl>
+                <FormControl isInvalid={formErrors.description}>
+                    <FormLabel htmlFor="description">Description:</FormLabel>
+                    <Textarea
+                        id="description"
+                        name="description"
+                        value={car.description}
+                        onChange={handleInputChange}
+                    ></Textarea>
+                    <FormErrorMessage>{formErrors.description}</FormErrorMessage>
+                </FormControl>
+                <FormControl isInvalid={formErrors.manufacturer}>
+                    <FormLabel htmlFor="manufacturer">Manufacturer:</FormLabel>
+                    <Input
+                        type="text"
+                        id="manufacturer"
+                        name="manufacturer"
+                        value={car.manufacturer}
+                        onChange={handleInputChange}
+                    />
+                    <FormErrorMessage>{formErrors.manufacturer}</FormErrorMessage>
+                </FormControl>
+                <FormControl isInvalid={formErrors.model}>
+                    <FormLabel htmlFor="model">Model:</FormLabel>
+                    <Input type="text" id="model" name="model" value={car.model} onChange={handleInputChange} />
+                    <FormErrorMessage>{formErrors.model}</FormErrorMessage>
+                </FormControl>
+                <FormControl isInvalid={formErrors.year}>
+                    <FormLabel htmlFor="year">Year:</FormLabel>
+                    <Input type="text" id="year" name="year" value={car.year} onChange={handleInputChange} />
+                    <FormErrorMessage>{formErrors.year}</FormErrorMessage>
+                </FormControl>
+                <FormControl isInvalid={formErrors.seats}>
+                    <FormLabel htmlFor="seats">Seats:</FormLabel>
+                    <Input type="text" id="seats" name="seats" value={car.seats} onChange={handleInputChange} />
+                    <FormErrorMessage>{formErrors.seats}</FormErrorMessage>
+                </FormControl>
+                <FormControl>
+                    <FormLabel htmlFor="engineSize">Engine Size:</FormLabel>
+                    <Input
+                        type="text"
+                        id="engineSize"
+                        name="size"
+                        value={car.engine.size}
+                        onChange={handleEngineInputChange}
+                    />
+                </FormControl>
+                <FormControl>
+                    <FormLabel htmlFor="engineFuelType">Engine Fuel Type:</FormLabel>
+                    <Input
+                        type="text"
+                        id="engineFuelType"
+                        name="fuelType"
+                        value={car.engine.fuelType}
+                        onChange={handleEngineInputChange}
+                    />
+                </FormControl>
+                <FormControl>
+                    <FormLabel htmlFor="enginePowerHP">Engine Power HP:</FormLabel>
+                    <Input
+                        type="number"
+                        id="enginePowerHP"
+                        name="powerHP"
+                        value={car.engine.powerHP}
+                        onChange={handleEngineInputChange}
+                    />
+                </FormControl>
+                <FormControl>
+                    <FormLabel htmlFor="engineTorqueNM">Engine Torque NM:</FormLabel>
+                    <Input
+                        type="number"
+                        id="engineTorqueNM"
+                        name="torqueNM"
+                        value={car.engine.torqueNM}
+                        onChange={handleEngineInputChange}
+                    />
+                </FormControl>
+                <FormControl isInvalid={formErrors.garage}>
+                    <FormLabel htmlFor="garage">Garage:</FormLabel>
+                    <Select id="garage" name="garage" value={car.garage} onChange={handleGarageSelect}>
+                        <option value="">Select a Garage</option>
+                        {garages.map((garage) => (
+                            <option key={garage.id} value={garage.id}>
+                                {garage.name}
+                            </option>
+                        ))}
+                    </Select>
+                    <FormErrorMessage>{formErrors.garage}</FormErrorMessage>
+                </FormControl>
+                <Button type="submit">Add Car</Button>
+            </form>
+        </Box>
     );
 };
 
-export default Addcar;
+export default AddCar;
