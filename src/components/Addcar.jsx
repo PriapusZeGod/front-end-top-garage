@@ -1,234 +1,263 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { getGaragesByUserID } from '../services/GarageService';
-import { createCar } from '../services/CarService';
-import { Box, Button, FormControl, FormErrorMessage, FormLabel, Input, Select, Textarea } from '@chakra-ui/react';
-import UserContext from './UserContext';
+import React, { useState, useEffect, useContext } from "react";
+import { getGaragesByUserID } from "../services/GarageService";
+import { createCar } from "../services/CarService";
+import {
+  Box,
+  Button,
+  FormControl,
+  FormErrorMessage,
+  FormLabel,
+  Input,
+  Select,
+  Textarea,
+} from "@chakra-ui/react";
+import UserContext from "./UserContext";
+import {GarageDropdown} from "./Garage";
 
-const STORAGE_KEY = 'userAuth';
+const STORAGE_KEY = "userAuth";
 
 const AddCar = () => {
-    const userContext = useContext(UserContext);
-    const [car, setCar] = useState({
-        name: '',
-        description: '',
-        manufacturer: '',
-        model: '',
-        year: '',
-        seats: '',
-        engine: {
-            size: '',
-            fuelType: '',
-            powerHP: '',
-            torqueNM: '',
-        },
-        garage: '',
-    });
-    const [formErrors, setFormErrors] = useState({});
-    const [garages, setGarages] = useState([]);
+//   const userContext = useContext(UserContext);
+  const {user} = useContext(UserContext);
+  const [car, setCar] = useState({
+    name: "",
+    description: "",
+    manufacturer: "",
+    model: "",
+    year: "",
+    seats: "",
+    engine: {
+      size: "",
+      fuelType: "",
+      powerHP: "",
+      torqueNM: "",
+    },
+    garage: "",
+  });
+  const [formErrors, setFormErrors] = useState({});
+  const [garages, setGarages] = useState([]);
 
-    function getUserFromStorage() {
-        const userJSON = localStorage.getItem(STORAGE_KEY);
-        return userJSON ? JSON.parse(userJSON) : null;
+  function getUserFromStorage() {
+    const userJSON = localStorage.getItem(STORAGE_KEY);
+    return userJSON ? JSON.parse(userJSON) : null;
+  }
+
+  // useEffect(() => {
+  //     const userID = userContext.userID; // Get the userID from userContext
+  //     if (userID) {
+  //         // Check if userID is not null or undefined
+  //         getGaragesByUserID(userID)
+  //             .then((response) => {
+  //                 console.log('Garages fetched successfully:', response);
+  //                 setGarages(response);
+  //                 if (response.length > 0) {
+  //                     setCar((prevData) => ({
+  //                         ...prevData,
+  //                         garage: response[0].id,
+  //                     }));
+  //                 }
+  //             })
+  //             .catch((error) => {
+  //                 console.error('Error fetching garages:', error);
+  //             });
+  //     }
+  // }, [userContext.userID]);
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setCar((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
+  const handleEngineInputChange = (e) => {
+    const { name, value } = e.target;
+    setCar((prevData) => ({
+      ...prevData,
+      engine: {
+        ...prevData.engine,
+        [name]: value,
+      },
+    }));
+  };
+
+  const handleGarageSelect = (e) => {
+    const selectedGarage = e.target.value;
+    setCar((prevData) => ({
+      ...prevData,
+      garage: selectedGarage,
+    }));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    const errors = {};
+    if (car.name.trim() === "") {
+      errors.name = "Name is required";
+    }
+    if (car.description.trim() === "") {
+      errors.description = "Description is required";
+    }
+    if (car.manufacturer.trim() === "") {
+      errors.manufacturer = "Manufacturer is required";
+    }
+    if (car.model.trim() === "") {
+      errors.model = "Model is required";
+    }
+    if (car.year.trim() === "") {
+      errors.year = "Year is required";
+    }
+    if (car.seats.trim() === "") {
+      errors.seats = "Seats is required";
+    }
+    if (!car.garage) {
+      errors.garage = "Garage is required";
     }
 
-    useEffect(() => {
-        const userID = userContext.userID; // Get the userID from userContext
-        if (userID) {
-            // Check if userID is not null or undefined
-            getGaragesByUserID(userID)
-                .then((response) => {
-                    console.log('Garages fetched successfully:', response);
-                    setGarages(response);
-                    if (response.length > 0) {
-                        setCar((prevData) => ({
-                            ...prevData,
-                            garage: response[0].id,
-                        }));
-                    }
-                })
-                .catch((error) => {
-                    console.error('Error fetching garages:', error);
-                });
-        }
-    }, [userContext.userID]);
+    if (Object.keys(errors).length > 0) {
+      setFormErrors(errors);
+      return;
+    }
 
-    const handleInputChange = (e) => {
-        const { name, value } = e.target;
-        setCar((prevData) => ({
-            ...prevData,
-            [name]: value,
-        }));
-    };
+    createCar(
+      car.name,
+      car.description,
+      car.manufacturer,
+      car.model,
+      car.year,
+      car.seats,
+      car.garage,
+      car.engine
+    )
+      .then((response) => {
+        console.log("Car added successfully:", response);
+      })
+      .catch((error) => {
+        console.error("Error adding car:", error);
+      });
+  };
 
-    const handleEngineInputChange = (e) => {
-        const { name, value } = e.target;
-        setCar((prevData) => ({
-            ...prevData,
-            engine: {
-                ...prevData.engine,
-                [name]: value,
-            },
-        }));
-    };
+  return (
+    <Box maxWidth="400px" margin="0 auto">
+      <form onSubmit={handleSubmit}>
+        <h2>Add Car</h2>
+        <FormControl isInvalid={formErrors.name}>
+          <FormLabel htmlFor="name">Name:</FormLabel>
+          <Input
+            type="text"
+            id="name"
+            name="name"
+            value={car.name}
+            onChange={handleInputChange}
+          />
+          <FormErrorMessage>{formErrors.name}</FormErrorMessage>
+        </FormControl>
+        <FormControl isInvalid={formErrors.description}>
+          <FormLabel htmlFor="description">Description:</FormLabel>
+          <Textarea
+            id="description"
+            name="description"
+            value={car.description}
+            onChange={handleInputChange}
+          ></Textarea>
+          <FormErrorMessage>{formErrors.description}</FormErrorMessage>
+        </FormControl>
+        <FormControl isInvalid={formErrors.manufacturer}>
+          <FormLabel htmlFor="manufacturer">Manufacturer:</FormLabel>
+          <Input
+            type="text"
+            id="manufacturer"
+            name="manufacturer"
+            value={car.manufacturer}
+            onChange={handleInputChange}
+          />
+          <FormErrorMessage>{formErrors.manufacturer}</FormErrorMessage>
+        </FormControl>
+        <FormControl isInvalid={formErrors.model}>
+          <FormLabel htmlFor="model">Model:</FormLabel>
+          <Input
+            type="text"
+            id="model"
+            name="model"
+            value={car.model}
+            onChange={handleInputChange}
+          />
+          <FormErrorMessage>{formErrors.model}</FormErrorMessage>
+        </FormControl>
+        <FormControl isInvalid={formErrors.year}>
+          <FormLabel htmlFor="year">Year:</FormLabel>
+          <Input
+            type="text"
+            id="year"
+            name="year"
+            value={car.year}
+            onChange={handleInputChange}
+          />
+          <FormErrorMessage>{formErrors.year}</FormErrorMessage>
+        </FormControl>
+        <FormControl isInvalid={formErrors.seats}>
+          <FormLabel htmlFor="seats">Seats:</FormLabel>
+          <Input
+            type="text"
+            id="seats"
+            name="seats"
+            value={car.seats}
+            onChange={handleInputChange}
+          />
+          <FormErrorMessage>{formErrors.seats}</FormErrorMessage>
+        </FormControl>
+        <FormControl>
+          <FormLabel htmlFor="engineSize">Engine Size:</FormLabel>
+          <Input
+            type="text"
+            id="engineSize"
+            name="size"
+            value={car.engine.size}
+            onChange={handleEngineInputChange}
+          />
+        </FormControl>
+        <FormControl>
+          <FormLabel htmlFor="engineFuelType">Engine Fuel Type:</FormLabel>
+          <Input
+            type="text"
+            id="engineFuelType"
+            name="fuelType"
+            value={car.engine.fuelType}
+            onChange={handleEngineInputChange}
+          />
+        </FormControl>
+        <FormControl>
+          <FormLabel htmlFor="enginePowerHP">Engine Power HP:</FormLabel>
+          <Input
+            type="number"
+            id="enginePowerHP"
+            name="powerHP"
+            value={car.engine.powerHP}
+            onChange={handleEngineInputChange}
+          />
+        </FormControl>
+        <FormControl>
+          <FormLabel htmlFor="engineTorqueNM">Engine Torque NM:</FormLabel>
+          <Input
+            type="number"
+            id="engineTorqueNM"
+            name="torqueNM"
+            value={car.engine.torqueNM}
+            onChange={handleEngineInputChange}
+          />
+        </FormControl>
+        
 
-    const handleGarageSelect = (e) => {
-        const selectedGarage = e.target.value;
-        setCar((prevData) => ({
-            ...prevData,
-            garage: selectedGarage,
-        }));
-    };
+          <GarageDropdown userId={user.id}/> 
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-
-        const errors = {};
-        if (car.name.trim() === '') {
-            errors.name = 'Name is required';
-        }
-        if (car.description.trim() === '') {
-            errors.description = 'Description is required';
-        }
-        if (car.manufacturer.trim() === '') {
-            errors.manufacturer = 'Manufacturer is required';
-        }
-        if (car.model.trim() === '') {
-            errors.model = 'Model is required';
-        }
-        if (car.year.trim() === '') {
-            errors.year = 'Year is required';
-        }
-        if (car.seats.trim() === '') {
-            errors.seats = 'Seats is required';
-        }
-        if (!car.garage) {
-            errors.garage = 'Garage is required';
-        }
-
-        if (Object.keys(errors).length > 0) {
-            setFormErrors(errors);
-            return;
-        }
-
-        createCar(
-            car.name,
-            car.description,
-            car.manufacturer,
-            car.model,
-            car.year,
-            car.seats,
-            car.garage,
-            car.engine
-        )
-            .then((response) => {
-                console.log('Car added successfully:', response);
-            })
-            .catch((error) => {
-                console.error('Error adding car:', error);
-            });
-    };
-
-    return (
-        <Box maxWidth="400px" margin="0 auto">
-            <form onSubmit={handleSubmit}>
-                <h2>Add Car</h2>
-                <FormControl isInvalid={formErrors.name}>
-                    <FormLabel htmlFor="name">Name:</FormLabel>
-                    <Input type="text" id="name" name="name" value={car.name} onChange={handleInputChange} />
-                    <FormErrorMessage>{formErrors.name}</FormErrorMessage>
-                </FormControl>
-                <FormControl isInvalid={formErrors.description}>
-                    <FormLabel htmlFor="description">Description:</FormLabel>
-                    <Textarea
-                        id="description"
-                        name="description"
-                        value={car.description}
-                        onChange={handleInputChange}
-                    ></Textarea>
-                    <FormErrorMessage>{formErrors.description}</FormErrorMessage>
-                </FormControl>
-                <FormControl isInvalid={formErrors.manufacturer}>
-                    <FormLabel htmlFor="manufacturer">Manufacturer:</FormLabel>
-                    <Input
-                        type="text"
-                        id="manufacturer"
-                        name="manufacturer"
-                        value={car.manufacturer}
-                        onChange={handleInputChange}
-                    />
-                    <FormErrorMessage>{formErrors.manufacturer}</FormErrorMessage>
-                </FormControl>
-                <FormControl isInvalid={formErrors.model}>
-                    <FormLabel htmlFor="model">Model:</FormLabel>
-                    <Input type="text" id="model" name="model" value={car.model} onChange={handleInputChange} />
-                    <FormErrorMessage>{formErrors.model}</FormErrorMessage>
-                </FormControl>
-                <FormControl isInvalid={formErrors.year}>
-                    <FormLabel htmlFor="year">Year:</FormLabel>
-                    <Input type="text" id="year" name="year" value={car.year} onChange={handleInputChange} />
-                    <FormErrorMessage>{formErrors.year}</FormErrorMessage>
-                </FormControl>
-                <FormControl isInvalid={formErrors.seats}>
-                    <FormLabel htmlFor="seats">Seats:</FormLabel>
-                    <Input type="text" id="seats" name="seats" value={car.seats} onChange={handleInputChange} />
-                    <FormErrorMessage>{formErrors.seats}</FormErrorMessage>
-                </FormControl>
-                <FormControl>
-                    <FormLabel htmlFor="engineSize">Engine Size:</FormLabel>
-                    <Input
-                        type="text"
-                        id="engineSize"
-                        name="size"
-                        value={car.engine.size}
-                        onChange={handleEngineInputChange}
-                    />
-                </FormControl>
-                <FormControl>
-                    <FormLabel htmlFor="engineFuelType">Engine Fuel Type:</FormLabel>
-                    <Input
-                        type="text"
-                        id="engineFuelType"
-                        name="fuelType"
-                        value={car.engine.fuelType}
-                        onChange={handleEngineInputChange}
-                    />
-                </FormControl>
-                <FormControl>
-                    <FormLabel htmlFor="enginePowerHP">Engine Power HP:</FormLabel>
-                    <Input
-                        type="number"
-                        id="enginePowerHP"
-                        name="powerHP"
-                        value={car.engine.powerHP}
-                        onChange={handleEngineInputChange}
-                    />
-                </FormControl>
-                <FormControl>
-                    <FormLabel htmlFor="engineTorqueNM">Engine Torque NM:</FormLabel>
-                    <Input
-                        type="number"
-                        id="engineTorqueNM"
-                        name="torqueNM"
-                        value={car.engine.torqueNM}
-                        onChange={handleEngineInputChange}
-                    />
-                </FormControl>
-                <FormControl isInvalid={formErrors.garage}>
-                    <FormLabel htmlFor="garage">Garage:</FormLabel>
-                    <Select id="garage" name="garage" value={car.garage} onChange={handleGarageSelect}>
-                        <option value="">Select a Garage</option>
-                        {garages.map((garage) => (
-                            <option key={garage.id} value={garage.id}>
-                                {garage.name}
-                            </option>
-                        ))}
-                    </Select>
-                    <FormErrorMessage>{formErrors.garage}</FormErrorMessage>
-                </FormControl>
-                <Button type="submit">Add Car</Button>
-            </form>
-        </Box>
-    );
+          {/* <FormErrorMessage>{formErrors.garage}</FormErrorMessage> */}
+        
+        <Button type="submit">Add Car</Button>
+      </form>
+    </Box>
+  );
 };
 
 export default AddCar;

@@ -19,6 +19,9 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { EditIcon, ViewIcon } from "@chakra-ui/icons";
+import { FormControl, FormLabel } from "react-bootstrap";
+import { Select } from "@chakra-ui/react";
+// import FormErrorMessage from "@chakra-ui/react/dist/FormErrorMessage";
 
 export default function GarageList({ userId }) {
   const queryClient = useQueryClient();
@@ -32,7 +35,9 @@ export default function GarageList({ userId }) {
   if (status === "error") {
     return <div>Error fetching data</div>;
   }
-  if(data.status === 404){return <div>No garages found</div>}
+  if (data.status === 404) {
+    return <div>No garages found</div>;
+  }
 
   const garages = data;
   return (
@@ -124,6 +129,44 @@ function GarageWidget({ garage }) {
           </CardFooter>
         </Card>
       </SimpleGrid>
+    </>
+  );
+}
+
+export function GarageDropdown({ userId,handleGarageSelect, formErrors  }) {
+  const queryClient = useQueryClient();
+  const { data, status } = useQuery(["garages", userId], () =>
+    getGaragesByUserID(userId)
+  );
+  if (status === 404) {
+    return <div>No garages found</div>;
+  }
+  const garages = data;
+  return (
+    <>
+    
+      {garages && 
+        <>
+         <FormControl>
+          <FormLabel htmlFor="garage">Garage:</FormLabel>
+          <Select
+            id="garage"
+            name="garage"
+            value={garages[0].name}
+            onChange={handleGarageSelect}
+          >
+            <option value="">Select a Garage</option>
+            {garages.map((garage) => (
+              <option key={garage.id} value={garage.id}>
+                {garage.name}
+              </option>
+            ))}
+          </Select>
+
+          {/* <FormErrorMessage>{formErrors.garage}</FormErrorMessage> */}
+        </FormControl>
+        </>
+      }
     </>
   );
 }
