@@ -13,26 +13,51 @@ export async function getCarsByGarageID(garageId) {
     return data; 
   }
   
-  export async function createCar(car) {
-    try {
-      const response = await fetch(url, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(car),
-      });
   
-      if (response.ok) {
-        const data = await response.json();
-        return data;
-      } else {
-        throw new Error(`Request failed with status ${response.status}`);
+  
+
+
+  export async function createCar(name, description, manufacturer, model, year, seats, garage, engine) {
+    const url = 'http://localhost:5027/Cars';
+
+    const payload = {
+      name: name,
+      description: description,
+      manufacturer: manufacturer,
+      model: model,
+      year: year,
+      seats: seats,
+      garage: {
+        id: garage.id,
+      },
+      engine: {
+        size: engine.size,
+        fuelType: engine.fuelType,
+        powerHP: engine.powerHP,
+        torqueNM: engine.torqueNM
       }
-    } catch (error) {
-      console.error("Error:", error);
-      throw error;
+    };
+
+    console.log("Payload: " + JSON.stringify(payload));
+
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(payload),
+    });
+
+    const status = response.status;
+    console.log("Status: " + status);
+
+    if (status !== 201) {
+      let data = await response.text();
+      throw new Error(data);
     }
+
+    const data = await response.json();
+    return data;
   }
   export async function getAllCars() {
     try {
