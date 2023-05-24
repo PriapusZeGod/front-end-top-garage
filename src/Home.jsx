@@ -1,11 +1,12 @@
 import React from "react";
 import { Box, Center, Flex, Image, Text } from "@chakra-ui/react";
 import carImage from "./images/car-home-page.png";
+import ChartWidget from "./components/ChartWidget";
 
-function Home({ currentCar}) {
+function Home({ currentCar }) {
   return (
     <>
-    {currentCar && <Text>{currentCar.name}</Text>}
+      {currentCar && <Text>{currentCar.name}</Text>}
       <Box
         height="80%"
         width="100%"
@@ -22,6 +23,11 @@ function Home({ currentCar}) {
           Choose a garage and car to start
         </Text>
       </Box>
+      {Object.keys(currentCar).length !== 0 && (
+        <Flex spacing={4}>
+          <ChartWidget garageId={currentCar.garage.id} />
+        </Flex>
+      )}
     </>
   );
 }

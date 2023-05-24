@@ -32,7 +32,9 @@ export default function GarageList({ userId }) {
   if (status === "error") {
     return <div>Error fetching data</div>;
   }
-  if(data.status === 404){return <div>No garages found</div>}
+  if (data.status === 404) {
+    return <div>No garages found</div>;
+  }
 
   const garages = data;
   return (
@@ -99,9 +101,7 @@ function GarageWidget({ garage }) {
                 </div>
                 <div className="col text-start border border-0">
                   <ul className="text-light m-2">
-                    {cars.map((c) => (
-                      <li key={c.id}>{c.name}</li>
-                    ))}
+                    {cars && cars.map((c) => <li key={c.id}>{c.name}</li>)}
                   </ul>
                 </div>
               </div>

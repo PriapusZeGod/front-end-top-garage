@@ -78,7 +78,6 @@ function TableRow({ time, param, maxValue, isTemperature, isHumidity, isCO2 }) {
   const day = date.getDate();
   const month = date.getMonth() + 1; // Months are zero-based, so add 1
   const year = date.getFullYear();
-  
 
   // Pad single-digit day/month with leading zero if necessary
   const formattedDay = String(day).padStart(2, "0");
