@@ -46,8 +46,10 @@ import { useContext } from "react";
 import UserContext from "./UserContext";
 import { getProfileById } from "../services/profileService";
 import { getGaragesByUserID } from "../services/GarageService";
+import { Avatar, AvatarBadge, AvatarGroup } from "@chakra-ui/react";
+import carImage from "../images/car-home-page.png";
 
-export default function Navbar_Main({currentCar, setCurrentCar}) {
+export default function Navbar_Main({ currentCar, setCurrentCar }) {
   const { user } = useContext(UserContext);
   const [currentGarageName, setCurrentGarageName] = useState("Select Garage");
   const [currentGarrage, setCurrentGarrage] = useState({});
@@ -72,7 +74,6 @@ export default function Navbar_Main({currentCar, setCurrentCar}) {
             currentGarageName={currentGarageName}
             currentGarrage={currentGarrage}
           />
-
           <Spacer />
           {user && (
             <GarageMenu
@@ -81,18 +82,31 @@ export default function Navbar_Main({currentCar, setCurrentCar}) {
               currentGarageName={currentGarageName}
             />
           )}
-          <Spacer/>
-          <Nav.Link href="/#/addgarage">
-            <Image  alt="AddGarage" width={"30px"} src={"https://icon-library.com/images/garage-icon-png/garage-icon-png-16.jpg"}/>
-          </Nav.Link>
-          <Spacer />
-          <Nav.Link href="/#/addcar">
-            <Image  alt="Addcar" width={"30px"} className={"das"} src={"https://cdn2.iconfinder.com/data/icons/flat-transport-2/32/car-add-512.png"}/>
-          </Nav.Link>
           <Spacer />
 
           <HStack spacing="20px">
             <Hide below="md">
+              <Nav.Link href="/#/addgarage">
+                <Image
+                  alt="AddGarage"
+                  width={"50px"}
+                  src={
+                    "https://icon-library.com/images/garage-icon-png/garage-icon-png-16.jpg"
+                  }
+                />
+              </Nav.Link>
+              <Spacer />
+              <Nav.Link href="/#/addcar">
+                <Image
+                  alt="Addcar"
+                  width={"50px"}
+                  className={"das"}
+                  src={
+                    "https://cdn2.iconfinder.com/data/icons/flat-transport-2/32/car-add-512.png"
+                  }
+                />
+              </Nav.Link>
+              <Spacer />
               <InputGroup>
                 <InputLeftElement
                   pointerEvents="none"
@@ -126,38 +140,37 @@ function GarageMenu({ handleGarageSelect, currentGarageName, userId }) {
   }, [data]);
   return (
     <>
-    {data && data.length > 0 && (
-      <Menu>
-        {({ isOpen }) => (
-          <>
-            <MenuButton
-              isActive={isOpen}
-              as={Button}
-              rightIcon={<ChevronDownIcon />}
-              variant="ghost"
-            >
-              {currentGarageName || data[0].name}
-            </MenuButton>
-            {data && (
-              <MenuList>
-                {data.map((garage) => (
-                  <MenuItem
-                    href=""
-                    onClick={() => handleGarageSelect(garage.name, garage)}
-                    key={garage.id}
-                  >
-                    {garage.name}
-                  </MenuItem>
-                ))}
-              </MenuList>
-            )}
-            
-          </>
-        )}
-      </Menu>)}
+      {data && data.length > 0 && (
+        <Menu>
+          {({ isOpen }) => (
+            <>
+              <MenuButton
+                isActive={isOpen}
+                as={Button}
+                rightIcon={<ChevronDownIcon />}
+                variant="ghost"
+              >
+                {currentGarageName || data[0].name}
+              </MenuButton>
+              {data && (
+                <MenuList>
+                  {data.map((garage) => (
+                    <MenuItem
+                      href=""
+                      onClick={() => handleGarageSelect(garage.name, garage)}
+                      key={garage.id}
+                    >
+                      {garage.name}
+                    </MenuItem>
+                  ))}
+                </MenuList>
+              )}
+            </>
+          )}
+        </Menu>
+      )}
       {data && !data.length > 0 && (
-
-        <Button variant="ghost" >Create Garage</Button>
+        <Button variant="ghost">Create Garage</Button>
       )}
     </>
   );
@@ -207,7 +220,7 @@ function Offcanvas({ currentGarageName, currentGarrage, setCurrentCar }) {
                       fontSize="1em"
                       children={<SearchIcon />}
                     />
-                    <Input placeholder="Enter amount" />
+                    <Input placeholder="Enter car name" />
                   </InputGroup>
                 </ListItem>
                 <ListItem>
@@ -216,9 +229,42 @@ function Offcanvas({ currentGarageName, currentGarrage, setCurrentCar }) {
                     profile
                   </Nav.Link>
                 </ListItem>
+                <ListItem>
+                  <Nav.Link href="/#/addgarage">
+                    <Flex>
+                      <Image
+                        alt="AddGarage"
+                        width={"40px"}
+                        src={
+                          "https://icon-library.com/images/garage-icon-png/garage-icon-png-16.jpg"
+                        }
+                        mr="5px"
+                      />
+                      <Text>Add Garage</Text>
+                    </Flex>
+                  </Nav.Link>
+                </ListItem>
+                <ListItem>
+                  <Nav.Link href="/#/addcar">
+                    <Flex>
+                      <Image
+                        alt="Addcar"
+                        width={"40px"}
+                        className={"das"}
+                        src={
+                          "https://cdn2.iconfinder.com/data/icons/flat-transport-2/32/car-add-512.png"
+                        }
+                        mr="5px"
+                      />
+                      <Text>Add Car</Text>
+                    </Flex>
+                  </Nav.Link>
+                </ListItem>
               </List>
             </Show>
-            {currentGarrage && <CarList garage={currentGarrage} setCurrentCar={setCurrentCar} />}
+            {currentGarrage && (
+              <CarList garage={currentGarrage} setCurrentCar={setCurrentCar} />
+            )}
           </DrawerBody>
         </DrawerContent>
       </Drawer>
@@ -247,19 +293,16 @@ function CarList({ garage, setCurrentCar }) {
     <List>
       {cars.map((car) => (
         <Nav.Link href="#" key={car.id}>
-          <ListItem onClick={() => setCurrentCar(car)}>{car.name}</ListItem>
+          <Flex alignItems="center">
+            <Avatar
+              mr="2px"
+              src="https://cdn3.iconfinder.com/data/icons/google-material-design-icons/48/ic_directions_car_48px-512.png"
+            />
+            <ListItem onClick={() => setCurrentCar(car)}>{car.name}</ListItem>
+          </Flex>
         </Nav.Link>
       ))}
-      <br/>
-      <Nav.Link href="/#/addgarage">
-        <Image  alt="AddGarage" width={"30px"} src={"https://icon-library.com/images/garage-icon-png/garage-icon-png-16.jpg"}/>
-      </Nav.Link>
-      <br/>
-      <Spacer />
-      <Nav.Link href="/#/addcar">
-        <Image  alt="Addcar" width={"30px"} className={"das"} src={"https://cdn2.iconfinder.com/data/icons/flat-transport-2/32/car-add-512.png"}/>
-      </Nav.Link>
-      <Spacer />
+      <br />
     </List>
   );
 }
