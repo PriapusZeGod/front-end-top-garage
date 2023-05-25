@@ -107,11 +107,25 @@ const router = createHashRouter([
     ),
   },
   {
+    path: "/garage",
+    element: (
+      <>
+        <QueryClientProvider client={queryClient}>
+          <Authorization>
+            {/* <TableComponent /> */}
+          </Authorization>
+        </QueryClientProvider>
+      </>
+    ),
+  },
+  {
     path: "/image",
     element: (
       <>
         <QueryClientProvider client={queryClient}>
-          <ImagePage Nav={Navbar_Main} AddImage={AddImage} />
+          <Authorization>
+            <ImagePage Nav={Navbar_Main} AddImage={AddImage} />
+          </Authorization>
         </QueryClientProvider>
       </>
     ),
