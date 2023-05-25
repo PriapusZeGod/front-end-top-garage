@@ -1,7 +1,7 @@
 import React from "react";
 import { useEffect, useState } from "react";
 import { getGaragesByUserID } from "../services/GarageService";
-import { getCarsByGarageID } from "../services/CarService";
+import {getCarsByGarageID} from "../services/CarService";
 import { useQuery, useQueryClient } from "react-query";
 import gclass from "../images/g-class.png";
 import {
@@ -168,6 +168,34 @@ export function GarageDropdown({ userId,handleGarageSelect, formErrors  }) {
         </>
       }
     </>
+  );
+}
+
+
+export function deleteCar({ carId, deleteCar }) {
+  const [isDeleting, setIsDeleting] = useState(false);
+
+  const handleDelete = async () => {
+    setIsDeleting(true);
+    try {
+      await deleteCar(carId);
+      // Handle successful deletion
+      console.log('Car deleted successfully!');
+    } catch (error) {
+      // Handle error
+      console.error('Failed to delete car:', error);
+    } finally {
+      setIsDeleting(false);
+    }
+  };
+
+  return (
+      <div>
+        <h2>Car ID: {carId}</h2>
+        <button onClick={handleDelete} disabled={isDeleting}>
+          {isDeleting ? 'Deleting...' : 'Delete Car'}
+        </button>
+      </div>
   );
 }
 
