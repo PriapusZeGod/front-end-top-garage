@@ -70,6 +70,28 @@ export async function createGarages(user, id, name, capacity, location) {
 }
 
 
+
+export async function deleteGarage(garageId) {
+  const response = await fetch(`${url}/${garageId}`, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error("Failed to delete garage");
+  }
+  const contentType = response.headers.get("content-type");
+  if (contentType && contentType.includes("application/json")) {
+    const data = await response.json();
+    console.log("Response data:", data);
+    return data;
+  }
+  return null;
+}
+
+
 export async function getCapacity(garageId) {
   try {
     const response = await fetch(`${url}/${garageId}`);

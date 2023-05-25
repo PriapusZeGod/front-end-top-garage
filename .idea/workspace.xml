@@ -6,10 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="1aba6eb0-05fd-4be7-8c50-e76c2a9d8037" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Home.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/Home.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/Garage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Garage.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Navbar.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Navbar.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/services/CarService.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/CarService.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/services/GarageService.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/GarageService.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
