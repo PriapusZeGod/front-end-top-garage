@@ -1,38 +1,70 @@
 import { Box, Text } from "@chakra-ui/layout";
 import React from "react";
-import { useQuery } from "react-query";
+import { useQuery, useQueryClient } from "react-query";
 import {
   getStatsByGarageID,
   getStatsLimitByGarageID,
 } from "../services/EnviromentService";
 import { useEffect } from "react";
 import { Line } from "react-chartjs-2";
+import {
+  Chart as ChartJS,
+  LineElement,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+} from "chart.js";
+
+ChartJS.register(LineElement, CategoryScale, LinearScale, PointElement);
 
 export default function ChartWidget({ garageId }) {
-  const { data, status } = useQuery(["stats", garageId], () =>
-    getStatsByGarageID(garageId)
-  );
+  // const queryClient = useQueryClient();
 
-  useEffect(() => {
-    console.log(data);
-  }, [data]);
+  // if (garageId == null) garageId = 1;
+  // const { data, status } = useQuery(["stats", garageId], () =>
+  //   getStatsByGarageID(garageId)
+  // );
+  // const { data: limitData, status: limitStatus } = useQuery(
+  //   ["statslimit", garageId],
+  //   () => getStatsLimitByGarageID(garageId)
+  // );
 
-  const chartConfig = {
-    labels: data?.map((item) => new Date(item.time).toLocaleString()) || [],
+  // useEffect(() => {
+  //   console.log(data);
+  //   console.log(limitData);
+  // }, [data, limitData]);
+
+  const data = {
+    labels: ["Mon", "Tue", "Wed"],
+    //data && limitData && data.length > 0 && data.map((item) => item.time),
     datasets: [
       {
-        label: "Temperature",
-        data: data?.map((item) => item.temperature) || [],
-        borderColor: "blue",
-        fill: false,
+        labels: "Sales of the Week",
+        data: [6, 3, 9],
+        backgroundColor: "aqua",
+        borderColor: "black",
+        pointBorderColor: "aqua",
+        fill: true,
+        tension: 0.4,
       },
     ],
   };
 
+  const options = {
+    plugins: {
+      legend: true,
+    },
+    scales: {
+      y: {
+        min: 3,
+        max: 6,
+      },
+    },
+  };
   return (
     <Box ml="10px" mr="10px" w="25vw" h="400px" borderRadius={10}>
-      <Text>Chart Widget</Text>
-      {data ? <Line data={chartConfig} /> : <Text>Loading...</Text>}
+      {console.log(getStatsByGarageID(garageId))}
+      <Line data={data} options={options}></Line>
     </Box>
   );
 }
