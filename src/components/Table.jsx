@@ -15,7 +15,12 @@ import { getStatsByGarageID } from "../services/EnviromentService";
 import { getStatsLimitByGarageID } from "../services/EnviromentService";
 import { useEffect } from "react";
 
-export default function TableComponent({ garageId }) {
+export default function TableComponent({
+  garageId,
+  isTemperature,
+  isHumidity,
+  isCO2,
+}) {
   const queryClient = useQueryClient();
 
   if (garageId == null) garageId = 1;
@@ -47,13 +52,48 @@ export default function TableComponent({ garageId }) {
           {data &&
             limitData &&
             data.length > 0 &&
+            isCO2 &&
+            data.map((item) => (
+              <TableRow
+                key={item.id}
+                time={item.time}
+                param={item.cO2}
+                maxValue={limitData.indoorEnvironmentSettings.co2Limit}
+                isTemperature={isTemperature}
+                isCO2={isCO2}
+                isHumidity={isHumidity}
+              />
+            ))}
+
+          {data &&
+            limitData &&
+            data.length > 0 &&
+            isHumidity &&
+            data.map((item) => (
+              <TableRow
+                key={item.id}
+                time={item.time}
+                param={item.humidity}
+                maxValue={limitData.indoorEnvironmentSettings.humidityLimit}
+                isTemperature={isTemperature}
+                isCO2={isCO2}
+                isHumidity={isHumidity}
+              />
+            ))}
+
+          {data &&
+            limitData &&
+            data.length > 0 &&
+            isTemperature &&
             data.map((item) => (
               <TableRow
                 key={item.id}
                 time={item.time}
                 param={item.temperature}
                 maxValue={limitData.indoorEnvironmentSettings.temperatureLimit}
-                isTemperature={true}
+                isTemperature={isTemperature}
+                isCO2={isCO2}
+                isHumidity={isHumidity}
               />
             ))}
         </Tbody>
