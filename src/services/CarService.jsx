@@ -77,23 +77,27 @@ export async function getAllCars() {
 }
 
 
-  export async function deleteCar(carId) {
-    try {
-      const response = await fetch(`${url}/${carId}`, {
-        method: 'DELETE',
-      });
-  
-      if (response.ok) {
-        const data = await response.json();
-        return data;
-      } else {
-        throw new Error(`Request failed with status ${response.status}`);
-      }
-    } catch (error) {
-      console.error('Error:', error);
-      throw error;
-    }
+export async function deleteCar(carId) {
+  const response = await fetch(`${url}/${carId}`, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error("Failed to delete car");
   }
+  const contentType = response.headers.get("content-type");
+  if (contentType && contentType.includes("application/json")) {
+    const data = await response.json();
+    console.log("Response data:", data);
+    return data;
+  }
+  return null;
+}
+
+
 export async function getCarImage(id) {
   try {
     const response = await fetch(`${url}/${id}`);
