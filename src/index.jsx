@@ -34,6 +34,7 @@ import MapViewComponent from "./components/MapView";
 import ImagePage from "./pages/ImagePage";
 import AddImage from "./components/AddImage";
 import TableComponent from "./components/Table";
+import ChartWidget from "./components/ChartWidget";
 
 const queryClient = new QueryClient();
 const router = createHashRouter([
@@ -114,6 +115,7 @@ const router = createHashRouter([
         <QueryClientProvider client={queryClient}>
           <Authorization>
             <TableComponent/>
+            <ChartWidget/>
           </Authorization>
         </QueryClientProvider>
       </>

@@ -14,33 +14,62 @@ import {
   LinearScale,
   PointElement,
 } from "chart.js";
+import { useState } from "react";
 
 ChartJS.register(LineElement, CategoryScale, LinearScale, PointElement);
 
 export default function ChartWidget({ garageId }) {
-  // const queryClient = useQueryClient();
+  const queryClient = useQueryClient();
+  const [values, setValues] = useState([]);
+  const [dates, setDates] = useState([]);
+  const [labels, setLabels] = useState([]);
 
-  // if (garageId == null) garageId = 1;
-  // const { data, status } = useQuery(["stats", garageId], () =>
-  //   getStatsByGarageID(garageId)
-  // );
-  // const { data: limitData, status: limitStatus } = useQuery(
-  //   ["statslimit", garageId],
-  //   () => getStatsLimitByGarageID(garageId)
-  // );
+  if (garageId == null) garageId = 1;
+  const { data: chartData, status } = useQuery(["stats", garageId], () =>
+    getStatsByGarageID(garageId)
+  );
+  const { data: limitData, status: limitStatus } = useQuery(
+    ["statslimit", garageId],
+    () => getStatsLimitByGarageID(garageId)
+  );
 
-  // useEffect(() => {
-  //   console.log(data);
-  //   console.log(limitData);
-  // }, [data, limitData]);
+  useEffect(() => {
+    if (chartData) {
+      setDates(
+        chartData.map((item) => {
+          let date = new Date(item.time);
+          let day = date.getDate();
+          let month = date.getMonth() + 1; // Months are zero-based, so add 1
+          let year = date.getFullYear();
+
+          return `${day}/${month}/${year}`;
+        })
+      );
+      setValues(chartData.map((item) => item.temperature));
+    }
+  }, [chartData]);
+
+  useEffect(() => {
+    console.log(chartData);
+    console.log(limitData);
+  }, [chartData, limitData]);
+
+  useEffect(() => {
+    console.log(values);
+    console.log(dates);
+    if (dates) {
+      setLabels(dates);
+    }
+  }, [values, dates]);
 
   const data = {
-    labels: ["Mon", "Tue", "Wed"],
-    //data && limitData && data.length > 0 && data.map((item) => item.time),
+    labels: labels,
+    // data && limitData && data.length > 0 && data.map((item) => item.time),
+
     datasets: [
       {
         labels: "Sales of the Week",
-        data: [6, 3, 9],
+        data: values,
         backgroundColor: "aqua",
         borderColor: "black",
         pointBorderColor: "aqua",
@@ -56,15 +85,21 @@ export default function ChartWidget({ garageId }) {
     },
     scales: {
       y: {
-        min: 3,
-        max: 6,
+        min: 23,
+        max: 25,
       },
     },
   };
   return (
-    <Box ml="10px" mr="10px" w="25vw" h="400px" borderRadius={10}>
-      {console.log(getStatsByGarageID(garageId))}
-      <Line data={data} options={options}></Line>
-    </Box>
+    <>
+      {chartData && limitData && (
+        <Text fontSize="xl" fontWeight="bold" ml="10px" mr="10px" mt="10px">
+          Cv info : {limitData.name}
+        </Text>
+      )}
+      <Box ml="10px" mr="10px" w="25vw" h="400px" borderRadius={10}>
+        <Line data={data} options={options}></Line>
+      </Box>
+    </>
   );
 }
