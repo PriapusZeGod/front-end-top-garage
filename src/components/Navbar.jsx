@@ -81,7 +81,14 @@ export default function Navbar_Main({currentCar, setCurrentCar}) {
               currentGarageName={currentGarageName}
             />
           )}
-          
+          <Spacer/>
+          <Nav.Link href="/#/addgarage">
+            <Image  alt="AddGarage" width={"30px"} src={"https://icon-library.com/images/garage-icon-png/garage-icon-png-16.jpg"}/>
+          </Nav.Link>
+          <Spacer />
+          <Nav.Link href="/#/addcar">
+            <Image  alt="Addcar" width={"30px"} className={"das"} src={"https://cdn2.iconfinder.com/data/icons/flat-transport-2/32/car-add-512.png"}/>
+          </Nav.Link>
           <Spacer />
 
           <HStack spacing="20px">
