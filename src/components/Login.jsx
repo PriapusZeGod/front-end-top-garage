@@ -43,6 +43,7 @@ useEffect(() => {
   useEffect(() => {
     if (data) {
       setShow(false);
+      data.password = loginData.password;
       handleLoginOrRegister(data);
       saveUserToStorage(data); // Save user to storage on successful login
     }

@@ -28,11 +28,7 @@ import { useQuery, useQueryClient } from "react-query";
 import { useContext } from "react";
 import UserContext from "./UserContext";
 
-export default function ProfileEditModal({
-  isOpenProp,
-  onCloseProp,
-  profile,
-}) {
+export default function ProfileEditModal({ isOpenProp, onCloseProp, profile }) {
   const { handleLogout } = useContext(UserContext);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [show, setShow] = useState(false);
@@ -62,7 +58,7 @@ export default function ProfileEditModal({
         }
       } else {
         console.log("User to be set: " + JSON.stringify(user));
-        
+
         setAlert(
           <Alert variant="success">Profile updated successfully!</Alert>
         );
@@ -74,10 +70,9 @@ export default function ProfileEditModal({
     }
   }
 
-  function handleCloseAndLogout()
-  {
+  function handleCloseAndLogout() {
     handleClose();
-    handleLogout(); 
+    handleLogout();
   }
 
   return (
@@ -118,16 +113,6 @@ export default function ProfileEditModal({
                   onChange={(e) => {
                     user.name = e.target.value;
                     console.log("Name: " + user.name);
-                  }}
-                />
-                {/*PASSWORD*/}
-                <FormLabel>Password</FormLabel>
-                <Input
-                  type="password"
-                  placeholder="Enter new password"
-                  onChange={(e) => {
-                    user.password = e.target.value;
-                    console.log("Password: " + user.password);
                   }}
                 />
                 {/*AGE*/}
@@ -177,14 +162,16 @@ export default function ProfileEditModal({
               </>
             )}
 
-            {success &&  <Button
-                  variant="ghost"
-                  colorScheme="blue"
-                  mr={3}
-                  onClick={handleCloseAndLogout}
-                >
-                  Close
-                </Button>}
+            {success && (
+              <Button
+                variant="ghost"
+                colorScheme="blue"
+                mr={3}
+                onClick={handleCloseAndLogout}
+              >
+                Close
+              </Button>
+            )}
           </ModalFooter>
         </ModalContent>
       </Modal>
@@ -192,121 +179,121 @@ export default function ProfileEditModal({
   );
 }
 
-// import { useState } from "react";
-// import Button from "react-bootstrap/Button";
-// import Form from "react-bootstrap/Form";
-// import Modal from "react-bootstrap/Modal";
-// import { updateProfile } from "../services/profileService";
-// import Alert from "react-bootstrap/Alert";
-// import React from "react";
+export function ChangePasswordModal({ isOpenProp, onCloseProp }) {
+  const [isOpen, setIsOpen] = useState(false);
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [alert, setAlert] = useState(null);
+  const [success, setSuccess] = useState(false);
+  const { user } = useContext(UserContext);
 
-// export default function ProdileEditModal({ profile, setProfile }) {
-//   async function updateUser() {
-//     setAlert(null);
-//     try {
-//       const error = await updateProfile(user);
-//       console.log("Error: " + error);
-//       if (error != null) {
-//         setAlert(<Alert variant="danger">Error: {error.text}</Alert>);
-//       } else {
-//         console.log("User to be set: " + JSON.stringify(user));
-//         // setProfile(user);
-//         setAlert(
-//           <Alert variant="success">Profile updated successfully!</Alert>
-//         );
-//       }
-//     } catch (error) {
-//       console.error("Error:", error);
-//       setAlert(<Alert variant="danger">Error: {error.message}</Alert>);
-//     }
-//   }
+  let profile = user;
+  const handleClose = () => {
+    setIsOpen(false);
+    setNewPassword("");
+    setConfirmPassword("");
+    setAlert(null);
+  };
 
-//   return (
-//     <>
-//       <Button variant="dark" onClick={handleShow}>
-//         Edit Profile
-//       </Button>
+  const handleShow = () => {
+    setIsOpen(true);
+  };
 
-//       <Modal show={show} onHide={handleClose}>
-//         <Modal.Header closeButton>
-//           <Modal.Title>Edit Your Profile</Modal.Title>
-//         </Modal.Header>
-//         <Modal.Body>
-//           <Form>
-//             <Form.Group className="mb-3" controlId="ControlInput1">
-//               <Form.Label>Email address</Form.Label>
-//               <Form.Control
-//                 type="email"
-//                 autoFocus
-//                 defaultValue={user.email}
-//                 onChange={(e) => {
-//                   user.email = e.target.value;
-//                   console.log("Email: " + user.email);
-//                 }}
-//               />
-//             </Form.Group>
-//             <Form.Group className="mb-3" controlId="ControlInput2">
-//               <Form.Label>Name</Form.Label>
-//               <Form.Control
-//                 type="name"
-//                 autoFocus
-//                 defaultValue={user.name}
-// onChange={(e) => {
-//   user.name = e.target.value;
-//   console.log("Name: " + user.name);
-// }}
-//               />
-//             </Form.Group>
-//             <Form.Group className="mb-3" controlId="ControlInput3">
-//               <Form.Label>Password</Form.Label>
-//               <Form.Control
-//                 type="password"
-//                 autoFocus
-//                 placeholder="Enter new password"
-// onChange={(e) => {
-//   user.password = e.target.value;
-//   console.log("Password: " + user.password);
-// }}
-//                 required
-//               />
-//             </Form.Group>
-//             <Form.Group className="mb-3" controlId="ControlInput4">
-//               <Form.Label>Age</Form.Label>
-//               <Form.Control
-//                 type="name"
-//                 autoFocus
-//                 defaultValue={user.age}
-//                 onChange={(e) => {
-//                   user.age = e.target.value;
-//                   console.log("Age: " + user.age);
-//                 }}
-//               />
-//             </Form.Group>
-//             <Form.Group className="mb-3" controlId="ControlInput5">
-//               <Form.Label>Phone Number</Form.Label>
-//               <Form.Control
-//                 type="mobile"
-//                 autoFocus
-//                 defaultValue={user.phone}
-// onChange={(e) => {
-//   user.phone = e.target.value;
-//   console.log("Phone: " + user.phone);
-// }}
-//               />
-//             </Form.Group>
-//           </Form>
+  async function updatePassword() {
+    setAlert(null);
 
-//           {alert}
-//         </Modal.Body>
-//         <Modal.Footer>
-//           <Button variant="secondary" onClick={handleClose}>
-//             Close
-//           </Button>
-//           <Button variant="primary" onClick={updateUser}>
-//             Save Changes
-//           </Button>
-//         </Modal.Footer>
-//       </Modal>
-//     </>
-//   );
-// }
+    if (newPassword !== confirmPassword) {
+      setAlert(<Alert variant="danger">Passwords do not match</Alert>);
+      return;
+    }
+
+    try {
+      profile.password = newPassword;
+      // Perform password update logic here
+      // Replace the following lines with your actual password update code
+      const error = await updateProfile(profile);
+      if (error != null) {
+        if (error.errors.Password != null) {
+          setAlert(
+            <Alert variant="danger">Error: {error.errors.Password}</Alert>
+          );
+        }
+      } else {
+        setSuccess(true);
+        setAlert(
+          <Alert variant="success">Password updated successfully!</Alert>
+        );
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      setAlert(<Alert variant="danger">Error: {error.message}</Alert>);
+    }
+  }
+
+  return (
+    <>
+      <Button colorScheme="gray" onClick={handleShow}>
+        Change Password
+      </Button>
+
+      <Modal isOpen={isOpen || isOpenProp} onClose={onCloseProp || handleClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Change Password</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            {!success && (
+              <FormControl>
+                <FormLabel>New Password</FormLabel>
+                <Input
+                  type="password"
+                  placeholder="Enter new password"
+                  value={newPassword}
+                  onChange={(e) => setNewPassword(e.target.value)}
+                />
+                <FormLabel>Confirm Password</FormLabel>
+                <Input
+                  type="password"
+                  placeholder="Confirm new password"
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                />
+               
+              </FormControl>
+            )}
+             {alert}
+          </ModalBody>
+
+          <ModalFooter>
+            {!success && (
+              <>
+                <Button
+                  variant="ghost"
+                  colorScheme="blue"
+                  mr={3}
+                  onClick={onCloseProp || handleClose}
+                >
+                  Close
+                </Button>
+                <Button variant="ghost" onClick={updatePassword}>
+                  Update Password
+                </Button>
+              </>
+            )}
+
+            {success && (
+              <Button
+                variant="ghost"
+                colorScheme="blue"
+                mr={3}
+                onClick={onCloseProp || handleClose}
+              >
+                Close
+              </Button>
+            )}
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+    </>
+  );
+}

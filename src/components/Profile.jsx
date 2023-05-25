@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   TabList,
   TabPanels,
@@ -31,7 +31,7 @@ import { useQuery, useQueryClient } from "react-query";
 import { useMutation } from "react-query";
 import { useContext } from "react";
 import UserContext from "./UserContext";
-
+import { ChangePasswordModal } from "./ProfileEditModal";
 
 import { getProfileById, updateProfile } from "../services/profileService";
 import ProfileEditModal from "./ProfileEditModal";
@@ -40,19 +40,9 @@ export default function Profile() {
   const { user } = useContext(UserContext);
   const { changeUser } = useContext(UserContext);
 
-
-
-  // const queryClient = useQueryClient();
-  // const { data, status } = useQuery(["profile", id], () => getProfileById(id) );
-
-  // if (status === "loading") {
-  //   return <div>Loading...</div>
-  // }
-  // if (status === "error") {
-  //   return <div>Error fetching data</div>;
-  // }
-
-  // const profile = data[0];
+  useEffect(() => {
+    console.log("Profile: " + JSON.stringify(user));
+  }, [user]);
   const profile = user;
   return (
     <Tabs p="4px" colorScheme="purple" variant="enclosed">
@@ -63,29 +53,25 @@ export default function Profile() {
 
       <TabPanels>
         <TabPanel>
-          {user && <ProfileData profile={profile} changeUser={changeUser}/>}
+          {user && <ProfileData profile={profile} changeUser={changeUser} />}
         </TabPanel>
-        <TabPanel>
-          {user && <GarageList userId={profile.id} />}
-        </TabPanel>
+        <TabPanel>{user && <GarageList userId={profile.id} />}</TabPanel>
       </TabPanels>
     </Tabs>
   );
 }
 
-function ProfileData({ profile , changeUser}) {
+function ProfileData({ profile, changeUser }) {
   const logoutDisclosure = useDisclosure();
   const editModalDisclosure = useDisclosure();
   const { handleLogout } = useContext(UserContext);
-
 
   const imgStyle = {
     borderRadius: "50%",
     border: "2px solid black",
   };
 
-  function handleLogOutClose()
-  {
+  function handleLogOutClose() {
     handleLogout();
     logoutDisclosure.onClose();
   }
@@ -133,6 +119,10 @@ function ProfileData({ profile , changeUser}) {
               onClose={editModalDisclosure.onClose}
               profile={profile}
             />
+            <ChangePasswordModal
+              isOpen={editModalDisclosure.isOpen}
+              onClose={editModalDisclosure.onClose}
+            />
           </HStack>
         </CardFooter>
       </Card>
@@ -155,11 +145,7 @@ function ProfileData({ profile , changeUser}) {
               >
                 Cancel
               </Button>
-              <Button
-                colorScheme="red"
-                onClick={handleLogOutClose}
-                ml={3}
-              >
+              <Button colorScheme="red" onClick={handleLogOutClose} ml={3}>
                 Log Out
               </Button>
             </AlertDialogFooter>
