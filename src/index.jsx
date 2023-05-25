@@ -114,10 +114,12 @@ const router = createHashRouter([
       <>
         <QueryClientProvider client={queryClient}>
           <Authorization>
-            <TableComponent isCO2={true}/>
-            <ChartWidget/>
-            <TableComponent isTemperature={true}/>
-            <TableComponent isHumidity={true}/>
+            <ChartWidget isCO2={true} />
+            <TableComponent isCO2={true} />
+            <ChartWidget isTemperature={true} />
+            <TableComponent isTemperature={true} />
+            <ChartWidget isHumidity={true} />
+            <TableComponent isHumidity={true} />
           </Authorization>
         </QueryClientProvider>
       </>

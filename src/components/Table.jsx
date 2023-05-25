@@ -43,9 +43,9 @@ export default function TableComponent({
         <TableCaption>Imperial to metric conversion factors</TableCaption>
         <Thead>
           <Tr>
-            <Th>To convert</Th>
-            <Th>into</Th>
-            <Th isNumeric>multiply by</Th>
+            <Th>Date</Th>
+            <Th>Value</Th>
+            <Th isNumeric>% to limit</Th>
           </Tr>
         </Thead>
         <Tbody>
