@@ -89,15 +89,13 @@ export default function ChartWidget({ garageId }) {
         max: 25,
       },
     },
+    maintainAspectRatio: false,
+    responsive: true,
   };
+
   return (
     <>
-      {chartData && limitData && (
-        <Text fontSize="xl" fontWeight="bold" ml="10px" mr="10px" mt="10px">
-          Cv info : {limitData.name}
-        </Text>
-      )}
-      <Box ml="10px" mr="10px" w="25vw" h="400px" borderRadius={10}>
+      <Box ml="10px" mr="10px" w="25vw" h="500px" borderRadius={10}>
         <Line data={data} options={options}></Line>
       </Box>
     </>
