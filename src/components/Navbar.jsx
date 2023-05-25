@@ -291,7 +291,7 @@ function CarList({ garage, setCurrentCar }) {
 
   return (
     <List>
-      {cars.map((car) => (
+      {cars.length && cars.map((car) => (
         <Nav.Link href="#" key={car.id}>
           <Flex alignItems="center">
             <Avatar

@@ -1,7 +1,7 @@
 import React from "react";
 import { useEffect, useState } from "react";
 import { getGaragesByUserID } from "../services/GarageService";
-import {getCarsByGarageID} from "../services/CarService";
+import { getCarsByGarageID } from "../services/CarService";
 import { useQuery, useQueryClient } from "react-query";
 import gclass from "../images/g-class.png";
 import {
@@ -21,12 +21,11 @@ import {
 import { EditIcon, ViewIcon } from "@chakra-ui/icons";
 import { FormControl, FormLabel } from "react-bootstrap";
 import { Select } from "@chakra-ui/react";
-// import FormErrorMessage from "@chakra-ui/react/dist/FormErrorMessage";
 
 export default function GarageList({ userId }) {
   const queryClient = useQueryClient();
   const { data, status } = useQuery(["garages", userId], () =>
-    getGaragesByUserID(userId)
+      getGaragesByUserID(userId)
   );
 
   if (status === "loading") {
@@ -41,32 +40,22 @@ export default function GarageList({ userId }) {
 
   const garages = data;
   return (
-    <>
-      {/* <div className="container">
-        <div className="row mt-5">
+      <>
+        <SimpleGrid spacing={4} minChildWidth="300px">
           {garages.map((g) => (
-            <div key={g.id} className="col-sm-4 mt-3">
-              <GarageWidget garage={g} />
-            </div>
+              <div key={g.id}>
+                <GarageWidget garage={g} userId={userId} />
+              </div>
           ))}
-        </div>
-      </div>
-    </> */}
-      <SimpleGrid spacing={4} minChildWidth="300px">
-        {garages.map((g) => (
-          <div key={g.id}>
-            <GarageWidget garage={g} />
-          </div>
-        ))}
-      </SimpleGrid>
-    </>
+        </SimpleGrid>
+      </>
   );
 }
 
-function GarageWidget({ garage }) {
+function GarageWidget({ garage, userId }) {
   const queryClient = useQueryClient();
   const { data, status } = useQuery(["cars", garage.id], () =>
-    getCarsByGarageID(garage.id)
+      getCarsByGarageID(garage.id)
   );
 
   if (status === "loading") {
@@ -78,124 +67,72 @@ function GarageWidget({ garage }) {
 
   const cars = data;
 
-  return (
-    <>
-      <SimpleGrid spacing={4} minChildWidth="300px">
-        <Card borderTop="8px" borderColor="purple.400" bg="white">
-          <CardHeader>
-            <Heading as="h2">{garage.name}</Heading>
-          </CardHeader>
-
-          <CardBody color="gray.500">
-            <div className="bg-primary rounded">
-              <div className="row">
-                <h1 className="text-center text-light mt-2 ">{garage.name}</h1>
-                <div className="col m-2 border border-0">
-                  <div className="row">
-                    <div className="text-center text-light fw-bold mt-2 ">
-                      Free Spots:
-                    </div>
-                  </div>
-                  <div className="row">
-                    <div className="text-center text-light fw-bolder fs-2">
-                      {garage.availableSlots}/{garage.capacity}
-                    </div>
-                  </div>
-                </div>
-                <div className="col text-start border border-0">
-                  <ul className="text-light m-2">
-                    {cars.map((c) => (
-                      <li key={c.id}>{c.name}</li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
-
-              <div className="row">
-                <img src={gclass} />
-              </div>
-            </div>
-          </CardBody>
-          <Divider borderColor="gray.200" />
-          <CardFooter>
-            <HStack>
-              <Button variant="ghost" leftIcon={<ViewIcon />}>
-                Watch
-              </Button>
-              <Button variant="ghost" leftIcon={<EditIcon />}>
-                Comment
-              </Button>
-            </HStack>
-          </CardFooter>
-        </Card>
-      </SimpleGrid>
-    </>
-  );
-}
-
-export function GarageDropdown({ userId,handleGarageSelect, formErrors  }) {
-  const queryClient = useQueryClient();
-  const { data, status } = useQuery(["garages", userId], () =>
-    getGaragesByUserID(userId)
-  );
-  if (status === 404) {
-    return <div>No garages found</div>;
-  }
-  const garages = data;
-  return (
-    <>
-    
-      {garages && 
-        <>
-         <FormControl>
-          <FormLabel htmlFor="garage">Garage:</FormLabel>
-          <Select
-            id="garage"
-            name="garage"
-            value={garages[0].name}
-            onChange={handleGarageSelect}
-          >
-            <option value="">Select a Garage</option>
-            {garages.map((garage) => (
-              <option key={garage.id} value={garage.id}>
-                {garage.name}
-              </option>
-            ))}
-          </Select>
-
-          {/* <FormErrorMessage>{formErrors.garage}</FormErrorMessage> */}
-        </FormControl>
-        </>
-      }
-    </>
-  );
-}
-
-
-export function deleteCar({ carId, deleteCar }) {
-  const [isDeleting, setIsDeleting] = useState(false);
-
-  const handleDelete = async () => {
-    setIsDeleting(true);
+  const handleDeleteCar = async (carId) => {
     try {
-      await deleteCar(carId);
-      // Handle successful deletion
-      console.log('Car deleted successfully!');
+      // Delete car logic
+      console.log("Deleting car with ID:", carId);
     } catch (error) {
-      // Handle error
-      console.error('Failed to delete car:', error);
-    } finally {
-      setIsDeleting(false);
+      console.error("Error deleting car:", error);
     }
   };
 
   return (
-      <div>
-        <h2>Car ID: {carId}</h2>
-        <button onClick={handleDelete} disabled={isDeleting}>
-          {isDeleting ? 'Deleting...' : 'Delete Car'}
-        </button>
-      </div>
+      <>
+        <SimpleGrid spacing={4} minChildWidth="300px">
+          <Card borderTop="8px" borderColor="purple.400" bg="white">
+            <CardHeader>
+              <Heading as="h2">{garage.name}</Heading>
+            </CardHeader>
+
+            <CardBody color="gray.500">
+              <div className="bg-primary rounded">
+                <div className="row">
+                  <h1 className="text-center text-light mt-2 ">{garage.name}</h1>
+                  <div className="col m-2 border border-0">
+                    <div className="row">
+                      <div className="text-center text-light fw-bold mt-2 ">
+                        Free Spots:
+                      </div>
+                    </div>
+                    <div className="row">
+                      <div className="text-center text-light fw-bolder fs-2">
+                        {garage.availableSlots}/{garage.capacity}
+                      </div>
+                    </div>
+                  </div>
+                  <div className="col text-start border border-0">
+                    <ul className="text-light m-2">
+                      {cars.length && cars.map((c) => (
+                          <li key={c.id}>
+                            {c.name}
+                            <button onClick={() => handleDeleteCar(c.id)}>
+                              Delete
+                            </button>
+                          </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+
+                <div className="row">
+                  <img src={gclass} />
+                </div>
+              </div>
+            </CardBody>
+            <Divider borderColor="gray.200" />
+            <CardFooter>
+              <HStack>
+                <Button variant="ghost" leftIcon={<ViewIcon />}>
+                  Watch
+                </Button>
+                <Button variant="ghost" leftIcon={<EditIcon />}>
+                  Comment
+                </Button>
+              </HStack>
+            </CardFooter>
+          </Card>
+        </SimpleGrid>
+      </>
   );
 }
 
