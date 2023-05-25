@@ -1,8 +1,7 @@
 import React from "react";
-import { useEffect, useState } from "react";
-import { getGaragesByUserID } from "../services/GarageService";
-import { getCarsByGarageID } from "../services/CarService";
 import { useQuery, useQueryClient } from "react-query";
+import { getGaragesByUserID, deleteGarage } from "../services/GarageService";
+import { getCarsByGarageID } from "../services/CarService";
 import gclass from "../images/g-class.png";
 import {
   Box,
@@ -18,9 +17,7 @@ import {
   SimpleGrid,
   Text,
 } from "@chakra-ui/react";
-import { EditIcon, ViewIcon } from "@chakra-ui/icons";
-import { FormControl, FormLabel } from "react-bootstrap";
-import { Select } from "@chakra-ui/react";
+import { EditIcon, ViewIcon, DeleteIcon } from "@chakra-ui/icons";
 
 export default function GarageList({ userId }) {
   const queryClient = useQueryClient();
@@ -69,10 +66,18 @@ function GarageWidget({ garage, userId }) {
 
   const handleDeleteCar = async (carId) => {
     try {
-      // Delete car logic
       console.log("Deleting car with ID:", carId);
     } catch (error) {
       console.error("Error deleting car:", error);
+    }
+  };
+
+  const handleDeleteGarage = async (garageId) => {
+    try {
+      await deleteGarage(garageId);
+      queryClient.invalidateQueries(["garages", userId]); // Invalidate the "garages" query with the userId to trigger a re-fetch
+    } catch (error) {
+      console.error("Error deleting garage:", error);
     }
   };
 
@@ -102,20 +107,21 @@ function GarageWidget({ garage, userId }) {
                   </div>
                   <div className="col text-start border border-0">
                     <ul className="text-light m-2">
-                      {cars.length && cars.map((c) => (
-                          <li key={c.id}>
-                            {c.name}
-                            <button onClick={() => handleDeleteCar(c.id)}>
-                              Delete
-                            </button>
-                          </li>
-                      ))}
+                      {cars.length &&
+                          cars.map((c) => (
+                              <li key={c.id}>
+                                {c.name}
+                                <button onClick={() => handleDeleteCar(c.id)}>
+                                  Delete Car
+                                </button>
+                              </li>
+                          ))}
                     </ul>
                   </div>
                 </div>
 
                 <div className="row">
-                  <img src={gclass} />
+                  <img src={gclass} alt="Garage" />
                 </div>
               </div>
             </CardBody>
@@ -127,6 +133,13 @@ function GarageWidget({ garage, userId }) {
                 </Button>
                 <Button variant="ghost" leftIcon={<EditIcon />}>
                   Comment
+                </Button>
+                <Button
+                    variant="ghost"
+                    leftIcon={<DeleteIcon />}
+                    onClick={() => handleDeleteGarage(garage.id)}
+                    color={"red"}
+                >
                 </Button>
               </HStack>
             </CardFooter>
