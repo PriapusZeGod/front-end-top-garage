@@ -170,7 +170,9 @@ function GarageMenu({ handleGarageSelect, currentGarageName, userId }) {
         </Menu>
       )}
       {data && !data.length > 0 && (
-        <Button variant="ghost">Create Garage</Button>
+        <Link href="/#/addgarage">
+          <Button variant="ghost">Create Garage</Button>
+        </Link>
       )}
     </>
   );
@@ -291,17 +293,18 @@ function CarList({ garage, setCurrentCar }) {
 
   return (
     <List>
-      {cars.length && cars.map((car) => (
-        <Nav.Link href="#" key={car.id}>
-          <Flex alignItems="center">
-            <Avatar
-              mr="2px"
-              src="https://cdn3.iconfinder.com/data/icons/google-material-design-icons/48/ic_directions_car_48px-512.png"
-            />
-            <ListItem onClick={() => setCurrentCar(car)}>{car.name}</ListItem>
-          </Flex>
-        </Nav.Link>
-      ))}
+      {cars.length &&
+        cars.map((car) => (
+          <Nav.Link href="#" key={car.id}>
+            <Flex alignItems="center">
+              <Avatar
+                mr="2px"
+                src="https://cdn3.iconfinder.com/data/icons/google-material-design-icons/48/ic_directions_car_48px-512.png"
+              />
+              <ListItem onClick={() => setCurrentCar(car)}>{car.name}</ListItem>
+            </Flex>
+          </Nav.Link>
+        ))}
       <br />
     </List>
   );
