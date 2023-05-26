@@ -111,9 +111,6 @@ function GarageWidget({ garage, userId }) {
                           cars.map((c) => (
                               <li key={c.id}>
                                 {c.name}
-                                <button onClick={() => handleDeleteCar(c.id)}>
-                                  Delete Car
-                                </button>
                               </li>
                           ))}
                     </ul>
