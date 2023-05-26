@@ -18,12 +18,13 @@ async function uploadFile({ carId, file }) {
   }
 }
 
-function FileUploadComponent() {
+function FileUploadComponent({ carId}) {
   const { user } = useContext(UserContext);
   const [selectedFile, setSelectedFile] = useState(null);
   const [imageUrl, setImageUrl] = useState(null);
   const [data, setData] = useState(null);
-  const [currentCar, setCurrentCar] = useState(null);
+
+  
 
   function handleFileChange(event) {
     setSelectedFile(event.target.files[0]);
@@ -31,10 +32,11 @@ function FileUploadComponent() {
 
   async function handleUpload() {
     if (selectedFile) {
+      console.log("car id "+ carId)
       const formData = new FormData();
       formData.append("image", selectedFile, selectedFile.name);
       queryClient.invalidateQueries("fileUpload");
-      setData(await uploadFile({ carId: currentCar.id, file: formData }));
+      setData(await uploadFile({ carId: carId, file: formData }));
     }
   }
 
@@ -57,7 +59,7 @@ function FileUploadComponent() {
               mb={2}
             >
               <Box color="white">
-                <Heading as="h1">File Upload App</Heading>
+                <Heading as="h1">Upload Your Image</Heading>
               </Box>
             </Box>
             <Box
@@ -99,7 +101,7 @@ function FileUploadComponent() {
               mb={2}
             >
               <Box color="white">
-                <Heading as="h1">File Upload App</Heading>
+                <Heading as="h1">Upload Your Image</Heading>
               </Box>
             </Box>
             <Box
@@ -117,12 +119,12 @@ function FileUploadComponent() {
   );
 }
 
-function App() {
+function App({ carId}) {
   const { user } = useContext(UserContext);
   return (
     <ChakraProvider>
       <QueryClientProvider client={queryClient}>
-        {user && <FileUploadComponent />}
+        {user && <FileUploadComponent carId={carId} />}
       </QueryClientProvider>
     </ChakraProvider>
   );
