@@ -5,6 +5,16 @@ import { deleteCar } from './CarService';
 import { getCarImage } from './CarService';
 import { createCarImage } from './CarService';
 import { getImage } from './CarService';
+import React from "react";
+import { render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
+import {
+  getGaragesByUserID,
+  deleteGarage,
+} from "./GarageService"; 
+import GarageList from "../components/Garage";
+import GarageWidget from "../components/Garage";
+
 const url = 'http://localhost:5027/Cars';
 
 
@@ -374,3 +384,7 @@ describe('deleteCar', () => {
     expect(result).toBeNull();
   });  
   });
+
+
+
+ 

@@ -162,7 +162,8 @@ function LoginForm({
 }) {
   return (
     <>
-      <Modal show={show}>
+      {show && (
+        <Modal show={true}>
         <Modal.Header>
           <Modal.Title>Please Log In</Modal.Title>
         </Modal.Header>
@@ -207,6 +208,7 @@ function LoginForm({
           </Button>
         </Modal.Footer>
       </Modal>
+      )}
     </>
   );
 }
@@ -222,7 +224,8 @@ function RegisterForm({
 }) {
   return (
     <>
-      <Modal show={show}>
+      {show && (
+        <Modal show={true}>
         <Modal.Header>
           <Modal.Title>Please Register</Modal.Title>
         </Modal.Header>
@@ -299,6 +302,7 @@ function RegisterForm({
           </Button>
         </Modal.Footer>
       </Modal>
+      )}
     </>
   );
 }
