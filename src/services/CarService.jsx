@@ -86,16 +86,19 @@ export async function deleteCar(carId) {
   });
 
   if (!response.ok) {
-    throw new Error("Failed to delete car");
+    throw new Error(`Failed to delete car. Status: ${response.status}`);
   }
+
   const contentType = response.headers.get("content-type");
   if (contentType && contentType.includes("application/json")) {
     const data = await response.json();
     console.log("Response data:", data);
     return data;
   }
+
   return null;
 }
+
 
 
 export async function getCarImage(id) {

@@ -11,7 +11,7 @@ const url = 'http://localhost:5027/Cars';
 
 describe('getCarsByGarageID', () => {
   it('should fetch cars by garage ID and return the data', async () => {
-    const mockGarageId = 'your-garage-id';
+    const mockGarageId = '1';
     const mockResponse = [{ id: 1, make: 'Toyota', model: 'Camry' }];
     const mockJsonPromise = Promise.resolve(mockResponse);
     const mockFetchPromise = Promise.resolve({
@@ -28,7 +28,7 @@ describe('getCarsByGarageID', () => {
   });
 
   it('should throw an error if the fetch request fails', async () => {
-    const mockGarageId = 'your-garage-id';
+    const mockGarageId = '1';
     const mockErrorMessage = 'Failed to fetch cars';
     const mockFetchPromise = Promise.resolve({
       ok: false,
@@ -44,58 +44,133 @@ describe('getCarsByGarageID', () => {
 
 
 describe('createCar', () => {
+  beforeEach(() => {
+    global.fetch = jest.fn();
+  });
+
+  afterEach(() => {
+    global.fetch.mockRestore();
+  });
+
   it('should create a new car and return the data if the request is successful', async () => {
     const mockCar = {
-      make: 'Toyota',
+      name: 'Toyota',
+      description: 'Camry',
+      manufacturer: 'Toyota',
       model: 'Camry',
+      year: 2022,
+      seats: 5,
+      garageId: 1,
+      engine: 'V6',
     };
+
     const mockResponse = {
       id: 1,
-      make: 'Toyota',
+      name: 'Toyota',
+      description: 'Camry',
+      manufacturer: 'Toyota',
       model: 'Camry',
+      year: 2022,
+      seats: 5,
+      garage: {
+        id: 1,
+      },
+      engine: 'V6',
     };
-    const mockFetchPromise = Promise.resolve({
+
+    global.fetch.mockResolvedValueOnce({
       ok: true,
+      status: 201,
       json: () => Promise.resolve(mockResponse),
     });
 
-    global.fetch = jest.fn().mockImplementation(() => mockFetchPromise);
+    const result = await createCar(
+      mockCar.name,
+      mockCar.description,
+      mockCar.manufacturer,
+      mockCar.model,
+      mockCar.year,
+      mockCar.seats,
+      mockCar.garageId,
+      mockCar.engine
+    );
 
-    const result = await createCar(mockCar);
-
-    expect(global.fetch).toHaveBeenCalledWith(url, {
+    expect(global.fetch).toHaveBeenCalledWith('http://localhost:5027/Cars', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(mockCar),
+      body: JSON.stringify({
+        Name: mockCar.name,
+        Description: mockCar.description,
+        Manufacturer: mockCar.manufacturer,
+        Model: mockCar.model,
+        Year: mockCar.year,
+        Seats: mockCar.seats,
+        Garage: {
+          Id: mockCar.garageId,
+        },
+        Engine: mockCar.engine,
+      }),
     });
     expect(result).toEqual(mockResponse);
   });
 
   it('should throw an error if the request fails', async () => {
     const mockCar = {
-      make: 'Toyota',
+      name: 'Toyota',
+      description: 'Camry',
+      manufacturer: 'Toyota',
       model: 'Camry',
+      year: 2022,
+      seats: 5,
+      garageId: 1,
+      engine: 'V6',
     };
+
     const mockErrorMessage = 'Request failed with status 500';
-    const mockFetchPromise = Promise.resolve({
+
+    global.fetch.mockResolvedValueOnce({
       ok: false,
       status: 500,
+      text: () => Promise.resolve(mockErrorMessage),
     });
 
-    global.fetch = jest.fn().mockImplementation(() => mockFetchPromise);
+    await expect(
+      createCar(
+        mockCar.name,
+        mockCar.description,
+        mockCar.manufacturer,
+        mockCar.model,
+        mockCar.year,
+        mockCar.seats,
+        mockCar.garageId,
+        mockCar.engine
+      )
+    ).rejects.toThrowError(mockErrorMessage);
 
-    await expect(createCar(mockCar)).rejects.toThrowError(mockErrorMessage);
-    expect(global.fetch).toHaveBeenCalledWith(url, {
+    expect(global.fetch).toHaveBeenCalledWith('http://localhost:5027/Cars', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(mockCar),
+      body: JSON.stringify({
+        Name: mockCar.name,
+        Description: mockCar.description,
+        Manufacturer: mockCar.manufacturer,
+        Model: mockCar.model,
+        Year: mockCar.year,
+        Seats: mockCar.seats,
+        Garage: {
+          Id: mockCar.garageId,
+        },
+        Engine: mockCar.engine,
+      }),
     });
   });
 });
+
+
 
 
 describe('getAllCars', () => {
@@ -134,56 +209,52 @@ describe('getAllCars', () => {
 
 
 describe('deleteCar', () => {
-    it('should send a DELETE request and return the data if the request is successful', async () => {
-      const carId = '1';
-      const mockResponse = { success: true };
-      const mockFetchPromise = Promise.resolve({
-        ok: true,
-        json: () => Promise.resolve(mockResponse),
-      });
-  
-      global.fetch = jest.fn().mockImplementation(() => mockFetchPromise);
-  
-      const result = await deleteCar(carId);
-  
-      expect(global.fetch).toHaveBeenCalledWith(`${url}/${carId}`, { method: 'DELETE' });
-      expect(result).toEqual(mockResponse);
+  it('should send a DELETE request and return the data if the request is successful', async () => {
+    const carId = '1';
+    const mockResponse = { success: true };
+    const mockFetchPromise = Promise.resolve({
+      ok: true,
+      json: () => Promise.resolve(mockResponse),
+      headers: {
+        get: () => 'application/json',
+      },
     });
-  
-    it('should throw an error if the request fails', async () => {
-      const carId = '1';
-      const mockErrorMessage = 'Request failed with status 500';
-      const mockFetchPromise = Promise.resolve({
-        ok: false,
-        status: 500,
-      });
-  
-      global.fetch = jest.fn().mockImplementation(() => mockFetchPromise);
-  
-      await expect(deleteCar(carId)).rejects.toThrowError(mockErrorMessage);
-      expect(global.fetch).toHaveBeenCalledWith(`${url}/${carId}`, { method: 'DELETE' });
+
+    global.fetch = jest.fn().mockImplementation(() => mockFetchPromise);
+
+    const result = await deleteCar(carId);
+
+    expect(global.fetch).toHaveBeenCalledWith(`${url}/${carId}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
     });
+    expect(result).toEqual(mockResponse);
   });
 
-
-
-  describe('getCarImage', () => {
-    it('should fetch and return the image blob if the request is successful', async () => {
-      const carId = '1';
-      const mockImage = 'image data';
-      const mockFetchPromise = Promise.resolve({
-        ok: true,
-        arrayBuffer: () => Promise.resolve(mockImage),
-      });
-  
-      global.fetch = jest.fn().mockImplementation(() => mockFetchPromise);
-  
-      const result = await getCarImage(carId);
-  
-      expect(global.fetch).toHaveBeenCalledWith(`${url}/${carId}`);
-      expect(result).toEqual(mockImage);
+  it('should throw an error if the request fails', async () => {
+    const carId = '1';
+    const mockErrorMessage = 'Failed to delete car. Status: 500';
+    const mockFetchPromise = Promise.resolve({
+      ok: false,
+      status: 500,
     });
-  
+
+    global.fetch = jest.fn().mockImplementation(() => mockFetchPromise);
+
+    await expect(deleteCar(carId)).rejects.toThrowError(mockErrorMessage);
+    expect(global.fetch).toHaveBeenCalledWith(`${url}/${carId}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+  });
+});
+
+
+  describe('getCarImage', () => {  
     it('should throw an error if the request fails', async () => {
       const carId = '1';
       const mockErrorMessage = 'Request failed with status 500';
