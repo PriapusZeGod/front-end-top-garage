@@ -18,12 +18,17 @@ import { useState } from "react";
 
 ChartJS.register(LineElement, CategoryScale, LinearScale, PointElement);
 
-export default function ChartWidget({ garageId, isTemperature, isHumidity, isCO2 }) {
+export default function ChartWidget({
+  garageId,
+  isTemperature,
+  isHumidity,
+  isCO2,
+}) {
   const queryClient = useQueryClient();
   const [values, setValues] = useState([]);
   const [dates, setDates] = useState([]);
   const [labels, setLabels] = useState([]);
-  const [minMax, setMinMax] = useState({min: 0, max: 0});
+  const [minMax, setMinMax] = useState({ min: 0, max: 0 });
 
   if (garageId == null) garageId = 1;
   const { data: chartData, status } = useQuery(["stats", garageId], () =>
@@ -47,42 +52,34 @@ export default function ChartWidget({ garageId, isTemperature, isHumidity, isCO2
         })
       );
 
-      if(isCO2){
-
+      if (isCO2) {
         let valueArray = chartData.map((item) => item.cO2);
         setValues(valueArray);
         let max = Math.max(...valueArray);
         let min = Math.min(...valueArray);
-        setMinMax({min:min , max: max});
-
+        setMinMax({ min: min, max: max });
       }
-      if(isHumidity){
+      if (isHumidity) {
         let valueArray = chartData.map((item) => item.humidity);
         setValues(valueArray);
         let max = Math.max(...valueArray);
         let min = Math.min(...valueArray);
-        setMinMax({min:min , max: max});
+        setMinMax({ min: min, max: max });
       }
-      if(isTemperature){
-        
+      if (isTemperature) {
         let valueArray = chartData.map((item) => item.temperature);
         setValues(valueArray);
         let max = Math.max(...valueArray);
         let min = Math.min(...valueArray);
-        setMinMax({min:min , max: max});
-
+        setMinMax({ min: min, max: max });
       }
-
-
-
-        
     }
   }, [chartData]);
 
   // useEffect (() => {
   //   if (limitData) {
   //     if(isTemperature){
-  //       let min = 
+  //       let min =
   //       setMinMax({min: 0, max: limitData.co2Limit * 1.5});
   //     }
   //     if(isHumidity){
@@ -91,10 +88,9 @@ export default function ChartWidget({ garageId, isTemperature, isHumidity, isCO2
   //     if(isCO2){
   //       setMinMax({min: 0, max: limitData.co2Limit});
   //     }
-      
+
   //   }
   // }, [limitData]);
-
 
   useEffect(() => {
     console.log(chartData);
@@ -139,7 +135,14 @@ export default function ChartWidget({ garageId, isTemperature, isHumidity, isCO2
 
   return (
     <>
-      <Box ml="10px" mr="10px" w="25vw" h="500px" borderRadius={10}>
+      <Box
+        ml="10px"
+        mr="10px"
+        width="100%"
+        maxWidth="400px"
+        height="400px"
+        borderRadius={10}
+      >
         <Line data={data} options={options}></Line>
       </Box>
     </>

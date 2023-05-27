@@ -103,16 +103,26 @@ export default function Home({ currentCar }) {
               isDeleting={isDeleting}
             />
           )}
-
-          {currentCar.id &&
-            (console.log(currentCar.garage.id),
-            (
-              <Flex spacing={4}>
-                <ChartWidget garageId={currentCar.garage.id} />
-              </Flex>
-            ))}
         </Box>
       </Flex>
+      {currentCar.id &&
+        (console.log(currentCar.garage.id),
+        (
+          <Flex justifyContent="center" flexWrap="wrap" spacing={4}>
+            <Box width={{ base: "100%", sm: "100%", md: "50%", lg: "33.33%" }}>
+              <ChartWidget garageId={currentCar.garage.id} isCO2={true} />
+            </Box>
+            <Box width={{ base: "100%", sm: "100%", md: "50%", lg: "33.33%" }}>
+              <ChartWidget
+                garageId={currentCar.garage.id}
+                isTemperature={true}
+              />
+            </Box>
+            <Box width={{ base: "100%", sm: "100%", md: "50%", lg: "33.33%" }}>
+              <ChartWidget garageId={currentCar.garage.id} isHumidity={true} />
+            </Box>
+          </Flex>
+        ))}
     </>
   );
 }

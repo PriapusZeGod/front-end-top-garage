@@ -20,6 +20,7 @@ import {
   Link,
   Toast,
   useToast,
+  Heading,
 } from "@chakra-ui/react";
 import {
   Drawer,
@@ -74,6 +75,16 @@ export default function Navbar_Main({ currentCar, setCurrentCar }) {
             currentGarageName={currentGarageName}
             currentGarrage={currentGarrage}
           />
+          <Heading
+            ml="10px"
+            fontSize="lg"
+            fontWeight="bold"
+            letterSpacing="wide"
+            textTransform="uppercase"
+          >
+            <Nav.Link href="/">Top G</Nav.Link>
+          </Heading>
+
           <Spacer />
           {user && (
             <GarageMenu
