@@ -3,7 +3,7 @@ import jwt_decode from "jwt-decode";
 const url = "http://localhost:5158/Users";
 const authUrl = "http://localhost:5158/Auth";
 
-function decodeJWT(token) {
+export function decodeJWT(token) {
   try {
     const decoded = jwt_decode(token);
     return decoded;
