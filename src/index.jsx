@@ -33,6 +33,8 @@ import MapView from "./components/MapView";
 import MapViewComponent from "./components/MapView";
 import ImagePage from "./pages/ImagePage";
 import AddImage from "./components/AddImage";
+import TableComponent from "./components/Table";
+import ChartWidget from "./components/ChartWidget";
 
 const queryClient = new QueryClient();
 const router = createHashRouter([
@@ -112,7 +114,12 @@ const router = createHashRouter([
       <>
         <QueryClientProvider client={queryClient}>
           <Authorization>
-            {/* <TableComponent /> */}
+            <ChartWidget isCO2={true} />
+            <TableComponent isCO2={true} />
+            <ChartWidget isTemperature={true} />
+            <TableComponent isTemperature={true} />
+            <ChartWidget isHumidity={true} />
+            <TableComponent isHumidity={true} />
           </Authorization>
         </QueryClientProvider>
       </>
