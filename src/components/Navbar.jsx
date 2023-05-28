@@ -49,6 +49,9 @@ import { getProfileById } from "../services/profileService";
 import { getGaragesByUserID } from "../services/GarageService";
 import { Avatar, AvatarBadge, AvatarGroup } from "@chakra-ui/react";
 import carImage from "../images/car-home-page.png";
+import {NavLink} from "react-bootstrap";
+import Search from "./Search";
+
 
 export default function Navbar_Main({ currentCar, setCurrentCar }) {
   const { user } = useContext(UserContext);
@@ -119,16 +122,7 @@ export default function Navbar_Main({ currentCar, setCurrentCar }) {
               </Nav.Link>
               <Spacer />
               <InputGroup>
-                <InputLeftElement
-                  pointerEvents="none"
-                  color="gray.300"
-                  fontSize="1em"
-                  children={<SearchIcon />}
-                />
-                <Input
-                  placeholder="Enter car name"
-                  _placeholder={{ color: "white" }}
-                />
+               <Search></Search>
               </InputGroup>
               <Nav.Link href="/#/profile">
                 <Image borderRadius="full" src={userImage} alt="user" />

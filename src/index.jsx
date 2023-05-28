@@ -25,6 +25,7 @@ import About from "./About";
 import HomePage from "./pages/HomePage";
 import AddCarPage from "./pages/AddCarPage";
 import Addcar from "./components/Addcar";
+import Search from "./components/Search";
 import App from "./components/App";
 import AddGarage from "./components/AddGarage";
 import Authorization from "./components/Login";

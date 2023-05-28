@@ -13,6 +13,18 @@ export async function getCarsByGarageID(garageId) {
     return data; 
   }
 
+export async function getCarsByCarName(carName) {
+  try {
+    const response = await fetch(`http://localhost:5027/Cars?CarName=${encodeURIComponent(carName)}`);
+    if (!response.ok) {
+      throw new Error(`Error fetching cars. Status: ${response.status}`);
+    }
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    throw new Error(`Error fetching cars: ${error.message}`);
+  }
+}
 
 
 export async function createCar(name, description, manufacturer, model, year, seats, garageId, engine) {
@@ -154,6 +166,33 @@ export async function getImage(userId) {
     console.error("Error:", error);
   }
   return null;
+}
+export async function updateCar(carId, garageId) {
+  const url = 'http://localhost:5027/Cars';
+
+  const payload = {
+    id: carId,
+    garage: {
+      id: garageId
+    }
+  };
+
+  const response = await fetch(url, {
+    method: 'PATCH',
+    headers: {
+      'Accept': '*/*',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(payload)
+  });
+
+  if (!response.ok) {
+    const error = await response.text();
+    throw new Error(error);
+  }
+
+  const data = await response.json();
+  return data;
 }
 
 export async function uploadImageForCarID(carID, formData) {
