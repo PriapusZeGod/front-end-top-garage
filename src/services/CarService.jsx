@@ -15,7 +15,7 @@ export async function getCarsByGarageID(garageId) {
 
 export async function getCarsByCarName(carName) {
   try {
-    const response = await fetch(`http://localhost:5027/Cars?CarName=${encodeURIComponent(carName)}`);
+    const response = await fetch(`${url}?CarName=${encodeURIComponent(carName)}`);
     if (!response.ok) {
       throw new Error(`Error fetching cars. Status: ${response.status}`);
     }
@@ -28,7 +28,7 @@ export async function getCarsByCarName(carName) {
 
 
 export async function createCar(name, description, manufacturer, model, year, seats, garageId, engine) {
-  const url = 'http://localhost:5027/Cars';
+  const url = `${url}`;
 
   const payload = {
     Name: name,
@@ -71,7 +71,7 @@ export async function createCar(name, description, manufacturer, model, year, se
 }
 
 export async function getAllCars() {
-  const url = 'http://localhost:5027/Cars';
+  const url = `${url}`;
 
   try {
     const response = await fetch(url);
@@ -149,7 +149,7 @@ export async function createCarImage(carImage) {
 
 export async function getImage(userId) {
   try {
-    const response = await fetch(`http://localhost:5027/Cars/${userId}/image`, {
+    const response = await fetch(`${url}/${userId}/image`, {
       method: "GET",
       headers: {
         Accept: "*/*",
@@ -168,14 +168,17 @@ export async function getImage(userId) {
   return null;
 }
 export async function updateCar(carId, garageId) {
-  const url = 'http://localhost:5027/Cars';
-
+  console.log("Car ID: " + carId);
+  console.log("Garage ID: " + garageId);
+  
   const payload = {
     id: carId,
     garage: {
       id: garageId
     }
   };
+
+  console.log("Payload: " + JSON.stringify(payload.garage.id));
 
   const response = await fetch(url, {
     method: 'PATCH',
@@ -190,9 +193,7 @@ export async function updateCar(carId, garageId) {
     const error = await response.text();
     throw new Error(error);
   }
-
-  const data = await response.json();
-  return data;
+  return true;
 }
 
 export async function uploadImageForCarID(carID, formData) {
