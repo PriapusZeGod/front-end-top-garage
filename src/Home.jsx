@@ -30,7 +30,7 @@ import UserContext from "./components/UserContext";
 import { getGaragesByUserID } from "./services/GarageService";
 import { useMutation } from "react-query";
 import { updateCar } from "./services/CarService";
-import MapComponent from "./components/MapView";
+import {MapWidget} from "./components/MapView";
 
 export default function Home({ currentCar }) {
   const [text, setText] = useState("Choose a garage and car to start");
@@ -168,7 +168,7 @@ export default function Home({ currentCar }) {
         />
       )}
 
-      {currentCar.id && <MapComponent />}
+      {currentCar.id && <MapWidget />}
     </>
   );
 }
