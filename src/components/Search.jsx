@@ -18,14 +18,16 @@ import {
     ModalContent,
     ModalFooter,
     ModalHeader,
-    ModalOverlay,
+    ModalOverlay, FormControl, FormLabel, Select,
 } from '@chakra-ui/react';
 import { motion } from 'framer-motion';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import UserContext from './UserContext';
-import { getCarsByCarName, deleteCar } from '../services/CarService';
+import {getCarsByCarName, deleteCar, updateCar} from '../services/CarService';
 import './Search.css';
+import {useMutation, useQuery} from "react-query";
+import {getGaragesByUserID} from "../services/GarageService";
 
 export default function Search() {
     const { user } = useContext(UserContext);
@@ -90,6 +92,9 @@ export default function Search() {
             setSearchPerformed(true);
         } catch (error) {
             console.error('Error searching cars:', error);
+            toast.error('Failed to search cars. No found cars with this name.', {
+                position: toast.POSITION.BOTTOM_RIGHT,
+            });
         }
     };
 
@@ -153,6 +158,7 @@ export default function Search() {
                 )}
             </Box>
 
+
             <ToastContainer position="bottom-right" />
 
             {currentCar && (
@@ -181,6 +187,15 @@ function CarDetailsModal({ car, onClose, onDelete, isDeleting }) {
         initial: { scale: 1 },
         hover: { scale: 1.1 },
         pressed: { scale: 0.9 },
+    };
+    const [isOpen, setIsOpen] = useState(false);
+
+    const handleOpenModal = () => {
+        setIsOpen(true);
+    };
+
+    const handleCloseModal = () => {
+        setIsOpen(false);
     };
 
     return (
@@ -263,6 +278,12 @@ function CarDetailsModal({ car, onClose, onDelete, isDeleting }) {
                     >
                         {isDeleting ? 'Deleting...' : 'Delete Car'}
                     </motion.button>
+                    <Button onClick={handleOpenModal}>Change Garage</Button>
+                    <CarChangeGarageModal
+                        isOpen={isOpen}
+                        onClose={handleCloseModal}
+                        currentCar={car}
+                    />
                 </ModalFooter>
             </ModalContent>
         </Modal>
@@ -322,6 +343,74 @@ function DeleteConfirmationPopup({ carId, handleConfirmDelete, handleCancelDelet
                     >
                         No
                     </motion.button>
+                </ModalFooter>
+            </ModalContent>
+        </Modal>
+    );
+}
+function CarChangeGarageModal({ isOpen, onClose, currentCar }) {
+    const [choice2, setChoice2] = useState("");
+    const { user } = useContext(UserContext);
+
+    const { data: garageData, status } = useQuery(["garages", user.id], () =>
+        getGaragesByUserID(user.id)
+    );
+
+    const { isLoading, isError, error, data, mutate } = useMutation(
+        "updateCar",
+        ({ currentCarId, garageId }) => updateCar(currentCarId, garageId)
+    );
+
+    const handleConfirm = () => {
+        // Perform any desired actions with the selected choices
+        console.log("Choice 2: " + choice2);
+        // let garageId = garageData.find((garage) => garage.name === choice2).id;
+        mutate({ currentCarId: currentCar.id, garageId: choice2 });
+
+        // Close the modal
+        onClose();
+    };
+
+    return (
+        <Modal isOpen={isOpen} onClose={onClose}>
+            <ModalOverlay />
+            <ModalContent>
+                <ModalHeader>Modal Title</ModalHeader>
+                <ModalCloseButton />
+                <ModalBody>
+                    <FormControl>
+                        <FormLabel>Current Garage</FormLabel>
+
+                        {garageData &&
+                            garageData.find((garage) => garage.id === currentCar.garage.id)
+                                .name}
+                    </FormControl>
+                    <FormControl mt={4}>
+                        <FormLabel>Select Garage to move car to</FormLabel>
+                        <Select
+                            defaultValue=""
+                            onChange={(e) => {
+                                setChoice2(e.target.value);
+                                console.log(e.target.value);
+                            }}
+                        >
+                            <option disabled hidden value="">
+                                Select Garage
+                            </option>
+                            {garageData &&
+                                garageData.map((garage) => (
+                                    <option key={garage.id} value={garage.id}>
+                                        {garage.name}
+                                    </option>
+                                ))}
+                        </Select>
+                    </FormControl>
+                </ModalBody>
+                <ModalFooter>
+                    <Button mr={3} onClick={handleConfirm}>
+                        Confirm
+                    </Button>
+                    <Button onClick={onClose}>Cancel</Button>
                 </ModalFooter>
             </ModalContent>
         </Modal>
