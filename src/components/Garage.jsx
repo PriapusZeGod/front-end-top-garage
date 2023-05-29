@@ -20,6 +20,7 @@ import {
 } from "@chakra-ui/react";
 import { EditIcon, ViewIcon, DeleteIcon } from "@chakra-ui/icons";
 
+
 export default function GarageList({ userId }) {
   const queryClient = useQueryClient();
   const { data, status } = useQuery(["garages", userId], () =>
@@ -63,6 +64,7 @@ function GarageWidget({ garage, userId }) {
   );
 
   const [showNotification, setShowNotification] = useState(false);
+  const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
 
   if (carsStatus === "loading" || alarmStatus === "loading") {
     return <div>Loading...</div>;
@@ -94,10 +96,19 @@ function GarageWidget({ garage, userId }) {
   const handleToggleAlarm = async () => {
     try {
       await setAlarmByGarage(garage.id, !alarm);
-
       setShowNotification((prevShowNotification) => !prevShowNotification);
     } catch (error) {
       console.error("Error setting alarm:", error);
+    }
+  };
+
+  const handleConfirmDelete = async (garageId) => {
+    try {
+      await deleteGarage(garageId);
+      queryClient.invalidateQueries(["garages", userId]);
+      setShowDeleteConfirmation(false);
+    } catch (error) {
+      console.error("Error deleting garage:", error);
     }
   };
 
@@ -140,12 +151,17 @@ function GarageWidget({ garage, userId }) {
                 <Button variant="ghost" leftIcon={<ViewIcon />}>
                   Watch
                 </Button>
+                <Button variant="ghost" leftIcon={<EditIcon />}>
+                  Comment
+                </Button>
                 <Button
                     variant="ghost"
                     leftIcon={<DeleteIcon />}
-                    onClick={() => handleDeleteGarage(garage.id)}
+                    onClick={() => setShowDeleteConfirmation(true)}
                     color={"red"}
-                ></Button>
+                >
+                  Delete
+                </Button>
                 <Button
                     variant={showNotification ? "solid" : "outline"}
                     colorScheme="blue"
@@ -157,7 +173,40 @@ function GarageWidget({ garage, userId }) {
             </CardFooter>
           </Card>
         </SimpleGrid>
+
+        {showDeleteConfirmation && (
+            <DeleteConfirmationPopup
+                garageId={garage.id}
+                handleConfirmDelete={handleConfirmDelete}
+                handleClose={() => setShowDeleteConfirmation(false)}
+            />
+        )}
       </>
+  );
+}
+
+function DeleteConfirmationPopup({ garageId, handleConfirmDelete, handleClose }) {
+  return (
+      <Box
+          bg="white"
+          p={4}
+          borderRadius="md"
+          boxShadow="md"
+          position="absolute"
+          top="50%"
+          left="50%"
+          transform="translate(-50%, -50%)"
+      >
+        <Heading as="h3" size="md" mb={4}>
+          Are you sure you want to delete?
+        </Heading>
+        <Flex justify="center">
+          <Button colorScheme="red" mr={2} onClick={() => handleConfirmDelete(garageId)}>
+            Yes
+          </Button>
+          <Button onClick={handleClose}>No</Button>
+        </Flex>
+      </Box>
   );
 }
 

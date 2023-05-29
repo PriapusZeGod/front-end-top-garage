@@ -236,15 +236,7 @@ function Offcanvas({ currentGarageName, currentGarrage, setCurrentCar }) {
             <Show below="md">
               <List fontSize="1.2em" spacing={4}>
                 <ListItem>
-                  <InputGroup>
-                    <InputLeftElement
-                      pointerEvents="none"
-                      color="gray.300"
-                      fontSize="1em"
-                      children={<SearchIcon />}
-                    />
-                    <Input placeholder="Enter car name" />
-                  </InputGroup>
+                  <Search></Search>
                 </ListItem>
                 <ListItem>
                   <Nav.Link href="/#/profile">

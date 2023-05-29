@@ -239,7 +239,7 @@ const AddCar = () => {
   };
 
   return (
-    <Box maxWidth="400px" margin="0 auto">
+    <Box maxWidth="400px" margin="0 auto" >
       {!addedCar && (
         <form onSubmit={handleSubmit}>
           <h2>Add Car</h2>
