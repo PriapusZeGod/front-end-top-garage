@@ -148,9 +148,9 @@ const AddCar = () => {
       errors.seats = "Seats is required";
     } else if (
       parseInt(car.seats.trim()) < 1 ||
-      parseInt(car.seats.trim()) > 100
+      parseInt(car.seats.trim()) > 8
     ) {
-      errors.seats = "Number of seats must be between 1 and 100";
+      errors.seats = "Number of seats must be between 1 and 8";
     }
     if (car.engine.size.trim() === "") {
       errors.engineSize = "Engine Size is required";
@@ -240,7 +240,7 @@ const AddCar = () => {
 
   return (
     <Box maxWidth="400px" margin="0 auto">
-      
+      {!addedCar && (
         <form onSubmit={handleSubmit}>
           <h2>Add Car</h2>
           <FormControl isInvalid={formErrors.name}>
@@ -365,7 +365,14 @@ const AddCar = () => {
             Add Car
           </Button>
         </form>
+      )}
       {addedCar && addedCar.id && <AddImage carId={addedCar.id} />}
+
+      {addedCar && (
+        <Button mt={4} colorScheme="teal" onClick={() => setAddedCar(null)}>
+          Add Another Car
+        </Button>
+      )}
     </Box>
   );
 };

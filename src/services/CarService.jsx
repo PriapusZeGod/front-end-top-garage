@@ -115,7 +115,7 @@ export async function deleteCar(carId) {
 
 export async function getCarImage(id) {
   try {
-    const response = await fetch(`${url}/${id}`);
+    const response = await fetch(`${url}/${id}/image`);
 
     if (response.ok) {
       const blob = await response.blob();
