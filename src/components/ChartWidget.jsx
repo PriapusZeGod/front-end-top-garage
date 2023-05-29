@@ -15,6 +15,19 @@ import {
   PointElement,
 } from "chart.js";
 import { useState } from "react";
+import TableComponent from "./Table";
+import { Link } from "react-router-dom";
+import { Modal } from "@chakra-ui/react";
+import { ModalOverlay } from "@chakra-ui/react";
+import { ModalContent } from "@chakra-ui/react";
+import { ModalHeader } from "@chakra-ui/react";
+import { ModalFooter } from "@chakra-ui/react";
+import { ModalBody } from "@chakra-ui/react";
+import { ModalCloseButton } from "@chakra-ui/react";
+import { FormControl } from "@chakra-ui/react";
+import { FormLabel } from "@chakra-ui/react";
+import { Button } from "@chakra-ui/react";
+import { Tab } from "react-bootstrap";
 
 ChartJS.register(LineElement, CategoryScale, LinearScale, PointElement);
 
@@ -29,6 +42,15 @@ export default function ChartWidget({
   const [dates, setDates] = useState([]);
   const [labels, setLabels] = useState([]);
   const [minMax, setMinMax] = useState({ min: 0, max: 0 });
+  const [isOpen, setIsOpen] = useState(false);
+
+  const handleOpenModal = () => {
+    setIsOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsOpen(false);
+  };
 
   if (garageId == null) garageId = 1;
   const { data: chartData, status } = useQuery(["stats", garageId], () =>
@@ -135,16 +157,54 @@ export default function ChartWidget({
 
   return (
     <>
-      <Box
-        ml="10px"
-        mr="10px"
-        width="100%"
-        maxWidth="400px"
-        height="400px"
-        borderRadius={10}
-      >
-        <Line data={data} options={options}></Line>
-      </Box>
+      <Link onClick={() => handleOpenModal()}>
+        <Box
+          ml="10px"
+          mr="10px"
+          width="100%"
+          maxWidth="400px"
+          height="400px"
+          borderRadius={10}
+        >
+          <Line data={data} options={options}></Line>
+        </Box>
+      </Link>
+      <TableModal isOpen={isOpen} onClose={handleCloseModal} chartData={chartData} limitData={limitData} isTemperature={isTemperature} isCO2={isCO2}
+      isHumidity={isHumidity}/>
+    </>
+  );
+}
+
+function TableModal({
+  isOpen,
+  onClose,
+  chartData,
+  limitData,
+  isTemperature,
+  isHumidity,
+  isCO2,
+}) {
+  return (
+    <>
+      <Modal isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Table</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <TableComponent
+              chartData={chartData}
+              limitData={limitData}
+              isTemperature={isTemperature}
+              isHumidity={isHumidity}
+              isCO2={isCO2}
+            />
+          </ModalBody>
+          <ModalFooter>
+            <Button onClick={onClose}>Close</Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
     </>
   );
 }

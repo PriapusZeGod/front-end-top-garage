@@ -16,26 +16,27 @@ import { getStatsLimitByGarageID } from "../services/EnviromentService";
 import { useEffect } from "react";
 
 export default function TableComponent({
-  garageId,
+  chartData,
+  limitData,
   isTemperature,
   isHumidity,
   isCO2,
 }) {
-  const queryClient = useQueryClient();
+  // const queryClient = useQueryClient();
 
-  if (garageId == null) garageId = 1;
-  const { data, status } = useQuery(["stats", garageId], () =>
-    getStatsByGarageID(garageId)
-  );
-  const { data: limitData, status: limitStatus } = useQuery(
-    ["statslimit", garageId],
-    () => getStatsLimitByGarageID(garageId)
-  );
+  // if (garageId == null) garageId = 1;
+  // const { data, status } = useQuery(["stats", garageId], () =>
+  //   getStatsByGarageID(garageId)
+  // );
+  // const { data: limitData, status: limitStatus } = useQuery(
+  //   ["statslimit", garageId],
+  //   () => getStatsLimitByGarageID(garageId)
+  // );
 
   useEffect(() => {
-    console.log(data);
+    console.log(chartData);
     console.log(limitData);
-  }, [data, limitData]);
+  }, [chartData, limitData]);
 
   return (
     <TableContainer>
@@ -49,11 +50,11 @@ export default function TableComponent({
           </Tr>
         </Thead>
         <Tbody>
-          {data &&
+          {chartData &&
             limitData &&
-            data.length > 0 &&
+            chartData.length > 0 &&
             isCO2 &&
-            data.map((item) => (
+            chartData.map((item) => (
               <TableRow
                 key={item.id}
                 time={item.time}
@@ -65,11 +66,11 @@ export default function TableComponent({
               />
             ))}
 
-          {data &&
+          {chartData &&
             limitData &&
-            data.length > 0 &&
+            chartData.length > 0 &&
             isHumidity &&
-            data.map((item) => (
+            chartData.map((item) => (
               <TableRow
                 key={item.id}
                 time={item.time}
@@ -81,11 +82,11 @@ export default function TableComponent({
               />
             ))}
 
-          {data &&
+          {chartData &&
             limitData &&
-            data.length > 0 &&
+            chartData.length > 0 &&
             isTemperature &&
-            data.map((item) => (
+            chartData.map((item) => (
               <TableRow
                 key={item.id}
                 time={item.time}
