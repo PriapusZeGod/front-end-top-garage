@@ -132,11 +132,6 @@ function GarageWidget({ garage, userId }) {
                     </ul>
                   </div>
                 </div>
-                <div className="col text-start border border-0">
-                  <ul className="text-light m-2">
-                    {cars && cars.map((c) => <li key={c.id}>{c.name}</li>)}
-                  </ul>
-                </div>
               </div>
             </CardBody>
             <Divider borderColor="gray.200" />
@@ -144,9 +139,6 @@ function GarageWidget({ garage, userId }) {
               <HStack>
                 <Button variant="ghost" leftIcon={<ViewIcon />}>
                   Watch
-                </Button>
-                <Button variant="ghost" leftIcon={<EditIcon />}>
-                  Comment
                 </Button>
                 <Button
                     variant="ghost"
