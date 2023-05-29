@@ -25,7 +25,7 @@ export async function getCarsByCarName(carName) {
 
 
 export async function createCar(name, description, manufacturer, model, year, seats, garageId, engine) {
-  const url = `${url}`;
+
 
   const payload = {
     Name: name,
@@ -63,7 +63,7 @@ export async function createCar(name, description, manufacturer, model, year, se
 }
 
 export async function getAllCars() {
-  const url = `${url}`;
+  
 
   try {
     const response = await fetch(url);
