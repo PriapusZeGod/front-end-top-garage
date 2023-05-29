@@ -299,36 +299,36 @@ function CarList({ garage, setCurrentCar }) {
   const queryClient = useQueryClient();
   if (!garage) return null;
 
-  const { data, status } = useQuery(["cars", garage.id], () =>
-    getCarsByGarageID(garage.id)
-  );
+  // const { data, status } = useQuery(["cars", garage.id], () =>
+  //   getCarsByGarageID(garage.id)
+  // );
 
-  if (status === "loading") {
-    return <div>Loading...</div>;
-  }
-  if (status === "error") {
-    return <div>Error fetching data</div>;
-  }
+  // if (status === "loading") {
+  //   return <div>Loading...</div>;
+  // }
+  // if (status === "error") {
+  //   return <div>Error fetching data</div>;
+  // }
 
-  const cars = data;
+  // const cars = data;
 
-  return (
-    <List>
-      {cars.length &&
-        cars.map((car) => (
-          <Nav.Link href="#" key={car.id}>
-            <Flex alignItems="center">
-              <Avatar
-                mr="2px"
-                src="https://cdn3.iconfinder.com/data/icons/google-material-design-icons/48/ic_directions_car_48px-512.png"
-              />
-              <ListItem onClick={() => setCurrentCar(car)}>{car.name}</ListItem>
-            </Flex>
-          </Nav.Link>
-        ))}
-      <br />
-    </List>
-  );
+  // return (
+  //   <List>
+  //     {cars.length &&
+  //       cars.map((car) => (
+  //         <Nav.Link href="#" key={car.id}>
+  //           <Flex alignItems="center">
+  //             <Avatar
+  //               mr="2px"
+  //               src="https://cdn3.iconfinder.com/data/icons/google-material-design-icons/48/ic_directions_car_48px-512.png"
+  //             />
+  //             <ListItem onClick={() => setCurrentCar(car)}>{car.name}</ListItem>
+  //           </Flex>
+  //         </Nav.Link>
+  //       ))}
+  //     <br />
+  //   </List>
+  // );
 }
 
 // import Button from "react-bootstrap/Button";
