@@ -58,7 +58,7 @@ const STORAGE_KEY = "garage";
 export default function Navbar_Main({ currentCar, setCurrentCar }) {
   const { user } = useContext(UserContext);
   const [currentGarageName, setCurrentGarageName] = useState(getGarageFromStorage()?.name);
-  const [currentGarrage, setCurrentGarrage] = useState({});
+  const [currentGarrage, setCurrentGarrage] = useState(getGarageFromStorage());
   const navigate = useNavigate();
 
   useEffect(() => {
