@@ -29,12 +29,12 @@ import {
   DrawerOverlay,
   DrawerContent,
 } from "@chakra-ui/react";
-import {
-  AtSignIcon,
-  HamburgerIcon,
-  ChevronDownIcon,
-  SearchIcon,
-} from "@chakra-ui/icons";
+// import {
+//   AtSignIcon,
+//   HamburgerIcon,
+//   ChevronDownIcon,
+//   SearchIcon,
+// } from "@chakra-ui/icons";
 import React, { useEffect, useState } from "react";
 import { useDisclosure } from "@chakra-ui/react";
 import userImage from "../images/user.png";

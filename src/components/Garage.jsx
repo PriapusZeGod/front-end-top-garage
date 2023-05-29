@@ -18,7 +18,7 @@ import {
   SimpleGrid,
   Text,
 } from "@chakra-ui/react";
-import { EditIcon, ViewIcon, DeleteIcon } from "@chakra-ui/icons";
+// import { EditIcon, ViewIcon, DeleteIcon } from "@chakra-ui/icons";
 
 
 export default function GarageList({ userId }) {
