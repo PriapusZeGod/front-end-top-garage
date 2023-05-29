@@ -231,7 +231,7 @@ function Offcanvas({ currentGarageName, currentGarrage, setCurrentCar }) {
       <Drawer placement="left" onClose={onClose} isOpen={isOpen}>
         <DrawerOverlay />
         <DrawerContent bg="purple.200">
-          <DrawerHeader borderBottomWidth="1px">Basic Drawer</DrawerHeader>
+          <DrawerHeader borderBottomWidth="1px">Cars in garage</DrawerHeader>
           <DrawerBody>
             <Show below="md">
               <List fontSize="1.2em" spacing={4}>
