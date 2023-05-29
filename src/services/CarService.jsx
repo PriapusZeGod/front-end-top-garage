@@ -2,9 +2,6 @@ import { async } from "q";
 
 
 const url = "http://localhost:5027/Cars";
-async function Addcar(id){
-
-}
 
 
 export async function getCarsByGarageID(garageId) {
@@ -42,9 +39,7 @@ export async function createCar(name, description, manufacturer, model, year, se
     },
     Engine: engine
   };
-
   console.log("Payload: " + JSON.stringify(payload));
-
   try {
     const response = await fetch(url, {
       method: "POST",
@@ -53,15 +48,12 @@ export async function createCar(name, description, manufacturer, model, year, se
       },
       body: JSON.stringify(payload),
     });
-
     const status = response.status;
     console.log("Status: " + status);
-
     if (status !== 201) {
       let data = await response.text();
       throw new Error(data);
     }
-
     const data = await response.json();
     return data;
   } catch (error) {

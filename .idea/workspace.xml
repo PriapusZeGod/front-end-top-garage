@@ -5,16 +5,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1aba6eb0-05fd-4be7-8c50-e76c2a9d8037" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/components/CarList.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/Search.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/Search.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/AddCar.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/AddGarage.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Home.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/Home.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Addcar.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Addcar.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/CarList.css" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/Garage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Garage.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/Navbar.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Navbar.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Search.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Search.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/services/CarService.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/CarService.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/services/EnviromentService.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/EnviromentService.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -31,6 +32,9 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/node_modules/react-scripts/lib/react-app.d.ts" root0="SKIP_INSPECTION" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -51,6 +55,7 @@
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;,
     &quot;ts.external.directory.path&quot;: &quot;C:\\Program Files\\JetBrains\\WebStorm 2022.3.2\\plugins\\javascript-impl\\jsLanguageServicesImpl\\external&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
@@ -70,7 +75,9 @@
       <workItem from="1685019822693" duration="2028000" />
       <workItem from="1685093297058" duration="438000" />
       <workItem from="1685204047823" duration="18782000" />
-      <workItem from="1685229798832" duration="12392000" />
+      <workItem from="1685229798832" duration="12825000" />
+      <workItem from="1685352260173" duration="6668000" />
+      <workItem from="1685361686866" duration="7659000" />
     </task>
     <servers />
   </component>
