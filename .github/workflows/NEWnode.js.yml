@@ -12,9 +12,6 @@ on:
 
 jobs:
   build:
-    defaults:
-      run:
-        working-directory: ./front-end-top-garage
     runs-on: ubuntu-latest
 
     strategy:
