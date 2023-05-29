@@ -51,12 +51,15 @@ import { Avatar, AvatarBadge, AvatarGroup } from "@chakra-ui/react";
 import carImage from "../images/car-home-page.png";
 import {NavLink} from "react-bootstrap";
 import Search from "./Search";
+import { useNavigate } from 'react-router-dom';
 
 
+const STORAGE_KEY = "garage";
 export default function Navbar_Main({ currentCar, setCurrentCar }) {
   const { user } = useContext(UserContext);
-  const [currentGarageName, setCurrentGarageName] = useState("Select Garage");
+  const [currentGarageName, setCurrentGarageName] = useState(getGarageFromStorage()?.name);
   const [currentGarrage, setCurrentGarrage] = useState({});
+  const navigate = useNavigate();
 
   useEffect(() => {
     const element = document.getElementById("collapsable-nav-dropdown");
@@ -66,9 +69,22 @@ export default function Navbar_Main({ currentCar, setCurrentCar }) {
   }, [currentGarageName]);
 
   const handleGarageSelect = (garageName, garage) => {
+    // aici de facut
+    // redirect to /#/App
+    saveGarageToStorage(garage);
     setCurrentGarageName(garageName);
     setCurrentGarrage(garage);
+    navigate('/');
   };
+
+  function getGarageFromStorage() {
+    const garage = localStorage.getItem(STORAGE_KEY);
+    return garage ? JSON.parse(garage) : null;
+  }
+
+  function saveGarageToStorage(garage) {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(garage));
+  }
   return (
     <>
       {user && (
