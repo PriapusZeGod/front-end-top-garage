@@ -10,7 +10,7 @@ jobs:
   build:
     defaults:
       run:
-        working-directory: top-garage
+        working-directory: ./top-garage
     runs-on: ubuntu-latest
 
     steps:
