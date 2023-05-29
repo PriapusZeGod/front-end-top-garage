@@ -238,6 +238,7 @@ function CarInfo({ currentCar, onDelete, isDeleting }) {
         />
 
       </Box>
+      </Box>
   );
 }
 
