@@ -1,0 +1,70 @@
+.no-cars-found {
+    position: fixed;
+    float: right;
+    transform: translate(-50%, -50%);
+    background: white;
+    padding: 16px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
+    width: auto;
+    z-index: 9999;
+}
+
+.car-item {
+    position: fixed;
+}
+
+.car-details {
+    position: absolute;
+    top: 100%;
+    transform: translateX(-50%);
+    background: white;
+    padding: 16px;
+    border-radius: 4px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+    width: 350px;
+    z-index: 9999;
+}
+.car-item {
+    width: 100%;
+}
+
+.car-details {
+    width: 100%;
+}
+
+@media (min-width: 480px) {
+    .car-item {
+        width: 200px;
+    }
+
+    .car-details {
+        width: 100%;
+    }
+}
+.car-details {
+    position: initial;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 16px;
+    background-color: #ffffff;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+@media (min-width: 480px) {
+    .car-item {
+        width: 300px;
+    }
+
+    .car-details {
+        width: 300px;
+    }
+}
+.undo{
+    position: fixed;
+    background-color: #ffffff;
+}

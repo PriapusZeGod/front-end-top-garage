@@ -4,13 +4,13 @@ import "./index.css";
 //import App from "./App";
 import GarageList from "./components/Garage";
 import Profile from "./components/Profile";
+import reportWebVitals from "./reportWebVitals";
 import { RouterProvider, createHashRouter } from "react-router-dom";
+import "bootstrap/dist/css/bootstrap.min.css";
 import Home from "./Home";
 import ProfilePage from "./pages/ProfilePage";
 import Navbar_Main from "./components/Navbar";
 import AddGaragePage from "./pages/AddGaragePage";
-// import bootstrap
-import "bootstrap/dist/css/bootstrap.min.css";
 import {
   useQuery,
   useMutation,
@@ -20,6 +20,8 @@ import {
 } from "react-query";
 import { ChakraProvider } from "@chakra-ui/react";
 import AppPage from "./pages/AppPage";
+import AboutPage from "./pages/AboutPage";
+import About from "./About";
 import HomePage from "./pages/HomePage";
 import AddCarPage from "./pages/AddCarPage";
 import Addcar from "./components/Addcar";
@@ -58,6 +60,10 @@ const router = createHashRouter([
         </QueryClientProvider>
       </>
     ),
+  },
+  {
+    path: "/about",
+    element: <AboutPage Nav={Navbar_Main} About={About} />,
   },
   {
     path: "/profile",
