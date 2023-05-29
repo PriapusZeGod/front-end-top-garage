@@ -1,7 +1,0 @@
-{
-    "plugins": ["testing-library"],
-    "rules": {
-      "testing-library/no-wait-for-multiple-assertions": "off"
-    }
-  }
-  
