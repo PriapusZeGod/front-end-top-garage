@@ -1,5 +1,25 @@
 import React, { useEffect, useState, useContext } from 'react';
-import { Box, Button, Flex, Heading, Input, Text, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay } from '@chakra-ui/react';
+import {
+    Box,
+    Button,
+    Flex,
+    Heading,
+    Input,
+    Text,
+    Table,
+    Thead,
+    Tbody,
+    Tr,
+    Th,
+    Td,
+    Modal,
+    ModalBody,
+    ModalCloseButton,
+    ModalContent,
+    ModalFooter,
+    ModalHeader,
+    ModalOverlay,
+} from '@chakra-ui/react';
 import { motion } from 'framer-motion';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -8,12 +28,13 @@ import { getCarsByCarName, deleteCar } from '../services/CarService';
 import './Search.css';
 
 export default function Search() {
-    const {user} = useContext(UserContext);
+    const { user } = useContext(UserContext);
     const [cars, setCars] = useState([]);
     const [currentCar, setCurrentCar] = useState(null);
     const [isDeleting, setIsDeleting] = useState(false);
     const [searchInput, setSearchInput] = useState('');
     const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
+    const [searchPerformed, setSearchPerformed] = useState(false);
 
     useEffect(() => {
         fetchCarsByUser();
@@ -64,8 +85,9 @@ export default function Search() {
             const searchCars = await getCarsByCarName(searchInput);
             setCars(searchCars);
             if (searchCars.length === 0) {
-                toast.info('No cars found.', {position: toast.POSITION.BOTTOM_RIGHT});
+                toast.info('No cars found.', { position: toast.POSITION.BOTTOM_RIGHT });
             }
+            setSearchPerformed(true);
         } catch (error) {
             console.error('Error searching cars:', error);
         }
@@ -74,6 +96,7 @@ export default function Search() {
     const handleCloseCard = () => {
         setCurrentCar(null);
         setSearchInput('');
+        setSearchPerformed(null);
     };
 
     const handleConfirmDelete = (carId) => {
@@ -104,87 +127,42 @@ export default function Search() {
                     </Button>
                 </Box>
 
-                {cars.length === 0 && searchInput.trim() !== '' && (
+                {searchPerformed && cars.length === 0 && (
                     <motion.div
-                        initial={{opacity: 0, y: -10}}
-                        animate={{opacity: 1, y: 0}}
-                        exit={{opacity: 0, y: -10}}
-                        transition={{duration: 0.2}}
+                        initial={{ opacity: 0, y: -10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -10 }}
                         className="no-cars-found"
                     >
                         <Text style={{ display: 'top-right' }}>No cars found.</Text>
                     </motion.div>
                 )}
 
-                {cars.length > 0 && (
+                {searchPerformed && cars.length > 0 && (
                     <Box>
-                        <Box display="flex" flexWrap="wrap">
-                            {cars.map((car) => (
-                                <motion.div
-                                    key={car.id}
-                                    className="car-item"
-                                    onClick={() => handleCarClick(car)}
-                                    whileHover={{scale: 1.05}}
-                                    p={4}
-                                    m={2}
-                                    borderRadius="md"
-                                    boxShadow="md"
-                                    cursor="pointer"
-                                    width="200px"
-                                    background="linear-gradient(45deg, #f6d365, #fda085)"
-                                    transition="box-shadow 0.3s ease"
-                                >
-                                    <Text fontWeight="bold" mb={2}>
-                                        {car.name}
-                                    </Text>
-                                    {currentCar && currentCar.id === car.id && (
-                                        <motion.div
-                                            initial={{opacity: 0, y: -20}}
-                                            animate={{opacity: 1, y: 0}}
-                                            exit={{opacity: 0, y: -20}}
-                                            transition={{duration: 0.2}}
-                                            className="car-details"
-                                        >
-                                            <Button
-                                                onClick={(e) => {
-                                                    e.stopPropagation();
-                                                    handleCloseCard();
-                                                }}
-                                                position="absolute"
-                                                top="8px"
-                                                right="15px"
-                                                size="sm"
-                                                colorScheme="purple"
-                                                variant="solid"
-                                            >
-                                                Close
-                                            </Button>
-                                            <Text color="gray.500">Description: {car.description}</Text>
-                                            <Text color="gray.500">Manufacturer: {car.manufacturer}</Text>
-                                            <Text color="gray.500">Model: {car.model}</Text>
-                                            <Text color="gray.500">Year: {car.year}</Text>
-                                            <Text color="gray.500">Engine Fuel Type: {car.engine.fuelType}</Text>
-                                            <Text color="gray.500">Engine Horse Power: {car.engine.powerHP}</Text>
-                                            <Text color="gray.500">Engine Torque: {car.engine.torqueNM}</Text>
-                                            <Button
-                                                mt={2}
-                                                size="sm"
-                                                colorScheme="red"
-                                                disabled={isDeleting}
-                                                onClick={() => setShowDeleteConfirmation(true)}
-                                            >
-                                                {isDeleting ? 'Deleting...' : 'Delete Car'}
-                                            </Button>
-                                        </motion.div>
-                                    )}
-                                </motion.div>
-                            ))}
-                        </Box>
+                        <Table className={"undo"} variant="simple">
+                            <Tbody>
+                                {cars.map((car) => (
+                                    <Tr key={car.id} onClick={() => handleCarClick(car)} cursor="pointer">
+                                        <Td>{car.name}</Td>
+                                    </Tr>
+                                ))}
+                            </Tbody>
+                        </Table>
                     </Box>
                 )}
             </Box>
 
-            <ToastContainer position="bottom-right"/>
+            <ToastContainer position="bottom-right" />
+
+            {currentCar && (
+                <CarDetailsModal
+                    car={currentCar}
+                    onClose={handleCloseCard}
+                    onDelete={() => setShowDeleteConfirmation(true)}
+                    isDeleting={isDeleting}
+                />
+            )}
 
             {showDeleteConfirmation && currentCar && (
                 <DeleteConfirmationPopup
@@ -197,7 +175,101 @@ export default function Search() {
     );
 }
 
-    function DeleteConfirmationPopup({ carId, handleConfirmDelete, handleCancelDelete }) {
+
+function CarDetailsModal({ car, onClose, onDelete, isDeleting }) {
+    const buttonVariants = {
+        initial: { scale: 1 },
+        hover: { scale: 1.1 },
+        pressed: { scale: 0.9 },
+    };
+
+    return (
+        <Modal isOpen={true} onClose={onClose}>
+            <ModalOverlay />
+            <ModalContent>
+                <ModalHeader>Car Details</ModalHeader>
+                <ModalCloseButton />
+                <ModalBody>
+                    <Table variant="simple">
+                        <Tbody>
+                            <Tr>
+                                <Td fontWeight="bold">Car Name:</Td>
+                                <Td>{car.name}</Td>
+                            </Tr>
+                            <Tr>
+                                <Td fontWeight="bold">Description:</Td>
+                                <Td>{car.description}</Td>
+                            </Tr>
+                            <Tr>
+                                <Td fontWeight="bold">Manufacturer:</Td>
+                                <Td>{car.manufacturer}</Td>
+                            </Tr>
+                            <Tr>
+                                <Td fontWeight="bold">Model:</Td>
+                                <Td>{car.model}</Td>
+                            </Tr>
+                            <Tr>
+                                <Td fontWeight="bold">Year:</Td>
+                                <Td>{car.year}</Td>
+                            </Tr>
+                            <Tr>
+                                <Td fontWeight="bold">Engine Fuel Type:</Td>
+                                <Td>{car.engine.fuelType}</Td>
+                            </Tr>
+                            <Tr>
+                                <Td fontWeight="bold">Engine Horse Power:</Td>
+                                <Td>{car.engine.powerHP}</Td>
+                            </Tr>
+                            <Tr>
+                                <Td fontWeight="bold">Engine Torque:</Td>
+                                <Td>{car.engine.torqueNM}</Td>
+                            </Tr>
+                        </Tbody>
+                    </Table>
+                </ModalBody>
+                <ModalFooter justifyContent="center" gap="4">
+                    <motion.button
+                        variants={buttonVariants}
+                        initial="initial"
+                        whileHover="hover"
+                        whileTap="pressed"
+                        onClick={onClose}
+                        style={{
+                            backgroundColor: 'purple',
+                            color: 'white',
+                            padding: '8px 16px',
+                            border: 'none',
+                            borderRadius: '4px',
+                            cursor: 'pointer',
+                        }}
+                    >
+                        Close
+                    </motion.button>
+                    <motion.button
+                        variants={buttonVariants}
+                        initial="initial"
+                        whileHover="hover"
+                        whileTap="pressed"
+                        onClick={onDelete}
+                        style={{
+                            backgroundColor: 'red',
+                            color: 'white',
+                            padding: '8px 16px',
+                            border: 'none',
+                            borderRadius: '4px',
+                            cursor: 'pointer',
+                        }}
+                        disabled={isDeleting}
+                    >
+                        {isDeleting ? 'Deleting...' : 'Delete Car'}
+                    </motion.button>
+                </ModalFooter>
+            </ModalContent>
+        </Modal>
+    );
+}
+
+function DeleteConfirmationPopup({ carId, handleConfirmDelete, handleCancelDelete }) {
     const buttonVariants = {
         initial: { scale: 1 },
         hover: { scale: 1.1 },

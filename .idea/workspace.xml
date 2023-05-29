@@ -5,17 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1aba6eb0-05fd-4be7-8c50-e76c2a9d8037" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/components/Search.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/AddCar.jsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/AddGarage.jsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Home.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/Home.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Addcar.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Addcar.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/CarList.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Garage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Garage.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Navbar.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Navbar.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Search.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Search.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/Search.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Search.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/services/CarService.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/CarService.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -77,7 +71,7 @@
       <workItem from="1685204047823" duration="18782000" />
       <workItem from="1685229798832" duration="12825000" />
       <workItem from="1685352260173" duration="6668000" />
-      <workItem from="1685361686866" duration="7659000" />
+      <workItem from="1685361686866" duration="15423000" />
     </task>
     <servers />
   </component>
