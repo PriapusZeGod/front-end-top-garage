@@ -66,10 +66,10 @@ function ProfileData({ profile, changeUser }) {
   const editModalDisclosure = useDisclosure();
   const { handleLogout } = useContext(UserContext);
 
-  const imgStyle = {
-    borderRadius: "50%",
-    border: "2px solid black",
-  };
+  // const imgStyle = {
+  //   borderRadius: "50%",
+  //   border: "2px solid black",
+  // };
 
   function handleLogOutClose() {
     handleLogout();
@@ -80,7 +80,7 @@ function ProfileData({ profile, changeUser }) {
     <SimpleGrid spacing={2} minChildWidth="300px">
       <Box display="flex" alignItems="center" justifyContent="center">
         <Image
-          sx={imgStyle}
+          // sx={imgStyle}
           src={userpng}
           alt="profile"
           w={{ base: "full", sm: "300px" }}

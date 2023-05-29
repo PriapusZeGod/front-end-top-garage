@@ -69,6 +69,7 @@ export default function Search() {
                 position: toast.POSITION.BOTTOM_RIGHT,
             });
             handleCloseDeleteConfirmation();
+            handleCloseCard();
         } catch (error) {
             console.error('Error deleting car:', error);
             setIsDeleting(false);

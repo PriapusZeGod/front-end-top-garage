@@ -110,3 +110,85 @@ function Map({ garages }) {
     </Box>
   );
 }
+
+
+export function MapWidget()
+{
+  
+  const [isExpanded, setIsExpanded] = React.useState(false);
+  const { isLoaded, loadError } = useLoadScript({
+    googleMapsApiKey: MAPS_API_KEY,
+  });
+  const boxBg = useColorModeValue("white", "#111c44");
+  const mainText = useColorModeValue("gray.800", "white");
+
+  if (loadError) {
+    return <div>Error loading Google Maps</div>;
+  }
+
+  if (!isLoaded) {
+    return <div>Loading...</div>;
+  }
+
+
+  const currentGarage = localStorage.getItem("garage");
+  const garage = JSON.parse(currentGarage);
+
+  const toggleExpand = () => {
+    setIsExpanded(!isExpanded);
+  };
+
+  return (
+    <Box
+      borderRadius="20px"
+      bg={boxBg}
+      p="10px"
+      width={isExpanded ? "100%" : "300px"}
+      height={isExpanded ? "100%" : "300px"}
+      alignItems="center"
+      justifyContent="center"
+      textAlign="center"
+      onClick={toggleExpand}
+      position="relative"
+      cursor="pointer"
+      border="1px solid black"
+    >
+      <div style={{ height: "100%" }}>
+        <GoogleMap
+          zoom={10}
+          center={{ lat: garage.location.latitude, lng: garage.location.longitude }}
+          mapContainerStyle={{
+            width: isExpanded ? "100%" : "100%",
+            height: isExpanded ? "100%" : "100%",
+            borderRadius: "10px",
+          }}
+        >
+          {garage &&
+            garage.location &&
+            garage.location.latitude &&
+            garage.location.longitude
+              ? (
+                  <Marker
+                    key={garage.id}
+                    position={{
+                      lat: garage.location.latitude,
+                      lng: garage.location.longitude,
+                    }}
+                  />
+                )
+              : null}
+        </GoogleMap>
+      </div>
+      {!isExpanded && (
+        <Text
+          fontWeight="600"
+          color={mainText}
+          textAlign="center"
+          fontSize="xl"
+        >
+          Click to expand
+        </Text>
+      )}
+    </Box>
+  );
+}
