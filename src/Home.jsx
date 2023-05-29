@@ -253,8 +253,9 @@ function CarChangeGarageModal({ isOpen, onClose, currentCar }) {
           </FormControl>
           <FormControl mt={4}>
             <FormLabel>Select Garage to move car to</FormLabel>
-            <Select defaultValue="" onChange={(e) => setChoice2(e.target.value)}>
-              <option disabled hidden>
+            <Select defaultValue="" onChange={(e) => {setChoice2(e.target.value) 
+            console.log(e.target.value)}}>
+              <option disabled hidden value="" >
                 Select Garage
               </option>
               {garageData &&
