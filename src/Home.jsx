@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { Box, Center, Flex, Heading, Image, Text } from "@chakra-ui/react";
 import { motion, AnimatePresence } from "framer-motion";
-import carImage from "./images/car-home-page.png";
+import defaultCarImage from "./images/car-home-page.png";
 import { deleteCar } from "./services/CarService";
 import { Button } from "react-bootstrap";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import ChartWidget from "./components/ChartWidget";
+import { useQuery, useQueryClient } from "react-query";
+import { getCarImage } from "./services/CarService";
 
 export default function Home({ currentCar }) {
   const [text, setText] = useState("Choose a garage and car to start");
@@ -76,7 +78,10 @@ export default function Home({ currentCar }) {
               >
                 <Flex height="100%" alignItems="center" justifyContent="center">
                   <Center>
-                    <Image src={carImage} alt="user" />
+                    {!currentCar.id && (
+                      <Image src={defaultCarImage} alt={"user"} />
+                    )}
+                    {currentCar.id && <CarImage currentCar={currentCar} />}
                   </Center>
                 </Flex>
               </motion.div>
@@ -168,6 +173,36 @@ function CarInfo({ currentCar, onDelete, isDeleting }) {
           {isDeleting ? "Deleting..." : "Delete"}
         </motion.button>
       </Box>
+    </Box>
+  );
+}
+
+function CarImage({ currentCar }) {
+  const [carImage, setCarImage] = useState(defaultCarImage);
+  const queryClient = useQueryClient();
+  const { data, status } = useQuery(["image", currentCar.id], () =>
+    getCarImage(currentCar.id)
+  );
+
+  useEffect(() => {
+    if (currentCar && Object.keys(currentCar).length > 0) {
+      setCarImage(data ? URL.createObjectURL(data) : defaultCarImage);
+    } else {
+      setCarImage(defaultCarImage);
+    }
+  }, [currentCar, data]);
+
+  useEffect(() => {
+    return () => {
+      if (carImage !== defaultCarImage) {
+        URL.revokeObjectURL(carImage);
+      }
+    };
+  }, [carImage]);
+
+  return (
+    <Box>
+      <Image src={carImage} alt="car" w="500px" h="500px" />
     </Box>
   );
 }
