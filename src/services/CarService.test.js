@@ -276,7 +276,7 @@ describe('deleteCar', () => {
       global.fetch = jest.fn().mockImplementation(() => mockFetchPromise);
   
       await expect(getCarImage(carId)).rejects.toThrowError(mockErrorMessage);
-      expect(global.fetch).toHaveBeenCalledWith(`${url}/${carId}`);
+      expect(global.fetch).toHaveBeenCalledWith(`${url}/${carId}/image`);
     });
   });
 
