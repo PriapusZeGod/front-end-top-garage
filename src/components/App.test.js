@@ -1,5 +1,6 @@
-import { render, screen, waitFor } from '@testing-library/react';
 import { QueryClient, QueryClientProvider } from 'react-query';
+import { render, screen, waitFor } from '@testing-library/react';
+import '@testing-library/jest-dom/extend-expect';
 import App from './App';
 
 test('renders App component with garage information', async () => {

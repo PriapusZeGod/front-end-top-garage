@@ -1,4 +1,4 @@
-const url = import.meta.env.VITE_CAR_SERVICE_URL;
+const url = "http://localhost:5027/Cars";
 
 export async function getCarsByGarageID(garageId) {
   const response = await fetch(`${url}?GarageId=${garageId}`);
