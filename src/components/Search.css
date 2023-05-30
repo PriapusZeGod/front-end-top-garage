@@ -67,4 +67,5 @@
 .undo{
     position: fixed;
     background-color: #ffffff;
+    max-width: max-content;
 }

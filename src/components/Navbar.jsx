@@ -44,7 +44,7 @@ import { useQuery, useQueryClient } from "react-query";
 import { getCarsByGarageID } from "../services/CarService";
 import { useContext } from "react";
 import UserContext from "./UserContext";
-import { getProfileById } from "../services/profileService";
+import { getProfileById} from "../services/profileService.jsx";
 import { getGaragesByUserID } from "../services/GarageService";
 import { Avatar, AvatarBadge, AvatarGroup } from "@chakra-ui/react";
 import carImage from "../images/car-home-page.png";
