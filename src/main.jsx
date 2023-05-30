@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
-//import App from "./App";
 import GarageList from "./components/Garage";
 import Profile from "./components/Profile";
 import { RouterProvider, createHashRouter } from "react-router-dom";
@@ -19,12 +18,10 @@ import {
   QueryClientProvider,
 } from "react-query";
 import { ChakraProvider } from "@chakra-ui/react";
-import AppPage from "./pages/AppPage";
 import HomePage from "./pages/HomePage";
 import AddCarPage from "./pages/AddCarPage";
 import Addcar from "./components/Addcar";
 import Search from "./components/Search";
-import App from "./components/App";
 import AddGarage from "./components/AddGarage";
 import Authorization from "./components/Login";
 import MapPage from "./pages/MapPage";
@@ -37,16 +34,6 @@ import ChartWidget from "./components/ChartWidget";
 
 const queryClient = new QueryClient();
 const router = createHashRouter([
-  {
-    path: "/App",
-    element: (
-      <QueryClientProvider client={queryClient}>
-        <Authorization>
-          <AppPage Nav={Navbar_Main} App={App} />
-        </Authorization>
-      </QueryClientProvider>
-    ),
-  },
   {
     path: "/",
     element: (
