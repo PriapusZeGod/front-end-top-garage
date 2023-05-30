@@ -1,16 +1,16 @@
-
-const url = import.meta.env.VITE_CAR_SERVICE_URL
-
+const url = import.meta.env.VITE_CAR_SERVICE_URL;
 
 export async function getCarsByGarageID(garageId) {
-    const response = await fetch(`${url}?GarageId=${garageId}`);
-    const data = await response.json(); 
-    return data; 
-  }
+  const response = await fetch(`${url}?GarageId=${garageId}`);
+  const data = await response.json();
+  return data;
+}
 
 export async function getCarsByCarName(carName) {
   try {
-    const response = await fetch(`${url}?CarName=${encodeURIComponent(carName)}`);
+    const response = await fetch(
+      `${url}?CarName=${encodeURIComponent(carName)}`
+    );
     if (!response.ok) {
       throw new Error(`Error fetching cars. Status: ${response.status}`);
     }
@@ -21,10 +21,16 @@ export async function getCarsByCarName(carName) {
   }
 }
 
-
-export async function createCar(name, description, manufacturer, model, year, seats, garageId, engine) {
-
-
+export async function createCar(
+  name,
+  description,
+  manufacturer,
+  model,
+  year,
+  seats,
+  garageId,
+  engine
+) {
   const payload = {
     Name: name,
     Description: description,
@@ -33,9 +39,9 @@ export async function createCar(name, description, manufacturer, model, year, se
     Year: year,
     Seats: seats,
     Garage: {
-      Id: garageId
+      Id: garageId,
     },
-    Engine: engine
+    Engine: engine,
   };
   console.log("Payload: " + JSON.stringify(payload));
   try {
@@ -61,8 +67,6 @@ export async function createCar(name, description, manufacturer, model, year, se
 }
 
 export async function getAllCars() {
-  
-
   try {
     const response = await fetch(url);
 
@@ -77,7 +81,6 @@ export async function getAllCars() {
     throw error;
   }
 }
-
 
 export async function deleteCar(carId) {
   const response = await fetch(`${url}/${carId}`, {
@@ -100,8 +103,6 @@ export async function deleteCar(carId) {
 
   return null;
 }
-
-
 
 export async function getCarImage(id) {
   try {
@@ -160,23 +161,23 @@ export async function getImage(userId) {
 export async function updateCar(carId, garageId) {
   console.log("Car ID: " + carId);
   console.log("Garage ID: " + garageId);
-  
+
   const payload = {
     id: carId,
     garage: {
-      id: garageId
-    }
+      id: garageId,
+    },
   };
 
   console.log("Payload: " + JSON.stringify(payload.garage.id));
 
   const response = await fetch(url, {
-    method: 'PATCH',
+    method: "PATCH",
     headers: {
-      'Accept': '*/*',
-      'Content-Type': 'application/json'
+      Accept: "*/*",
+      "Content-Type": "application/json",
     },
-    body: JSON.stringify(payload)
+    body: JSON.stringify(payload),
   });
 
   if (!response.ok) {
@@ -188,13 +189,13 @@ export async function updateCar(carId, garageId) {
 
 export async function uploadImageForCarID(carID, formData) {
   const response = await fetch(`${url}/${carID}/image`, {
-    method: 'POST',
-    applicationType: 'multipart/form-data',
+    method: "POST",
+    applicationType: "multipart/form-data",
     body: formData,
   });
 
   if (!response.ok) {
-    throw new Error('File upload failed');
+    throw new Error("File upload failed");
   }
 
   return response.status;

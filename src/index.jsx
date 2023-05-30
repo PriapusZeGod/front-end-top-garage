@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import ReactDOM from "react-dom/client";
-import "./index.css";
+//import "./index.css";
 //import App from "./App";
 import GarageList from "./components/Garage";
 import Profile from "./components/Profile";
