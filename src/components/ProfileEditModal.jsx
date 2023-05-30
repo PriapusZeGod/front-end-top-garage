@@ -232,8 +232,17 @@ export function ChangePasswordModal({ isOpenProp, onCloseProp }) {
 
   return (
     <>
-      <Button colorScheme="gray" onClick={handleShow}>
-        Change Password
+      <Button
+        colorScheme="gray"
+        onClick={handleShow}
+        flex="1"
+        alignSelf="flex-end"
+        fontSize="sm" // Adjust the font size as needed
+        overflow="hidden"
+        textOverflow="ellipsis"
+        whiteSpace="nowrap"
+      >
+        Edit Password
       </Button>
 
       <Modal isOpen={isOpen || isOpenProp} onClose={onCloseProp || handleClose}>
@@ -258,10 +267,9 @@ export function ChangePasswordModal({ isOpenProp, onCloseProp }) {
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
                 />
-               
               </FormControl>
             )}
-             {alert}
+            {alert}
           </ModalBody>
 
           <ModalFooter>
