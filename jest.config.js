@@ -1,11 +1,8 @@
-"module".exports = {
+const config = {
   transform: {
-    "^.+\\.jsx?$": "babel-jest",
+    '\\.[jt]sx?$': 'babel-jest',
+    '\\.css$': 'some-css-transformer',
   },
-  moduleNameMapper: {
-    "\\.(jpg|jpeg|png|gif|svg)$": "<rootDir>/__mocks__/fileMock.js",
-  },
-
-  transformIgnorePatterns: ["/node_modules/", "^.+\\.css$"],
-  testEnvironment: "jsdom",
 };
+
+module.exports = config;

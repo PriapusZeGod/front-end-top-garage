@@ -1,10 +1,11 @@
-import React from "react";
 import { render, screen, waitFor } from "@testing-library/react";
 import { QueryClient, QueryClientProvider } from "react-query";
 import Authorization from "./Login";
-import { login, register } from "../services/profileService";
+import { register } from "../services/profileService";
 import userEvent from "@testing-library/user-event";
 import { within } from "@testing-library/react";
+import '@testing-library/jest-dom/extend-expect';
+
 
 jest.mock("../services/profileService", () => ({
   login: jest.fn(),
