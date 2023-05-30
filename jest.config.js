@@ -1,8 +1,7 @@
-const config = {
-  transform: {
-    '\\.[jt]sx?$': 'babel-jest',
-    '\\.css$': 'some-css-transformer',
+module.exports = {
+  "transform": {
+    "^.+\\.jsx?$": "babel-jest"
   },
+
 };
 
-module.exports = config;
