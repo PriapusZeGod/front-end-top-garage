@@ -1,4 +1,4 @@
-const url = "http://localhost:5055/Garages";
+const url = "http://34.36.170.138/Garages";
 
 export async function getGaragesByUserID(userId) {
   try {
