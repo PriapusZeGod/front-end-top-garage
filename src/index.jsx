@@ -36,6 +36,7 @@ import ImagePage from "./pages/ImagePage";
 import AddImage from "./components/AddImage";
 import TableComponent from "./components/Table";
 import ChartWidget from "./components/ChartWidget";
+import { HashRouter } from "react-router-dom";
 
 const queryClient = new QueryClient();
 const router = createHashRouter([
@@ -144,7 +145,9 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <ChakraProvider>
-      <RouterProvider router={router} />
+      <HashRouter basename="/front-end-top-garage">
+        <RouterProvider router={router} />
+      </HashRouter>
     </ChakraProvider>
   </React.StrictMode>
 );

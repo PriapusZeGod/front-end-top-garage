@@ -23,6 +23,7 @@ import {
   AlertDialogCloseButton,
   Image,
   HStack,
+  Grid,
 } from "@chakra-ui/react";
 import { EmailIcon, PhoneIcon, ArrowUpIcon, InfoIcon } from "@chakra-ui/icons";
 import userpng from "../images/profile.webp";
@@ -109,8 +110,12 @@ function ProfileData({ profile, changeUser }) {
           </Text>
         </CardBody>
         <CardFooter>
-          <HStack>
-            <Button colorScheme="red" onClick={logoutDisclosure.onOpen}>
+          <Grid templateColumns="repeat(3, 1fr)" gap={4}>
+            <Button
+              colorScheme="red"
+              onClick={logoutDisclosure.onOpen}
+              gridColumn="span 2"
+            >
               <ArrowUpIcon boxSize={6} p="4px" />
               Log Out
             </Button>
@@ -123,7 +128,7 @@ function ProfileData({ profile, changeUser }) {
               isOpen={editModalDisclosure.isOpen}
               onClose={editModalDisclosure.onClose}
             />
-          </HStack>
+          </Grid>
         </CardFooter>
       </Card>
 
@@ -155,71 +160,3 @@ function ProfileData({ profile, changeUser }) {
     </SimpleGrid>
   );
 }
-
-// import React, { useEffect } from "react";
-// import profileImg from "../images/profile.webp";
-// import { useState } from "react";
-// import GarageList from "./Garage";
-// import { useQuery, useQueryClient } from "react-query";
-// import { useMutation } from 'react-query';
-
-// import { getProfileById, updateProfile } from "../services/profileService";
-// import ProfileEditModal from "./ProfileEditModal";
-
-// // const url = "http://localhost:5158/";
-
-// export default function Profile({ userId }) {
-// let id = userId;
-// if (userId == null) {
-//   id = 1;
-// }
-
-// const queryClient = useQueryClient();
-// const { data, status } = useQuery(["profile", id], () => getProfileById(id) );
-
-// if (status === "loading") {
-//   return <div>Loading...</div>
-// }
-// if (status === "error") {
-//   return <div>Error fetching data</div>;
-// }
-
-// const profile = data[0];
-//   return (
-//     <>
-//       <div className="container">
-//         <div className="row mt-5">
-//           <div className="col-md-6 text-center">
-//             <img
-//               src={profileImg}
-//               width={"300px"}
-//               style={{ borderRadius: "50%", border: "2px solid black" }}
-//               alt="profile"
-//               className="img-fluid"
-//             />
-//           </div>
-//           <div className="col-md-6">
-//             <p className="fs-1 ">
-//               Name: <span className="fw-bolder">{profile.name}</span>
-//             </p>
-//             <p className="fs-1 ">
-//               Age: <span className="fw-bolder">{profile.age}</span>
-//             </p>
-//             <p className="fs-1">
-//               E-mail: <span className="fw-bolder">{profile.email}</span>
-//             </p>
-//             <p className="fs-1">
-//               Phone Number: <span className="fw-bolder">{profile.phone}</span>
-//             </p>
-//           </div>
-//         </div>
-//         <div className="row">
-//           <div className="col-md-12 text-center">
-//             <ProfileEditModal profile={profile} />
-//           </div>
-//         </div>
-//       </div>
-//       <GarageList userId={id} />
-//     </>
-//   );
-// }

@@ -44,19 +44,20 @@ import { useQuery, useQueryClient } from "react-query";
 import { getCarsByGarageID } from "../services/CarService";
 import { useContext } from "react";
 import UserContext from "./UserContext";
-import { getProfileById} from "../services/profileService.jsx";
+import { getProfileById } from "../services/profileService.jsx";
 import { getGaragesByUserID } from "../services/GarageService";
 import { Avatar, AvatarBadge, AvatarGroup } from "@chakra-ui/react";
 import carImage from "../images/car-home-page.png";
-import {NavLink} from "react-bootstrap";
+import { NavLink } from "react-bootstrap";
 import Search from "./Search";
-import { useNavigate } from 'react-router-dom';
-
+import { useNavigate } from "react-router-dom";
 
 const STORAGE_KEY = "garage";
 export default function Navbar_Main({ currentCar, setCurrentCar }) {
   const { user } = useContext(UserContext);
-  const [currentGarageName, setCurrentGarageName] = useState(getGarageFromStorage()?.name);
+  const [currentGarageName, setCurrentGarageName] = useState(
+    getGarageFromStorage()?.name
+  );
   const [currentGarrage, setCurrentGarrage] = useState(getGarageFromStorage());
   const navigate = useNavigate();
 
@@ -73,7 +74,7 @@ export default function Navbar_Main({ currentCar, setCurrentCar }) {
     saveGarageToStorage(garage);
     setCurrentGarageName(garageName);
     setCurrentGarrage(garage);
-    navigate('/');
+    navigate("/");
   };
 
   function getGarageFromStorage() {
@@ -87,7 +88,16 @@ export default function Navbar_Main({ currentCar, setCurrentCar }) {
   return (
     <>
       {user && (
-        <Flex as="nav" p="10px" mb="40px" alignItems="center" bg="purple.400">
+        <Flex
+          as="nav"
+          p="10px"
+          mb="40px"
+          alignItems="center"
+          bg="purple.400"
+          justify="center"
+          align="center"
+          mt="-10px" // Add negative top margin here
+        >
           <Offcanvas
             setCurrentCar={setCurrentCar}
             currentGarageName={currentGarageName}
@@ -100,7 +110,7 @@ export default function Navbar_Main({ currentCar, setCurrentCar }) {
             letterSpacing="wide"
             textTransform="uppercase"
           >
-            <Nav.Link href="/">Top G</Nav.Link>
+            <Nav.Link onClick={() => navigate("/")}>Top G</Nav.Link>
           </Heading>
 
           <Spacer />
@@ -113,9 +123,9 @@ export default function Navbar_Main({ currentCar, setCurrentCar }) {
           )}
           <Spacer />
 
-          <HStack spacing="20px">
+          <HStack spacing="20px" alignItems="center">
             <Hide below="md">
-              <Nav.Link href="/#/addgarage">
+              <Nav.Link onClick={() => navigate("/addgarage")}>
                 <Image
                   alt="AddGarage"
                   width={"50px"}
@@ -125,7 +135,7 @@ export default function Navbar_Main({ currentCar, setCurrentCar }) {
                 />
               </Nav.Link>
               <Spacer />
-              <Nav.Link href="/#/addcar">
+              <Nav.Link onClick={() => navigate("/addcar")}>
                 <Image
                   alt="Addcar"
                   width={"50px"}
@@ -137,9 +147,9 @@ export default function Navbar_Main({ currentCar, setCurrentCar }) {
               </Nav.Link>
               <Spacer />
               <InputGroup>
-               <Search></Search>
+                <Search></Search>
               </InputGroup>
-              <Nav.Link href="/#/profile">
+              <Nav.Link onClick={() => navigate("/profile")}>
                 <Image borderRadius="full" src={userImage} alt="user" />
               </Nav.Link>
             </Hide>
@@ -151,6 +161,7 @@ export default function Navbar_Main({ currentCar, setCurrentCar }) {
 }
 
 function GarageMenu({ handleGarageSelect, currentGarageName, userId }) {
+  const navigate = useNavigate();
   const { data, status } = useQuery(["garages", userId], () =>
     getGaragesByUserID(userId)
   );
@@ -190,7 +201,11 @@ function GarageMenu({ handleGarageSelect, currentGarageName, userId }) {
         </Menu>
       )}
       {data && !data.length > 0 && (
-        <Link href="/#/addgarage">
+        <Link
+          onClick={() => {
+            navigate("/addgarage");
+          }}
+        >
           <Button variant="ghost">Create Garage</Button>
         </Link>
       )}
@@ -202,6 +217,7 @@ function Offcanvas({ currentGarageName, currentGarrage, setCurrentCar }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [garageSelected, setGarageSelected] = useState(false);
   const toast = useToast();
+  const navigate = useNavigate();
 
   const handleOpen = () => {
     if (garageSelected) {
@@ -238,13 +254,21 @@ function Offcanvas({ currentGarageName, currentGarrage, setCurrentCar }) {
                   <Search></Search>
                 </ListItem>
                 <ListItem>
-                  <Nav.Link href="/#/profile">
+                  <Nav.Link
+                    onClick={() => {
+                      navigate("/profile");
+                    }}
+                  >
                     <ListIcon as={AtSignIcon} color="gray" />
                     profile
                   </Nav.Link>
                 </ListItem>
                 <ListItem>
-                  <Nav.Link href="/#/addgarage">
+                  <Nav.Link
+                    onClick={() => {
+                      navigate("/addgarage");
+                    }}
+                  >
                     <Flex>
                       <Image
                         alt="AddGarage"
@@ -259,7 +283,11 @@ function Offcanvas({ currentGarageName, currentGarrage, setCurrentCar }) {
                   </Nav.Link>
                 </ListItem>
                 <ListItem>
-                  <Nav.Link href="/#/addcar">
+                  <Nav.Link
+                    onClick={() => {
+                      navigate("/addcar");
+                    }}
+                  >
                     <Flex>
                       <Image
                         alt="Addcar"
@@ -287,6 +315,7 @@ function Offcanvas({ currentGarageName, currentGarrage, setCurrentCar }) {
 }
 
 function CarList({ garage, setCurrentCar }) {
+  const navigate = useNavigate();
   const queryClient = useQueryClient();
   if (!garage) return null;
 
@@ -301,6 +330,15 @@ function CarList({ garage, setCurrentCar }) {
     return <div>Error fetching data</div>;
   }
 
+  function handleCarSelect(car) {
+    if(setCurrentCar){
+      setCurrentCar(car);
+    }
+     else {
+      navigate('/')
+    }
+  }
+
   const cars = data;
 
   return (
@@ -313,7 +351,7 @@ function CarList({ garage, setCurrentCar }) {
                 mr="2px"
                 src="https://cdn3.iconfinder.com/data/icons/google-material-design-icons/48/ic_directions_car_48px-512.png"
               />
-              <ListItem onClick={() => setCurrentCar(car)}>{car.name}</ListItem>
+              <ListItem onClick={() => handleCarSelect(car)}>{car.name}</ListItem>
             </Flex>
           </Nav.Link>
         ))}
@@ -321,180 +359,3 @@ function CarList({ garage, setCurrentCar }) {
     </List>
   );
 }
-
-// import Button from "react-bootstrap/Button";
-// import Container from "react-bootstrap/Container";
-// import NavbarToggle from "react-bootstrap/esm/NavbarToggle";
-// import Form from "react-bootstrap/Form";
-// import Nav from "react-bootstrap/Nav";
-// import Navbar from "react-bootstrap/Navbar";
-// import NavDropdown from "react-bootstrap/NavDropdown";
-// import Offcanvas from "react-bootstrap/Offcanvas";
-// import Image from "react-bootstrap/Image";
-// import "./Navbar.css";
-// import { Icon } from "@iconify/react";
-// import Addcar from "./Addcar";
-// import useFetch from "../hooks/useFetch";
-// import { useState, useEffect } from "react";
-// import React from "react";
-// import logo from "../images/user.png";
-// import { useQuery, useQueryClient } from "react-query";
-// import { getCarsByGarageID } from "../services/CarService";
-
-// function Navbar_Main() {
-// const { data, isLoading, error } = useFetch("http://localhost:5055/Garages");
-// const { CarsData, CarsIsLoading, CarsError } = useFetch(
-//   "http://localhost:5027/Cars"
-// );
-// const [currentGarageName, setCurrentGarageName] = useState("Select Garage");
-// const [currentGarrage, setCurrentGarrage] = useState(data?.[0]);
-// const [currentCars, setCurrentCars] = useState(CarsData?.[0]);
-
-// useEffect(() => {
-//   const element = document.getElementById("collapsable-nav-dropdown");
-//   if (element) {
-//     element.innerText = currentGarageName;
-//   }
-// }, [currentGarageName]);
-
-// useEffect(() => {
-//   console.log(CarsData);
-// }, [CarsData]);
-
-// if (isLoading || CarsIsLoading) {
-//   return <div>Loading...</div>;
-// }
-
-// if (error) {
-//   return <div>Error: {error.message}</div>;
-// }
-
-// const handleGarageSelect = (garageName, garage) => {
-//   setCurrentGarageName(garageName);
-//   setCurrentGarrage(garage);
-// };
-//   return (
-//     <>
-//       {console.log(data)}
-//       {console.log(CarsData)}
-//       {[false].map((expand) => (
-//         <Navbar
-//           key={expand}
-//           bg="light"
-//           variant="light"
-//           expand={expand}
-//           className="mb-3"
-//           sticky="top"
-//         >
-//           <Container fluid>
-//             <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-${expand}`} />
-//             <NavDropdown
-//               title={currentGarageName || data[0].name}
-//               id="collapsable-nav-dropdown"
-//               responsive="sm"
-//             >
-// {data.map((garage) => (
-//   <NavDropdown.Item
-//     href=""
-//     onClick={() => handleGarageSelect(garage.name, garage)}
-//     key={garage.id}
-//   >
-//     {garage.name}
-//   </NavDropdown.Item>
-// ))}
-//             </NavDropdown>
-//             <Form className="d-flex mt-2" responsive="sm">
-//               <Form.Control
-//                 type="search"
-//                 placeholder="Search"
-//                 className="me-2"
-//                 aria-label="Search"
-//               />
-//               <Button variant="outline-dark">Search</Button>
-//             </Form>
-//             <Nav.Item className="me-5 sm-12">
-//               <Nav.Link href="/#/profile">
-//                 <Image src={logo} rounded />
-//               </Nav.Link>
-//             </Nav.Item>
-//             <Navbar.Offcanvas
-//               id={`offcanvasNavbar-expand-${expand}`}
-//               aria-labelledby={`offcanvasNavbarLabel-expand-${expand}`}
-//               placement="start"
-//             >
-//               <Offcanvas.Header closeButton>
-//                 <Offcanvas.Title id={`offcanvasNavbarLabel-expand-${expand}`}>
-//                   All Cars "Garage Title"
-//                   {currentGarrage && <CarList garage={currentGarrage} />}{" "}
-//                   {/* Conditional rendering of CarList */}
-//                 </Offcanvas.Title>
-//               </Offcanvas.Header>
-//               <Offcanvas.Body>
-// //                 <Nav className="justify-content-end flex-grow-1 pe-3">
-// //                   {/* {CarsData?.map((car) =>
-//                     currentGarrage?.cars?.forEach((element) => {
-//                       if (car.id == element.id) {
-//                         <Nav.Link href="#action1" key={car.id}>
-//                           car.name
-//                         </Nav.Link>;
-//                       }
-//                     })
-//                   )} */}
-
-//                   <div className="mt-3 d-flex">
-//                     <div>
-//                       <div className="mt-4 rounded-circle">
-//                         <Icon icon="mdi-light:plus" />
-//                       </div>
-//                     </div>
-//                     <div className="ms-1 row">
-//                       <Button variant="light" className="col">
-//                         <Nav.Link href="/#/App"></Nav.Link>
-//                         add car
-//                       </Button>
-//                       <Button variant="light" className="col">
-//                         add garage
-//                       </Button>
-//                     </div>
-//                   </div>
-//                 </Nav>
-//               </Offcanvas.Body>
-//             </Navbar.Offcanvas>
-//           </Container>
-//         </Navbar>
-//       ))}
-//       {console.log("works")}
-//     </>
-//   );
-// }
-
-// function CarList({ garage }) {
-//   const queryClient = useQueryClient();
-//   if (!garage) return null;
-//   const { data, status } = useQuery(["cars", garage.id], () =>
-//     getCarsByGarageID(garage.id)
-//   );
-
-//   if (status === "loading") {
-//     return <div>Loading...</div>;
-//   }
-//   if (status === "error") {
-//     return <div>Error fetching data</div>;
-//   }
-
-//   const cars = data;
-
-//   if (!garage) {
-//     return "no garage";
-//   }
-
-//   return (
-//     <ul>
-//       {cars.map((car) => (
-//         <li key={car.id}>{car.name}</li>
-//       ))}
-//     </ul>
-//   );
-// }
-
-// export default Navbar_Main;

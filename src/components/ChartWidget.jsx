@@ -69,8 +69,16 @@ export default function ChartWidget({
           let day = date.getDate();
           let month = date.getMonth() + 1; // Months are zero-based, so add 1
           let year = date.getFullYear();
-
-          return `${day}/${month}/${year}`;
+          let hours = date.getHours();
+          let minutes = date.getMinutes();
+        
+          // Pad single-digit day/month with leading zero if necessary
+          const formattedDay = String(day).padStart(2, "0");
+          const formattedMonth = String(month).padStart(2, "0");
+        
+          // Create the final formatted date string
+          
+          return `${formattedDay}/${formattedMonth} - ${hours}:${minutes}`;
         })
       );
 

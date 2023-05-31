@@ -30,7 +30,7 @@ import UserContext from "./components/UserContext";
 import { getGaragesByUserID } from "./services/GarageService";
 import { useMutation } from "react-query";
 import { updateCar } from "./services/CarService";
-import {MapWidget} from "./components/MapView";
+import { MapWidget } from "./components/MapView";
 
 export default function Home({ currentCar }) {
   const [text, setText] = useState("Choose a garage and car to start");
@@ -148,14 +148,17 @@ export default function Home({ currentCar }) {
       </Flex>
       {currentCar.id && (
         <Flex justifyContent="center" flexWrap="wrap" spacing={4}>
-          <Box width={{ base: "100%", sm: "100%", md: "50%", lg: "33.33%" }}>
+          <Box width={{ base: "100%", sm: "100%", md: "50%", lg: "25%" }}>
             <ChartWidget garageId={currentCar.garage.id} isCO2={true} />
           </Box>
-          <Box width={{ base: "100%", sm: "100%", md: "50%", lg: "33.33%" }}>
+          <Box width={{ base: "100%", sm: "100%", md: "50%", lg: "25%" }}>
             <ChartWidget garageId={currentCar.garage.id} isTemperature={true} />
           </Box>
-          <Box width={{ base: "100%", sm: "100%", md: "50%", lg: "33.33%" }}>
+          <Box width={{ base: "100%", sm: "100%", md: "50%", lg: "25%" }}>
             <ChartWidget garageId={currentCar.garage.id} isHumidity={true} />
+          </Box>
+          <Box width={{ base: "100%", sm: "100%", md: "50%", lg: "25%" }}>
+            {currentCar.id && <MapWidget />}
           </Box>
         </Flex>
       )}
@@ -167,8 +170,6 @@ export default function Home({ currentCar }) {
           handleCancelDelete={handleCancelDelete}
         />
       )}
-
-      {currentCar.id && <MapWidget />}
     </>
   );
 }
