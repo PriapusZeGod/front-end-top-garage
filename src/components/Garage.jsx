@@ -123,7 +123,7 @@ function GarageWidget({ garage, userId }) {
           </CardHeader>
 
           <CardBody color="gray.500">
-            <div className="bg-primary rounded">
+            <div className="bg-dark rounded">
               <div className="row">
                 <h1 className="text-center text-light mt-2 ">{garage.name}</h1>
                 <div className="col m-2 border border-0">

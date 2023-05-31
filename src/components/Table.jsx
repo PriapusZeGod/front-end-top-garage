@@ -119,13 +119,15 @@ function TableRow({ time, param, maxValue, isTemperature, isHumidity, isCO2 }) {
   const day = date.getDate();
   const month = date.getMonth() + 1; // Months are zero-based, so add 1
   const year = date.getFullYear();
+  const hours = date.getHours();
+  const minutes = date.getMinutes();
 
   // Pad single-digit day/month with leading zero if necessary
   const formattedDay = String(day).padStart(2, "0");
   const formattedMonth = String(month).padStart(2, "0");
 
   // Create the final formatted date string
-  const formattedDate = `${formattedDay}/${formattedMonth}/${year}`;
+  const formattedDate = `${formattedDay}/${formattedMonth} - ${hours}:${minutes}`;
   return (
     <>
       <Tr>

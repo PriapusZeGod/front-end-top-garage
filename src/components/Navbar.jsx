@@ -315,6 +315,7 @@ function Offcanvas({ currentGarageName, currentGarrage, setCurrentCar }) {
 }
 
 function CarList({ garage, setCurrentCar }) {
+  const navigate = useNavigate();
   const queryClient = useQueryClient();
   if (!garage) return null;
 
@@ -329,6 +330,15 @@ function CarList({ garage, setCurrentCar }) {
     return <div>Error fetching data</div>;
   }
 
+  function handleCarSelect(car) {
+    if(setCurrentCar){
+      setCurrentCar(car);
+    }
+     else {
+      navigate('/')
+    }
+  }
+
   const cars = data;
 
   return (
@@ -341,7 +351,7 @@ function CarList({ garage, setCurrentCar }) {
                 mr="2px"
                 src="https://cdn3.iconfinder.com/data/icons/google-material-design-icons/48/ic_directions_car_48px-512.png"
               />
-              <ListItem onClick={() => setCurrentCar(car)}>{car.name}</ListItem>
+              <ListItem onClick={() => handleCarSelect(car)}>{car.name}</ListItem>
             </Flex>
           </Nav.Link>
         ))}
