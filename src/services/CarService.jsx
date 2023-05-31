@@ -1,4 +1,4 @@
-const url = "http://34.36.170.138/Cars";
+const url = "http://localhost:5027/Cars";
 
 export async function getCarsByGarageID(garageId) {
   const response = await fetch(`${url}?GarageId=${garageId}`);
