@@ -86,7 +86,16 @@ export default function Search() {
 
         try {
             const searchCars = await getCarsByCarName(searchInput);
-            setCars(searchCars);
+            const getUserGarages = await getGaragesByUserID(user.id);
+            const filteredCars = [];
+            searchCars.forEach((car) => {
+                getUserGarages.forEach((garage) => {
+                    if (car.garage.id === garage.id) {
+                        filteredCars.push(car);
+                    }
+                });
+            });
+            setCars(filteredCars);
             if (searchCars.length === 0) {
                 toast.info('No cars found.', { position: toast.POSITION.BOTTOM_RIGHT });
             }
