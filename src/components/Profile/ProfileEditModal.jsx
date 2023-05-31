@@ -1,32 +1,26 @@
-import React from "react";
+import React, {useContext, useState} from "react";
 import {
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalFooter,
-  ModalBody,
-  ModalCloseButton,
   Button,
-  useDisclosure,
-  Text,
   FormControl,
   FormLabel,
-  FormErrorMessage,
-  FormHelperText,
   Input,
-  InputLeftElement,
   InputGroup,
+  InputLeftElement,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
+  Text,
+  useDisclosure,
 } from "@chakra-ui/react";
 
 import Alert from "react-bootstrap/Alert";
-import { updateProfile } from "../services/profileService";
-import { useState } from "react";
-import Form from "react-bootstrap/Form";
-import { EmailIcon, PhoneIcon } from "@chakra-ui/icons";
-import { useQuery, useQueryClient } from "react-query";
-import { useContext } from "react";
-import UserContext from "./UserContext";
+import {updateProfile} from "../../services/profileService.jsx";
+import {EmailIcon, PhoneIcon} from "@chakra-ui/icons";
+import UserContext from "./UserContext.jsx";
 
 export default function ProfileEditModal({ isOpenProp, onCloseProp, profile }) {
   const { handleLogout } = useContext(UserContext);

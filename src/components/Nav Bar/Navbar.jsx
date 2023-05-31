@@ -1,56 +1,41 @@
 import {
+  Avatar,
   Button,
-  Flex,
-  HStack,
-  Spacer,
-  Menu,
-  MenuButton,
-  MenuList,
-  MenuItem,
-  Input,
-  InputLeftElement,
-  InputGroup,
-  InputRightElement,
-  Image,
-  Box,
-  Text,
-  List,
-  ListItem,
-  ListIcon,
-  Link,
-  Toast,
-  useToast,
-  Heading,
-} from "@chakra-ui/react";
-import {
   Drawer,
   DrawerBody,
+  DrawerContent,
   DrawerHeader,
   DrawerOverlay,
-  DrawerContent,
+  Flex,
+  Heading,
+  Hide,
+  HStack,
+  Image,
+  InputGroup,
+  Link,
+  List,
+  ListIcon,
+  ListItem,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
+  Show,
+  Spacer,
+  Text,
+  useDisclosure,
+  useToast,
 } from "@chakra-ui/react";
-import {
-  AtSignIcon,
-  HamburgerIcon,
-  ChevronDownIcon,
-  SearchIcon,
-} from "@chakra-ui/icons";
-import React, { useEffect, useState } from "react";
-import { useDisclosure } from "@chakra-ui/react";
-import userImage from "../images/user.png";
-import { Show, Hide } from "@chakra-ui/react";
+import {AtSignIcon, ChevronDownIcon, HamburgerIcon,} from "@chakra-ui/icons";
+import React, {useContext, useEffect, useState} from "react";
+import userImage from "../../images/user.png";
 import Nav from "react-bootstrap/Nav";
-import { useQuery, useQueryClient } from "react-query";
-import { getCarsByGarageID } from "../services/CarService";
-import { useContext } from "react";
-import UserContext from "./UserContext";
-import { getProfileById } from "../services/profileService.jsx";
-import { getGaragesByUserID } from "../services/GarageService";
-import { Avatar, AvatarBadge, AvatarGroup } from "@chakra-ui/react";
-import carImage from "../images/car-home-page.png";
-import { NavLink } from "react-bootstrap";
-import Search from "./Search";
-import { useNavigate } from "react-router-dom";
+import {useQuery, useQueryClient} from "react-query";
+import {getCarsByGarageID} from "../../services/CarService.jsx";
+import UserContext from "../Profile/UserContext.jsx";
+import {getGaragesByUserID} from "../../services/GarageService.jsx";
+import Search from "../Search/Search.jsx";
+import {useNavigate} from "react-router-dom";
 
 const STORAGE_KEY = "garage";
 export default function Navbar_Main({ currentCar, setCurrentCar }) {

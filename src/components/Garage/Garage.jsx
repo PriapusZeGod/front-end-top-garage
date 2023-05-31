@@ -1,12 +1,8 @@
-import React, { useState } from "react";
-import { useQuery, useQueryClient } from "react-query";
-import { getGaragesByUserID, deleteGarage } from "../services/GarageService";
-import { getCarsByGarageID } from "../services/CarService";
-import {
-  getAlarmByGarageId,
-  setAlarmByGarage,
-} from "../services/EnviromentService";
-import gclass from "../images/g-class.png";
+import React, {useState} from "react";
+import {useQuery, useQueryClient} from "react-query";
+import {deleteGarage, getGaragesByUserID} from "../../services/GarageService.jsx";
+import {getCarsByGarageID} from "../../services/CarService.jsx";
+import {getAlarmByGarageId, setAlarmByGarage,} from "../../services/EnviromentService.jsx";
 import {
   Box,
   Button,
@@ -16,12 +12,11 @@ import {
   CardHeader,
   Divider,
   Flex,
-  HStack,
   Heading,
+  HStack,
   SimpleGrid,
-  Text,
 } from "@chakra-ui/react";
-import { EditIcon, ViewIcon, DeleteIcon } from "@chakra-ui/icons";
+import {DeleteIcon} from "@chakra-ui/icons";
 
 export default function GarageList({ userId }) {
   const queryClient = useQueryClient();

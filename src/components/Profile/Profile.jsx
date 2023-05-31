@@ -1,41 +1,33 @@
-import React, { useEffect } from "react";
+import React, {useContext, useEffect} from "react";
 import {
-  TabList,
-  TabPanels,
-  Tabs,
-  Tab,
-  TabPanel,
-  Box,
-  SimpleGrid,
-  CardHeader,
-  CardBody,
-  CardFooter,
-  Card,
-  Text,
-  Button,
-  useDisclosure,
   AlertDialog,
   AlertDialogBody,
+  AlertDialogContent,
   AlertDialogFooter,
   AlertDialogHeader,
-  AlertDialogContent,
   AlertDialogOverlay,
-  AlertDialogCloseButton,
-  Image,
-  HStack,
+  Box,
+  Button,
+  Card,
+  CardBody,
+  CardFooter,
+  CardHeader,
   Grid,
+  Image,
+  SimpleGrid,
+  Tab,
+  TabList,
+  TabPanel,
+  TabPanels,
+  Tabs,
+  Text,
+  useDisclosure,
 } from "@chakra-ui/react";
-import { EmailIcon, PhoneIcon, ArrowUpIcon, InfoIcon } from "@chakra-ui/icons";
-import userpng from "../images/profile.webp";
-import GarageList from "./Garage";
-import { useQuery, useQueryClient } from "react-query";
-import { useMutation } from "react-query";
-import { useContext } from "react";
-import UserContext from "./UserContext";
-import { ChangePasswordModal } from "./ProfileEditModal";
-
-import { getProfileById, updateProfile } from "../services/profileService";
-import ProfileEditModal from "./ProfileEditModal";
+import {ArrowUpIcon, EmailIcon, InfoIcon, PhoneIcon} from "@chakra-ui/icons";
+import userpng from "../../images/profile.webp";
+import GarageList from "../Garage/Garage.jsx";
+import UserContext from "./UserContext.jsx";
+import ProfileEditModal, {ChangePasswordModal} from "./ProfileEditModal.jsx";
 
 export default function Profile() {
   const { user } = useContext(UserContext);

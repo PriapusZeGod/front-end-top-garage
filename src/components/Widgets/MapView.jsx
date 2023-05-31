@@ -1,10 +1,10 @@
-import React, { useEffect, useContext } from "react";
-import { GoogleMap, useLoadScript, Marker } from "@react-google-maps/api";
-import { useQuery } from "react-query";
+import React, {useContext, useEffect} from "react";
+import {GoogleMap, Marker, useLoadScript} from "@react-google-maps/api";
+import {useQuery} from "react-query";
 import "./Map.css";
-import { getGaragesByUserID } from "../services/GarageService";
-import { Box, Flex, Text, useColorModeValue } from "@chakra-ui/react";
-import UserContext from "./UserContext";
+import {getGaragesByUserID} from "../../services/GarageService.jsx";
+import {Box, Flex, Text, useColorModeValue} from "@chakra-ui/react";
+import UserContext from "../Profile/UserContext.jsx";
 
 const MAPS_API_KEY = "AIzaSyDfmL5P3N4WBD4YTpVfzvn1Wkg43L4NeHk";
 

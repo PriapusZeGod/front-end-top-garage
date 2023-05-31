@@ -1,9 +1,8 @@
-import React, { useEffect, useContext } from "react";
-import { useMutation, useQuery, useQueryClient } from "react-query";
-import { login, register } from "../services/profileService";
-import { useState } from "react";
-import UserContext from "./UserContext";
-import { Alert , Modal,Button,Form  } from "react-bootstrap";
+import React, {useEffect, useState} from "react";
+import {useMutation} from "react-query";
+import {login, register} from "../services/profileService";
+import UserContext from "./Profile/UserContext.jsx";
+import {Alert, Button, Form, Modal} from "react-bootstrap";
 
 const STORAGE_KEY = "userAuth";
 

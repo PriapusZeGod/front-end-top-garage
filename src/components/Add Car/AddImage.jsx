@@ -1,9 +1,8 @@
-import React, { useContext, useState } from "react";
-import { useQuery, QueryClient, QueryClientProvider } from "react-query";
-import { ChakraProvider, Box, Button, Heading } from "@chakra-ui/react";
-import UserContext from "./UserContext";
-import { uploadImageForCarID } from "../services/CarService";
-import { useEffect } from "react";
+import React, {useContext, useState} from "react";
+import {QueryClient, QueryClientProvider} from "react-query";
+import {Box, Button, ChakraProvider, Heading} from "@chakra-ui/react";
+import UserContext from "../Profile/UserContext.jsx";
+import {uploadImageForCarID} from "../../services/CarService.jsx";
 
 const API_ENDPOINT = "http://localhost:5027/Cars/1/image";
 

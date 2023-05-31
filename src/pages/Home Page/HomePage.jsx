@@ -1,6 +1,6 @@
 import React from "react";
 import { useContext, useState } from "react";
-import UserContext from "../components/UserContext";
+import UserContext from "../../components/Profile/UserContext.jsx";
 import { useEffect } from "react";
 
 export default function HomePage({ Nav, Home }) {

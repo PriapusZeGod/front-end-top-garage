@@ -1,10 +1,10 @@
-import React, { useState, useContext } from 'react';
-import { createGarages } from "../services/GarageService";
-import { Box, Button, FormControl, FormErrorMessage, FormLabel, Input, Select, VStack } from "@chakra-ui/react";
-import { toast, ToastContainer } from 'react-toastify';
+import React, {useContext, useState} from 'react';
+import {createGarages} from "../../services/GarageService.jsx";
+import {Box, Button, FormControl, FormErrorMessage, FormLabel, Input, Select, VStack} from "@chakra-ui/react";
+import {toast, ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import UserContext from "./UserContext";
-import MapViewComponent from "./MapView";
+import UserContext from "../Profile/UserContext.jsx";
+import MapViewComponent from "../Widgets/MapView.jsx";
 
 const STORAGE_KEY = "userAuth";
 

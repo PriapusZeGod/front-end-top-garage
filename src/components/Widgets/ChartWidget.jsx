@@ -1,33 +1,21 @@
-import { Box, Text } from "@chakra-ui/layout";
-import React from "react";
-import { useQuery, useQueryClient } from "react-query";
+import {Box} from "@chakra-ui/layout";
+import React, {useEffect, useState} from "react";
+import {useQuery, useQueryClient} from "react-query";
+import {getStatsByGarageID, getStatsLimitByGarageID,} from "../../services/EnviromentService.jsx";
+import {Line} from "react-chartjs-2";
+import {CategoryScale, Chart as ChartJS, LinearScale, LineElement, PointElement,} from "chart.js";
+import TableComponent from "./Table.jsx";
+import {Link} from "react-router-dom";
 import {
-  getStatsByGarageID,
-  getStatsLimitByGarageID,
-} from "../services/EnviromentService";
-import { useEffect } from "react";
-import { Line } from "react-chartjs-2";
-import {
-  Chart as ChartJS,
-  LineElement,
-  CategoryScale,
-  LinearScale,
-  PointElement,
-} from "chart.js";
-import { useState } from "react";
-import TableComponent from "./Table";
-import { Link } from "react-router-dom";
-import { Modal } from "@chakra-ui/react";
-import { ModalOverlay } from "@chakra-ui/react";
-import { ModalContent } from "@chakra-ui/react";
-import { ModalHeader } from "@chakra-ui/react";
-import { ModalFooter } from "@chakra-ui/react";
-import { ModalBody } from "@chakra-ui/react";
-import { ModalCloseButton } from "@chakra-ui/react";
-import { FormControl } from "@chakra-ui/react";
-import { FormLabel } from "@chakra-ui/react";
-import { Button } from "@chakra-ui/react";
-import { Tab } from "react-bootstrap";
+  Button,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay
+} from "@chakra-ui/react";
 
 ChartJS.register(LineElement, CategoryScale, LinearScale, PointElement);
 

@@ -12,8 +12,8 @@ import {
   getGaragesByUserID,
   deleteGarage,
 } from "./GarageService"; 
-import GarageList from "../components/Garage";
-import GarageWidget from "../components/Garage";
+import GarageList from "../components/Garage/Garage.jsx";
+import GarageWidget from "../components/Garage/Garage.jsx";
 
 const url = 'http://localhost:5027/Cars';
 

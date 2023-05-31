@@ -1,33 +1,32 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {
     Box,
     Button,
-    Flex,
-    Heading,
+    FormControl,
+    FormLabel,
     Input,
-    Text,
-    Table,
-    Thead,
-    Tbody,
-    Tr,
-    Th,
-    Td,
     Modal,
     ModalBody,
     ModalCloseButton,
     ModalContent,
     ModalFooter,
     ModalHeader,
-    ModalOverlay, FormControl, FormLabel, Select,
+    ModalOverlay,
+    Select,
+    Table,
+    Tbody,
+    Td,
+    Text,
+    Tr,
 } from '@chakra-ui/react';
-import { motion } from 'framer-motion';
-import { toast, ToastContainer } from 'react-toastify';
+import {motion} from 'framer-motion';
+import {toast, ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import UserContext from './UserContext';
-import {getCarsByCarName, deleteCar, updateCar} from '../services/CarService';
+import UserContext from '../Profile/UserContext.jsx';
+import {deleteCar, getCarsByCarName, updateCar} from '../../services/CarService.jsx';
 import './Search.css';
 import {useMutation, useQuery} from "react-query";
-import {getGaragesByUserID} from "../services/GarageService.jsx";
+import {getGaragesByUserID} from "../../services/GarageService.jsx";
 
 export default function Search() {
     const { user } = useContext(UserContext);

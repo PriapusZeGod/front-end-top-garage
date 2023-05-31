@@ -1,19 +1,5 @@
-import {
-  Table,
-  Thead,
-  Tbody,
-  Tfoot,
-  Tr,
-  Th,
-  Td,
-  TableCaption,
-  TableContainer,
-} from "@chakra-ui/react";
-import React from "react";
-import { useQuery, useQueryClient } from "react-query";
-import { getStatsByGarageID } from "../services/EnviromentService";
-import { getStatsLimitByGarageID } from "../services/EnviromentService";
-import { useEffect } from "react";
+import {Table, TableCaption, TableContainer, Tbody, Td, Th, Thead, Tr,} from "@chakra-ui/react";
+import React, {useEffect} from "react";
 
 export default function TableComponent({
   chartData,

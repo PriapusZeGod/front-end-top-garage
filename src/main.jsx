@@ -1,36 +1,27 @@
-import React, { useState } from "react";
+import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
-import GarageList from "./components/Garage";
-import Profile from "./components/Profile";
-import { RouterProvider, createHashRouter } from "react-router-dom";
+import Profile from "./components/Profile/Profile.jsx";
+import {createHashRouter, RouterProvider} from "react-router-dom";
 import Home from "./Home";
-import ProfilePage from "./pages/ProfilePage";
-import Navbar_Main from "./components/Navbar";
-import AddGaragePage from "./pages/AddGaragePage";
+import ProfilePage from "./pages/Profile Page/ProfilePage.jsx";
+import Navbar_Main from "./components/Nav Bar/Navbar.jsx";
+import AddGaragePage from "./pages/Add Garage Page/AddGaragePage.jsx";
 // import bootstrap
 import "bootstrap/dist/css/bootstrap.min.css";
-import {
-  useQuery,
-  useMutation,
-  useQueryClient,
-  QueryClient,
-  QueryClientProvider,
-} from "react-query";
-import { ChakraProvider } from "@chakra-ui/react";
-import HomePage from "./pages/HomePage";
-import AddCarPage from "./pages/AddCarPage";
-import Addcar from "./components/Addcar";
-import Search from "./components/Search";
-import AddGarage from "./components/AddGarage";
+import {QueryClient, QueryClientProvider,} from "react-query";
+import {ChakraProvider} from "@chakra-ui/react";
+import HomePage from "./pages/Home Page/HomePage.jsx";
+import AddCarPage from "./pages/Add Car Page/AddCarPage.jsx";
+import Addcar from "./components/Add Car/Addcar.jsx";
+import AddGarage from "./components/Garage/AddGarage.jsx";
 import Authorization from "./components/Login";
-import MapPage from "./pages/MapPage";
-import MapView from "./components/MapView";
-import MapViewComponent from "./components/MapView";
-import ImagePage from "./pages/ImagePage";
-import AddImage from "./components/AddImage";
-import TableComponent from "./components/Table";
-import ChartWidget from "./components/ChartWidget";
+import MapPage from "./pages/Map Page/MapPage.jsx";
+import MapViewComponent from "./components/Widgets/MapView.jsx";
+import ImagePage from "./pages/Image Page/ImagePage.jsx";
+import AddImage from "./components/Add Car/AddImage.jsx";
+import TableComponent from "./components/Widgets/Table.jsx";
+import ChartWidget from "./components/Widgets/ChartWidget.jsx";
 
 const queryClient = new QueryClient();
 const router = createHashRouter([

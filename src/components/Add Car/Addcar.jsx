@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, {useContext, useEffect, useState} from "react";
 import {
   Box,
   Button,
@@ -10,13 +10,11 @@ import {
   Textarea,
   useToast,
 } from "@chakra-ui/react";
-import UserContext from "./UserContext";
-import { getGaragesByUserID } from "../services/GarageService";
-import { createCar } from "../services/CarService";
-import AddImage from "./AddImage";
-import { json } from "react-router-dom";
+import UserContext from "../Profile/UserContext.jsx";
+import {getGaragesByUserID} from "../../services/GarageService.jsx";
+import {createCar} from "../../services/CarService.jsx";
+import AddImage from "./AddImage.jsx";
 
-const STORAGE_KEY = "userAuth";
 
 export function GarageDropdown({ garages, handleGarageSelect }) {
   return (
@@ -289,7 +287,7 @@ const AddCar = () => {
           <FormControl isInvalid={formErrors.year}>
             <FormLabel htmlFor="year">Year:</FormLabel>
             <Input
-              type="text"
+              type="number"
               id="year"
               name="year"
               value={car.year}
@@ -300,7 +298,7 @@ const AddCar = () => {
           <FormControl isInvalid={formErrors.seats}>
             <FormLabel htmlFor="seats">Seats:</FormLabel>
             <Input
-              type="text"
+              type="number"
               id="seats"
               name="seats"
               value={car.seats}
@@ -311,7 +309,7 @@ const AddCar = () => {
           <FormControl isInvalid={formErrors.engineSize}>
             <FormLabel htmlFor="engineSize">Engine Size:</FormLabel>
             <Input
-              type="text"
+              type="number"
               id="engineSize"
               name="size"
               value={car.engine.size}
@@ -333,7 +331,7 @@ const AddCar = () => {
           <FormControl isInvalid={formErrors.enginePowerHP}>
             <FormLabel htmlFor="enginePowerHP">Engine Power (HP):</FormLabel>
             <Input
-              type="text"
+              type="number"
               id="enginePowerHP"
               name="powerHP"
               value={car.engine.powerHP}
@@ -344,7 +342,7 @@ const AddCar = () => {
           <FormControl isInvalid={formErrors.engineTorqueNM}>
             <FormLabel htmlFor="engineTorqueNM">Engine Torque (NM):</FormLabel>
             <Input
-              type="text"
+              type="number"
               id="engineTorqueNM"
               name="torqueNM"
               value={car.engine.torqueNM}

@@ -1,42 +1,31 @@
-import React, { useState } from "react";
+import React from "react";
 import ReactDOM from "react-dom/client";
 //import "./index.css";
 //import App from "./App";
-import GarageList from "./components/Garage";
-import Profile from "./components/Profile";
-import reportWebVitals from "./reportWebVitals";
-import { RouterProvider, createHashRouter } from "react-router-dom";
+import Profile from "./components/Profile/Profile.jsx";
+import {createHashRouter, HashRouter, RouterProvider} from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Home from "./Home";
-import ProfilePage from "./pages/ProfilePage";
-import Navbar_Main from "./components/Navbar";
-import AddGaragePage from "./pages/AddGaragePage";
-import {
-  useQuery,
-  useMutation,
-  useQueryClient,
-  QueryClient,
-  QueryClientProvider,
-} from "react-query";
-import { ChakraProvider } from "@chakra-ui/react";
+import ProfilePage from "./pages/Profile Page/ProfilePage.jsx";
+import Navbar_Main from "./components/Nav Bar/Navbar.jsx";
+import AddGaragePage from "./pages/Add Garage Page/AddGaragePage.jsx";
+import {QueryClient, QueryClientProvider,} from "react-query";
+import {ChakraProvider} from "@chakra-ui/react";
 import AppPage from "./pages/AppPage";
-import AboutPage from "./pages/AboutPage";
+import AboutPage from "./pages/About Page/AboutPage.jsx";
 import About from "./About";
-import HomePage from "./pages/HomePage";
-import AddCarPage from "./pages/AddCarPage";
-import Addcar from "./components/Addcar";
-import Search from "./components/Search";
+import HomePage from "./pages/Home Page/HomePage.jsx";
+import AddCarPage from "./pages/Add Car Page/AddCarPage.jsx";
+import Addcar from "./components/Add Car/Addcar.jsx";
 import App from "./components/App";
-import AddGarage from "./components/AddGarage";
+import AddGarage from "./components/Garage/AddGarage.jsx";
 import Authorization from "./components/Login";
-import MapPage from "./pages/MapPage";
-import MapView from "./components/MapView";
-import MapViewComponent from "./components/MapView";
-import ImagePage from "./pages/ImagePage";
-import AddImage from "./components/AddImage";
-import TableComponent from "./components/Table";
-import ChartWidget from "./components/ChartWidget";
-import { HashRouter } from "react-router-dom";
+import MapPage from "./pages/Map Page/MapPage.jsx";
+import MapViewComponent from "./components/Widgets/MapView.jsx";
+import ImagePage from "./pages/Image Page/ImagePage.jsx";
+import AddImage from "./components/Add Car/AddImage.jsx";
+import TableComponent from "./components/Widgets/Table.jsx";
+import ChartWidget from "./components/Widgets/ChartWidget.jsx";
 
 const queryClient = new QueryClient();
 const router = createHashRouter([

@@ -1,36 +1,33 @@
-import React, { useEffect, useState } from "react";
-import { Box, Center, Flex, Heading, Image, Text } from "@chakra-ui/react";
-import { motion, AnimatePresence } from "framer-motion";
-import defaultCarImage from "./images/car-home-page.png";
-import { deleteCar } from "./services/CarService";
-import { Button } from "react-bootstrap";
-import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import ChartWidget from "./components/ChartWidget";
-import { useQuery, useQueryClient } from "react-query";
-import { getCarImage } from "./services/CarService";
+import React, {useContext, useEffect, useState} from "react";
 import {
-  Select,
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalFooter,
-  ModalBody,
-  ModalCloseButton,
+  Box,
+  Center,
+  Flex,
   FormControl,
   FormLabel,
-  RadioGroup,
-  Radio,
-  Button as ChakraButton,
-  useDisclosure,
+  Heading,
+  Image,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
+  Select,
+  Text
 } from "@chakra-ui/react";
-import { useContext } from "react";
-import UserContext from "./components/UserContext";
-import { getGaragesByUserID } from "./services/GarageService";
-import { useMutation } from "react-query";
-import { updateCar } from "./services/CarService";
-import { MapWidget } from "./components/MapView";
+import {AnimatePresence, motion} from "framer-motion";
+import defaultCarImage from "./images/car-home-page.png";
+import {deleteCar, getCarImage, updateCar} from "./services/CarService";
+import {Button} from "react-bootstrap";
+import {toast, ToastContainer} from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import ChartWidget from "./components/Widgets/ChartWidget.jsx";
+import {useMutation, useQuery, useQueryClient} from "react-query";
+import UserContext from "./components/Profile/UserContext.jsx";
+import {getGaragesByUserID} from "./services/GarageService";
+import {MapWidget} from "./components/Widgets/MapView.jsx";
 
 export default function Home({ currentCar }) {
   const [text, setText] = useState("Choose a garage and car to start");
