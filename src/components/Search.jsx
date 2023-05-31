@@ -101,7 +101,10 @@ export default function Search() {
             }
             setSearchPerformed(true);
         } catch (error) {
-            console.error('Error searching cars:', error);
+            toast.info('No cars found with this name.', { position: toast.POSITION.BOTTOM_RIGHT });
+            setCurrentCar(null);
+            setSearchInput('');
+            setSearchPerformed(null);
         }
     };
 
