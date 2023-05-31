@@ -110,7 +110,7 @@ export default function Navbar_Main({ currentCar, setCurrentCar }) {
             letterSpacing="wide"
             textTransform="uppercase"
           >
-            <Nav.Link href="/">Top G</Nav.Link>
+            <Nav.Link onClick={() => navigate("/")}>Top G</Nav.Link>
           </Heading>
 
           <Spacer />
@@ -125,7 +125,7 @@ export default function Navbar_Main({ currentCar, setCurrentCar }) {
 
           <HStack spacing="20px" alignItems="center">
             <Hide below="md">
-              <Nav.Link href="/#/addgarage">
+              <Nav.Link onClick={() => navigate("/addgarage")}>
                 <Image
                   alt="AddGarage"
                   width={"50px"}
@@ -135,7 +135,7 @@ export default function Navbar_Main({ currentCar, setCurrentCar }) {
                 />
               </Nav.Link>
               <Spacer />
-              <Nav.Link href="/#/addcar">
+              <Nav.Link onClick={() => navigate("/addcar")}>
                 <Image
                   alt="Addcar"
                   width={"50px"}
@@ -149,7 +149,7 @@ export default function Navbar_Main({ currentCar, setCurrentCar }) {
               <InputGroup>
                 <Search></Search>
               </InputGroup>
-              <Nav.Link href="/#/profile">
+              <Nav.Link onClick={() => navigate("/profile")}>
                 <Image borderRadius="full" src={userImage} alt="user" />
               </Nav.Link>
             </Hide>
@@ -161,6 +161,7 @@ export default function Navbar_Main({ currentCar, setCurrentCar }) {
 }
 
 function GarageMenu({ handleGarageSelect, currentGarageName, userId }) {
+  const navigate = useNavigate();
   const { data, status } = useQuery(["garages", userId], () =>
     getGaragesByUserID(userId)
   );
@@ -200,7 +201,11 @@ function GarageMenu({ handleGarageSelect, currentGarageName, userId }) {
         </Menu>
       )}
       {data && !data.length > 0 && (
-        <Link href="/#/addgarage">
+        <Link
+          onClick={() => {
+            navigate("/addgarage");
+          }}
+        >
           <Button variant="ghost">Create Garage</Button>
         </Link>
       )}
@@ -212,6 +217,7 @@ function Offcanvas({ currentGarageName, currentGarrage, setCurrentCar }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [garageSelected, setGarageSelected] = useState(false);
   const toast = useToast();
+  const navigate = useNavigate();
 
   const handleOpen = () => {
     if (garageSelected) {
@@ -248,13 +254,21 @@ function Offcanvas({ currentGarageName, currentGarrage, setCurrentCar }) {
                   <Search></Search>
                 </ListItem>
                 <ListItem>
-                  <Nav.Link href="/#/profile">
+                  <Nav.Link
+                    onClick={() => {
+                      navigate("/profile");
+                    }}
+                  >
                     <ListIcon as={AtSignIcon} color="gray" />
                     profile
                   </Nav.Link>
                 </ListItem>
                 <ListItem>
-                  <Nav.Link href="/#/addgarage">
+                  <Nav.Link
+                    onClick={() => {
+                      navigate("/addgarage");
+                    }}
+                  >
                     <Flex>
                       <Image
                         alt="AddGarage"
@@ -269,7 +283,11 @@ function Offcanvas({ currentGarageName, currentGarrage, setCurrentCar }) {
                   </Nav.Link>
                 </ListItem>
                 <ListItem>
-                  <Nav.Link href="/#/addcar">
+                  <Nav.Link
+                    onClick={() => {
+                      navigate("/addcar");
+                    }}
+                  >
                     <Flex>
                       <Image
                         alt="Addcar"
