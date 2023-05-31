@@ -1,7 +1,7 @@
 import jwt_decode from "jwt-decode";
 
-const url = "http://localhost:5158/Users";
-const authUrl = "http://localhost:5158/Auth";
+const url = "http://34.36.170.138/Users";
+const authUrl = "http://34.36.170.138/Auth";
 
 export function decodeJWT(token) {
   try {

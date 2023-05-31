@@ -1,6 +1,6 @@
 
-const url = "http://localhost:5211/Stats";
-const urlEnvLimit = "http://localhost:5211/IndoorEnvironments";
+const url = "http://34.36.170.138/Stats";
+const urlEnvLimit = "http://34.36.170.138/IndoorEnvironments";
 const urlAlarm = "http://localhost:5211/Alarm"
 
 export async function getStatsByGarageID(id)
