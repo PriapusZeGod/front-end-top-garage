@@ -127,7 +127,7 @@ function TableRow({ time, param, maxValue, isTemperature, isHumidity, isCO2 }) {
   const formattedMonth = String(month).padStart(2, "0");
 
   // Create the final formatted date string
-  const formattedDate = `${formattedDay}/${formattedMonth}/${year} - ${hours}:${minutes}`;
+  const formattedDate = `${formattedDay}/${formattedMonth} - ${hours}:${minutes}`;
   return (
     <>
       <Tr>

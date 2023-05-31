@@ -78,7 +78,7 @@ export default function ChartWidget({
         
           // Create the final formatted date string
           
-          return `${formattedDay}/${formattedMonth}/${year} - ${hours}:${minutes}`;
+          return `${formattedDay}/${formattedMonth} - ${hours}:${minutes}`;
         })
       );
 
