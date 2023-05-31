@@ -20,7 +20,7 @@ describe('getGaragesByUserID', () => {
 
     const result = await getGaragesByUserID(userId);
 
-    const expectedURL = `http://localhost:5055/Garages?UserId=${userId}`;
+    const expectedURL = `http://34.36.170.138/Garages?UserId=${userId}`;
     expect(global.fetch).toHaveBeenCalledWith(expectedURL);
 
     expect(result).toEqual(mockResponse);
@@ -36,7 +36,7 @@ describe('getGaragesByUserID', () => {
 
     const result = await getGaragesByUserID(userId);
 
-    const expectedURL = `http://localhost:5055/Garages?UserId=${userId}`;
+    const expectedURL = `http://34.36.170.138/Garages?UserId=${userId}`;
     expect(global.fetch).toHaveBeenCalledWith(expectedURL);
 
     expect(result).toEqual([]);
@@ -51,7 +51,7 @@ describe('getGaragesByUserID', () => {
 
     await expect(getGaragesByUserID(userId)).rejects.toThrowError(mockErrorMessage);
 
-    const expectedURL = `http://localhost:5055/Garages?UserId=${userId}`;
+    const expectedURL = `http://34.36.170.138/Garages?UserId=${userId}`;
     expect(global.fetch).toHaveBeenCalledWith(expectedURL);
   });
 });
@@ -72,7 +72,7 @@ describe('getAvailableSlots', () => {
 
     const result = await getAvailableSlots();
 
-    expect(global.fetch).toHaveBeenCalledWith('http://localhost:5055/Garages');
+    expect(global.fetch).toHaveBeenCalledWith('http://34.36.170.138/Garages');
     expect(result).toEqual(mockResponse);
   });
 
@@ -82,7 +82,7 @@ describe('getAvailableSlots', () => {
     global.fetch = jest.fn().mockImplementation(() => Promise.reject(new Error(mockErrorMessage)));
   
     await expect(getAvailableSlots()).rejects.toThrowError(mockErrorMessage);
-    expect(global.fetch).toHaveBeenCalledWith('http://localhost:5055/Garages');
+    expect(global.fetch).toHaveBeenCalledWith('http://34.36.170.138/Garages');
   });
 });
 
@@ -121,7 +121,7 @@ test('should create a garage', async () => {
     const result = await createGarages(user, id, name, capacity, location);
   
     expect(result).toEqual(mockResponse);
-    expect(global.fetch).toHaveBeenCalledWith('http://localhost:5055/Garages', {
+    expect(global.fetch).toHaveBeenCalledWith('http://34.36.170.138/Garages', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -157,7 +157,7 @@ describe('getCapacity', () => {
     global.fetch = jest.fn().mockResolvedValue(mockResponse);
     const result = await getCapacity(mockGarageId); 
     expect(result).toBe(10); 
-    expect(fetch).toHaveBeenCalledWith(`http://localhost:5055/Garages/${mockGarageId}`);
+    expect(fetch).toHaveBeenCalledWith(`http://34.36.170.138/Garages/${mockGarageId}`);
   });
   it('should throw an error if the fetch request fails', async () => {
     const mockResponse = {
@@ -169,6 +169,6 @@ describe('getCapacity', () => {
     await expect(getCapacity(mockGarageId)).rejects.toThrowError(
       'Request failed with status 500'
     );
-    expect(fetch).toHaveBeenCalledWith(`http://localhost:5055/Garages/${mockGarageId}`);
+    expect(fetch).toHaveBeenCalledWith(`http://34.36.170.138/Garages/${mockGarageId}`);
 });
 });

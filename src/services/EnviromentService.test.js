@@ -16,7 +16,7 @@ describe('getStatsByGarageID', () => {
     const result = await getStatsByGarageID(1);
 
     expect(result).toEqual([]);
-    expect(global.fetch).toHaveBeenCalledWith('http://localhost:5211/Stats?GarageId=1');
+    expect(global.fetch).toHaveBeenCalledWith('http://34.36.170.138/Stats?GarageId=1');
   });
 
   it('should return the parsed JSON response if the response status is not 404', async () => {
@@ -26,7 +26,7 @@ describe('getStatsByGarageID', () => {
     const result = await getStatsByGarageID(1);
 
     expect(result).toEqual(['data']);
-    expect(global.fetch).toHaveBeenCalledWith('http://localhost:5211/Stats?GarageId=1');
+    expect(global.fetch).toHaveBeenCalledWith('http://34.36.170.138/Stats?GarageId=1');
     expect(mockResponse.json).toHaveBeenCalled();
   });
 });
@@ -52,7 +52,7 @@ describe('getStatsLimitByGarageID', () => {
     const result = await getStatsLimitByGarageID(1);
 
     expect(result).toEqual({ garage: { id: 1 }, limit: 'yourLimit' });
-    expect(global.fetch).toHaveBeenCalledWith('http://localhost:5211/IndoorEnvironments');
+    expect(global.fetch).toHaveBeenCalledWith('http://34.36.170.138/IndoorEnvironments');
     expect(mockResponse.json).toHaveBeenCalled();
   });
 });

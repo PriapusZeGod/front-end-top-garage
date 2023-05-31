@@ -15,7 +15,7 @@ import {
 import GarageList from "../components/Garage/Garage.jsx";
 import GarageWidget from "../components/Garage/Garage.jsx";
 
-const url = 'http://localhost:5027/Cars';
+const url = 'http://34.36.170.138/Cars';
 
 
 
@@ -33,7 +33,7 @@ describe('getCarsByGarageID', () => {
 
     const result = await getCarsByGarageID(mockGarageId);
 
-    expect(global.fetch).toHaveBeenCalledWith(`http://localhost:5027/Cars?GarageId=${mockGarageId}`);
+    expect(global.fetch).toHaveBeenCalledWith(`http://34.36.170.138/Cars?GarageId=${mockGarageId}`);
     expect(result).toEqual(mockResponse);
   });
 
@@ -48,7 +48,7 @@ describe('getCarsByGarageID', () => {
     global.fetch = jest.fn().mockImplementation(() => mockFetchPromise);
 
     await expect(getCarsByGarageID(mockGarageId)).rejects.toThrowError(mockErrorMessage);
-    expect(global.fetch).toHaveBeenCalledWith(`http://localhost:5027/Cars?GarageId=${mockGarageId}`);
+    expect(global.fetch).toHaveBeenCalledWith(`http://34.36.170.138/Cars?GarageId=${mockGarageId}`);
   });
 });
 
@@ -105,7 +105,7 @@ describe('createCar', () => {
       mockCar.engine
     );
 
-    expect(global.fetch).toHaveBeenCalledWith('http://localhost:5027/Cars', {
+    expect(global.fetch).toHaveBeenCalledWith('http://34.36.170.138/Cars', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -159,7 +159,7 @@ describe('createCar', () => {
       )
     ).rejects.toThrowError(mockErrorMessage);
 
-    expect(global.fetch).toHaveBeenCalledWith('http://localhost:5027/Cars', {
+    expect(global.fetch).toHaveBeenCalledWith('http://34.36.170.138/Cars', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -282,7 +282,7 @@ describe('deleteCar', () => {
 
   
   describe('createCarImage', () => {
-    const url = 'http://localhost:5027/Cars'; // Corrected URL
+    const url = 'http://34.36.170.138/Cars'; // Corrected URL
   
     it('should send a POST request with the car image and return the data if the request is successful', async () => {
       const carImage = 'image data';
@@ -345,7 +345,7 @@ describe('deleteCar', () => {
 
     const result = await getImage(userId);
 
-    const expectedURL = `http://localhost:5027/Cars/${userId}/image`;
+    const expectedURL = `http://34.36.170.138/Cars/${userId}/image`;
     const expectedOptions = {
       method: 'GET',
       headers: {
@@ -369,7 +369,7 @@ describe('deleteCar', () => {
   
     const result = await getImage(userId);
   
-    const expectedURL = `http://localhost:5027/Cars/${userId}/image`;
+    const expectedURL = `http://34.36.170.138/Cars/${userId}/image`;
     const expectedOptions = {
       method: 'GET',
       headers: {

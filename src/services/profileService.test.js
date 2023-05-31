@@ -33,7 +33,7 @@ describe('getProfileById', () => {
 
     const result = await getProfileById(id);
 
-    expect(global.fetch).toHaveBeenCalledWith('http://localhost:5158/Users');
+    expect(global.fetch).toHaveBeenCalledWith('http://34.36.170.138/Users');
     expect(result).toEqual([{ id: 1, name: 'John Doe' }]);
   });
 });
@@ -51,7 +51,7 @@ describe('updateProfile', () => {
     const result = await updateProfile(user);
 
     expect(result).toBeNull();
-    expect(global.fetch).toHaveBeenCalledWith('http://localhost:5158/Users', {
+    expect(global.fetch).toHaveBeenCalledWith('http://34.36.170.138/Users', {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
@@ -74,7 +74,7 @@ describe('updateProfile', () => {
     const result = await updateProfile(user);
 
     expect(result).toBeNull();
-    expect(global.fetch).toHaveBeenCalledWith('http://localhost:5158/Users', {
+    expect(global.fetch).toHaveBeenCalledWith('http://34.36.170.138/Users', {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
