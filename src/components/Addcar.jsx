@@ -111,7 +111,7 @@ const AddCar = () => {
       },
     }));
   };
-
+  const currentYear = new Date().getFullYear();
   const handleGarageSelect = (e) => {
     const selectedGarage = e.target.value;
     setCar((prevData) => ({
@@ -140,9 +140,9 @@ const AddCar = () => {
       errors.year = "Year is required";
     } else if (
       parseInt(car.year.trim()) < 1800 ||
-      parseInt(car.year.trim()) > 2200
+      parseInt(car.year.trim()) > currentYear
     ) {
-      errors.year = "Year must be between 1800 and 2200";
+      errors.year = "Year must be between 1800 and current year";
     }
     if (car.seats.trim() === "") {
       errors.seats = "Seats is required";

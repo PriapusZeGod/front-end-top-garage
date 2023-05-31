@@ -17,7 +17,7 @@ export default function Authorization({ children }) {
     phone: "",
   });
   const [user, setUser] = useState(getUserFromStorage());
-  const [show, setShow] = useState(!user); // Show the modal if user is not present
+  const [show, setShow] = useState(!user);
   const [registerShow, setRegisterShow] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
   const [successMessage, setSuccessMessage] = useState(null);
